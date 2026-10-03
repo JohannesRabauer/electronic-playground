@@ -1,0 +1,11 @@
+$ 1 0.000005 10.2 50 10 50 5e-11
+v 96 304 96 144 0 0 40 9 0 0 0.5
+w 96 144 192 144 0
+s 192 144 288 144 0 0 false
+r 288 144 384 144 0 470
+162 384 144 384 304 2 default-led 1 0 0 0.01
+w 384 304 96 304 0
+x 108 228 200 231 4 16 9V\sBatterie
+x 210 120 274 123 4 16 Schalter
+x 400 228 450 231 4 16 rote\sLED
+x 96 352 480 355 4 14 Klick\sauf\sden\sSchalter,\sum\sdie\sLED\san-\sund\sauszuschalten!

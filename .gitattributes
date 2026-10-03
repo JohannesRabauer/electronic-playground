@@ -1,0 +1,2 @@
+*.sh text eol=lf
+circuits/*.txt text eol=lf

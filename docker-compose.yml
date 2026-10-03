@@ -1,0 +1,11 @@
+services:
+  circuitjs:
+    build: ./docker/circuitjs
+    image: electronic-playground/circuitjs:local
+    container_name: circuitjs
+    ports:
+      - "8080:80"
+    volumes:
+      # Our own circuits show up in the menu under "Circuits > Kinder-Projekte".
+      - ./circuits:/usr/share/nginx/html/circuitjs1/circuits/kids:ro
+    restart: unless-stopped
