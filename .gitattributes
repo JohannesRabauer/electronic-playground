@@ -1,2 +1,4 @@
-*.sh text eol=lf
-circuits/*.txt text eol=lf
+# Keep LF everywhere, so scripts and circuits work the same in Docker and on Windows.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
