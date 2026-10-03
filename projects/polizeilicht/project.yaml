@@ -1,0 +1,314 @@
+# yaml-language-server: $schema=../project.schema.json
+id: polizeilicht
+number: 4
+status: published
+slug: { de: polizei-blinklicht, en: police-flasher }
+
+title:
+  de: Polizei-Blinklicht
+  en: Police Flasher
+
+tagline:
+  de: Rot und Blau blinken im Wechsel – perfekt für ein Polizeiauto aus Karton.
+  en: Red and blue flash in turn – perfect for a cardboard police car.
+
+facts:
+  age: 9
+  difficulty: 2
+  minutes: 120
+  cost_eur: 7
+  topics: [light]
+
+learn:
+  de:
+    - Wie Kondensatoren Strom speichern und wieder abgeben
+    - Wie zwei Transistoren sich gegenseitig an- und ausschalten
+    - Auf die Richtung von Elkos achten
+  en:
+    - How capacitors store electricity and give it back
+    - How two transistors switch each other on and off
+    - Watching the direction of electrolytic capacitors
+
+hero: images/police.svg
+
+intro:
+  de: |
+    Tatü-tata! Diese Schaltung lässt eine rote und eine blaue LED **abwechselnd blinken** – ganz ohne Computer oder Chip.
+    Das schaffen zwei Transistoren und zwei Kondensatoren, die sich wie auf einer Wippe gegenseitig hin- und herschubsen.
+
+    Bastle ein Polizeiauto aus einem Karton und setz die LEDs aufs Dach!
+  en: |
+    Nee-naw! This circuit makes a red and a blue LED **flash alternately** – without any computer or chip.
+    Two transistors and two capacitors do it, pushing each other back and forth like on a seesaw.
+
+    Build a police car from a cardboard box and put the LEDs on the roof!
+
+simulation:
+  circuit: circuit.txt
+  try:
+    de: |
+      Schau zu, wie die LEDs im Wechsel blinken. Beobachte die gelben Punkte an den Kondensatoren C1 und C2.
+      **Doppelklick auf C1** und ändere den Wert von 10 µF auf 22 µF: Was passiert mit dem Blinken?
+    en: |
+      Watch the LEDs flash in turn. Look at the yellow dots at the capacitors C1 and C2.
+      **Double-click C1** and change the value from 10 µF to 22 µF: what happens to the flashing?
+
+parts:
+  - { ref: R1, part: resistor, qty: 1, value: 470, note: { de: "gelb – violett – braun – gold", en: "yellow – violet – brown – gold" } }
+  - { ref: R4, part: resistor, qty: 1, value: 470, note: { de: "gelb – violett – braun – gold", en: "yellow – violet – brown – gold" } }
+  - { ref: R2, part: resistor, qty: 1, value: 47000, note: { de: "gelb – violett – orange – gold", en: "yellow – violet – orange – gold" } }
+  - { ref: R3, part: resistor, qty: 1, value: 47000, note: { de: "gelb – violett – orange – gold", en: "yellow – violet – orange – gold" } }
+  - { ref: C1, part: elko, qty: 1, value: 10e-6 }
+  - { ref: C2, part: elko, qty: 1, value: 10e-6 }
+  - { ref: Q1, part: transistor-bc547, qty: 1 }
+  - { ref: Q2, part: transistor-bc547, qty: 1 }
+  - { ref: LED1, part: led-5mm, qty: 1, color: "#e53935", note: { de: rot, en: red } }
+  - { ref: LED2, part: led-5mm, qty: 1, color: "#2979ff", note: { de: blau, en: blue } }
+  - { ref: BAT, part: battery-clip-9v, qty: 1 }
+  - { part: battery-9v, qty: 1 }
+  - { part: perfboard, qty: "14 × 12", note: { de: "Löcher (ca. 3,5 × 3 cm)", en: "holes (about 3.5 × 3 cm)" } }
+  - { part: craft-box, qty: 1, note: { de: "z. B. ein Schuhkarton als Polizeiauto", en: "e.g. a shoe box as a police car" } }
+  - { part: soldering-iron, qty: 1 }
+  - { part: solder, qty: 1 }
+  - { part: side-cutter, qty: 1 }
+  - { part: pliers, qty: 1 }
+  - { part: safety-glasses, qty: 1 }
+
+board:
+  cols: 14
+  rows: 12
+  parts:
+    - { ref: R1, pins: { "1": B2, "2": B6 } }
+    - { ref: R2, pins: { "1": F2, "2": F6 } }
+    - { ref: R3, pins: { "1": I2, "2": I6 } }
+    - { ref: R4, pins: { "1": M2, "2": M6 } }
+    - { ref: LED1, pins: { A: B7, K: B8 }, label: left }
+    - { ref: LED2, pins: { A: M7, K: M8 } }
+    - { ref: Q1, pins: { C: D8, B: D9, E: D10 } }
+    - { ref: Q2, pins: { C: K8, B: K9, E: K10 } }
+    - { ref: C1, pins: { "+": E7, "-": G7 } }
+    - { ref: C2, pins: { "+": J8, "-": H8 } }
+    - { ref: BAT, pins: { "+": N2, "-": N11 } }
+  bridges:
+    - { id: plus, points: [B2, F2, I2, M2, N2] }
+    - { id: led1, points: [B6, B7] }
+    - { id: led2, points: [M6, M7] }
+    - { id: emitter1, points: [D10, D11] }
+    - { id: emitter2, points: [K10, K11] }
+    - { id: minus, points: [D11, K11, N11] }
+    - { id: collector1, points: [B8, D8, D7, E7] }
+    - { id: collector2, points: [J8, K8, M8] }
+    - { id: base1, points: [D9, F9, F8, F6] }
+    - { id: base2, points: [K9, I9, I7, I6] }
+    - { id: c1-to-base2, points: [G7, I7] }
+    - { id: c2-to-base1, points: [H8, F8] }
+
+nets:
+  PLUS: [BAT.+, R1.1, R2.1, R3.1, R4.1]
+  LED1: [R1.2, LED1.A]
+  COLLECTOR1: [LED1.K, Q1.C, C1.+]
+  BASE2: [C1.-, R3.2, Q2.B]
+  LED2: [R4.2, LED2.A]
+  COLLECTOR2: [LED2.K, Q2.C, C2.+]
+  BASE1: [C2.-, R2.2, Q1.B]
+  MINUS: [Q1.E, Q2.E, BAT.-]
+
+steps:
+  - id: prepare
+    view: top
+    marks: [A1]
+    title: { de: Platine vorbereiten, en: Prepare the board }
+    text:
+      de: Leg die Platine mit den **Kupferpunkten nach unten** vor dich und markiere die Ecke oben links als **A1**.
+      en: Place the board with the **copper pads facing down** and mark the top-left corner as **A1**.
+
+  - id: resistors-470
+    view: top
+    adds: [R1, R4]
+    title: { de: Die zwei LED-Widerstände, en: The two LED resistors }
+    text:
+      de: |
+        Die beiden **470-Ω**-Widerstände (gelb – violett – **braun**) kommen ganz außen hin:
+        **R1** in **B2** und **B6**, **R4** in **M2** und **M6**.
+      en: |
+        The two **470 Ω** resistors (yellow – violet – **brown**) go on the outside:
+        **R1** into **B2** and **B6**, **R4** into **M2** and **M6**.
+    tip:
+      de: Heb alle abgeschnittenen Beinchen auf – du brauchst heute viele Lötbrücken.
+      en: Keep all the cut-off legs – you will need lots of solder bridges today.
+
+  - id: resistors-47k
+    view: top
+    adds: [R2, R3]
+    title: { de: Die zwei Zeit-Widerstände, en: The two timing resistors }
+    text:
+      de: |
+        Die **47-kΩ**-Widerstände (gelb – violett – **orange**) bestimmen, wie schnell es blinkt.
+        **R2** kommt in **F2** und **F6**, **R3** in **I2** und **I6**.
+      en: |
+        The **47 kΩ** resistors (yellow – violet – **orange**) decide how fast it flashes.
+        **R2** goes into **F2** and **F6**, **R3** into **I2** and **I6**.
+
+  - id: leds
+    view: top
+    adds: [LED1, LED2]
+    title: { de: Rote und blaue LED, en: Red and blue LED }
+    text:
+      de: |
+        **Rot**: langes Bein in **B7**, kurzes in **B8**.
+        **Blau**: langes Bein in **M7**, kurzes in **M8**.
+      en: |
+        **Red**: long leg into **B7**, short one into **B8**.
+        **Blue**: long leg into **M7**, short one into **M8**.
+    tip:
+      de: Willst du die LEDs später aufs Autodach setzen, löte sie mit langen Beinen ein – oder verlängere sie mit Litze.
+      en: If you want to put the LEDs on the car roof later, solder them in with long legs – or extend them with wire.
+
+  - id: transistors
+    view: top
+    adds: [Q1, Q2]
+    title: { de: Die Transistoren, en: The transistors }
+    text:
+      de: |
+        **Q1**: C in **D8**, B in **D9**, E in **D10**. **Q2**: C in **K8**, B in **K9**, E in **K10**.
+        Die **flache Seite zeigt bei beiden nach links**.
+      en: |
+        **Q1**: C into **D8**, B into **D9**, E into **D10**. **Q2**: C into **K8**, B into **K9**, E into **K10**.
+        The **flat side faces left on both**.
+
+  - id: capacitors
+    view: top
+    adds: [C1, C2]
+    title: { de: "Die Elkos – Achtung, Richtung!", en: The capacitors – watch the direction! }
+    text:
+      de: |
+        Elkos haben ein **Plus-Bein (lang)** und ein **Minus-Bein (kurz, Streifen mit „−“)**.
+        **C1**: Plus in **E7**, Minus in **G7**.
+        **C2** ist andersherum: Plus in **J8**, Minus in **H8**.
+        Biege die Beinchen etwas auseinander, damit sie zwei Löcher weit reichen.
+      en: |
+        Electrolytic capacitors have a **plus leg (long)** and a **minus leg (short, stripe with "−")**.
+        **C1**: plus into **E7**, minus into **G7**.
+        **C2** is the other way round: plus into **J8**, minus into **H8**.
+        Bend the legs apart a little so they reach two holes.
+    warning:
+      de: Ein falsch herum eingebauter Elko funktioniert nicht und kann kaputtgehen. Lieber zweimal hinschauen!
+      en: An electrolytic capacitor fitted the wrong way round does not work and can be damaged. Check twice!
+
+  - id: bridges-1
+    view: bottom
+    adds: [plus, led1, led2, emitter1, emitter2, minus]
+    title: { de: Lötbrücken – Plus und Minus, en: Solder bridges – plus and minus }
+    text:
+      de: |
+        Dreh die Platine um – **spiegelverkehrt!** Zuerst die langen Leitungen:
+        **B2 bis N2** (über F2, I2 und M2) ist Plus, **D11 bis N11** (über K11) ist Minus.
+        Dazu die kurzen: **B6–B7**, **M6–M7**, **D10–D11** und **K10–K11**.
+      en: |
+        Turn the board over – **mirrored!** First the long lines:
+        **B2 to N2** (across F2, I2 and M2) is plus, **D11 to N11** (across K11) is minus.
+        Then the short ones: **B6–B7**, **M6–M7**, **D10–D11** and **K10–K11**.
+
+  - id: bridges-2
+    view: bottom
+    adds: [collector1, collector2, base1, base2]
+    title: { de: Lötbrücken – die Transistoren, en: Solder bridges – the transistors }
+    text:
+      de: |
+        Jetzt die Brücken mit Ecken: **B8 → D8 → D7 → E7**, **J8 → K8 → M8**,
+        **D9 → F9 → F8 → F6** und **K9 → I9 → I7 → I6**. Biege den Draht mit der Zange an den Ecken um.
+      en: |
+        Now the bridges with corners: **B8 → D8 → D7 → E7**, **J8 → K8 → M8**,
+        **D9 → F9 → F8 → F6** and **K9 → I9 → I7 → I6**. Bend the wire at the corners with the pliers.
+
+  - id: bridges-3
+    view: bottom
+    adds: [c1-to-base2, c2-to-base1]
+    title: { de: Die Überkreuz-Verbindung, en: The cross-over connection }
+    text:
+      de: |
+        Die zwei wichtigsten Brücken: **G7 bis I7** und **H8 bis F8**. Damit „schubst“ jeder Transistor den anderen an.
+        Prüfe danach alle Brücken genau: Nichts darf sich berühren, was nicht zusammengehört.
+      en: |
+        The two most important bridges: **G7 to I7** and **H8 to F8**. With these, each transistor "pushes" the other.
+        Then check all bridges carefully: nothing may touch that does not belong together.
+
+  - id: battery-clip
+    view: top
+    adds: [BAT]
+    title: { de: Batterieclip, en: Battery clip }
+    text:
+      de: Verdrille und verzinne die Litzen. **Rot (+)** kommt in **N2**, **schwarz (−)** in **N11**.
+      en: Twist and tin the leads. **Red (+)** goes into **N2**, **black (−)** into **N11**.
+
+  - id: test
+    view: none
+    image: images/police.svg
+    title: { de: Testen und Auto bauen, en: Test and build the car }
+    text:
+      de: |
+        Steck die Batterie an: **Rot – Blau – Rot – Blau!** Jetzt bastle ein Polizeiauto aus einem Karton.
+        Mach zwei Löcher ins Dach, steck die LEDs von innen durch und leg Platine und Batterie ins Auto.
+      en: |
+        Connect the battery: **red – blue – red – blue!** Now build a police car from a cardboard box.
+        Make two holes in the roof, push the LEDs through from inside and put the board and battery in the car.
+
+explanation:
+  kids:
+    de: |
+      Stell dir eine **Wippe** vor. Immer ist ein Transistor an und einer aus. Der Kondensator auf der „aus“-Seite füllt sich
+      langsam über den 47-kΩ-Widerstand – wie ein Eimer unter einem tropfenden Wasserhahn. Ist er voll genug, schaltet er
+      seinen Transistor ein. Der schaltet dabei über den anderen Kondensator den ersten Transistor aus – und die Wippe kippt.
+      Dann geht alles von vorne los, nur andersherum. Deshalb blinken die LEDs **im Wechsel**.
+    en: |
+      Imagine a **seesaw**. One transistor is always on and the other off. The capacitor on the "off" side slowly fills up
+      through the 47 kΩ resistor – like a bucket under a dripping tap. When it is full enough, it switches its transistor on.
+      In doing so, that transistor switches the first one off through the other capacitor – and the seesaw tips.
+      Then it all starts again the other way round. That is why the LEDs flash **in turn**.
+  parents:
+    de: |
+      Das ist ein **astabiler Multivibrator**. Jede Hälfte bleibt etwa t ≈ 0,69 · R · C = 0,69 · 47 kΩ · 10 µF ≈ **0,32 s** an,
+      eine volle Periode dauert also rund 0,65 s (≈ 1,5 Hz). Die Basis des gerade ausgeschalteten Transistors wird beim
+      Umkippen kurz auf etwa −8 V gezogen – das hält er aus, ist aber der Grund, warum die Schaltung nicht für viel höhere
+      Spannungen gedacht ist. LED-Strom: rot (9 − 2) V / 470 Ω ≈ 15 mA, blau (9 − 3) V / 470 Ω ≈ 13 mA.
+    en: |
+      This is an **astable multivibrator**. Each half stays on for about t ≈ 0.69 · R · C = 0.69 · 47 kΩ · 10 µF ≈ **0.32 s**,
+      so a full period takes about 0.65 s (≈ 1.5 Hz). When it flips, the base of the transistor that just switched off is
+      briefly pulled to about −8 V – it survives that, but it is why the circuit is not meant for much higher voltages.
+      LED current: red (9 − 2) V / 470 Ω ≈ 15 mA, blue (9 − 3) V / 470 Ω ≈ 13 mA.
+
+variations:
+  - title: { de: Schneller oder langsamer, en: Faster or slower }
+    text:
+      de: Mit **22 µF** blinkt es langsamer, mit **4,7 µF** schneller. Probier es zuerst im Simulator aus (Doppelklick auf C1 und C2).
+      en: With **22 µF** it flashes more slowly, with **4.7 µF** faster. Try it in the simulator first (double-click C1 and C2).
+  - title: { de: "Kurz an, lang aus", en: "Short on, long off" }
+    text:
+      de: Nimm für C1 und C2 verschiedene Werte, z. B. 4,7 µF und 22 µF. Dann blitzt eine Farbe nur kurz auf.
+      en: Use different values for C1 and C2, e.g. 4.7 µF and 22 µF. Then one colour only flashes briefly.
+  - title: { de: Doppelt so hell, en: Twice as bright }
+    text:
+      de: Löte auf jeder Seite **zwei LEDs hintereinander** (statt einer). 9 V reichen für zwei rote oder zwei blaue LEDs.
+      en: Solder **two LEDs in a row** on each side (instead of one). 9 V is enough for two red or two blue LEDs.
+
+troubleshooting:
+  - problem: { de: "Eine LED leuchtet dauernd, die andere nie.", en: One LED is always on and the other never. }
+    solution:
+      de: Meist fehlt eine der Überkreuz-Brücken (G7–I7 oder H8–F8) oder ein Elko ist falsch herum. Prüfe auch die Richtung der Transistoren.
+      en: Usually one of the cross-over bridges (G7–I7 or H8–F8) is missing or a capacitor is the wrong way round. Also check the direction of the transistors.
+  - problem: { de: Beide LEDs leuchten schwach und blinken nicht., en: Both LEDs glow dimly and do not flash. }
+    solution:
+      de: Ein Kondensator hat keinen Kontakt. Löte die Elko-Beinchen nach und prüfe die Brücken D7–E7 und J8–K8.
+      en: A capacitor has no contact. Re-solder the capacitor legs and check the bridges D7–E7 and J8–K8.
+  - problem: { de: Die blaue LED bleibt dunkel, en: The blue LED stays dark }
+    solution:
+      de: Ist sie richtig herum (langes Bein in M7)? Blaue LEDs brauchen etwa 3 V – mit einer fast leeren Batterie leuchten sie zuerst nicht mehr.
+      en: Is it the right way round (long leg in M7)? Blue LEDs need about 3 V – with an almost empty battery they are the first to stop.
+
+safety:
+  de:
+    - Elkos niemals falsch herum an Spannung anschließen – sie können dann heiß werden.
+    - Im Karton-Auto die Batterie so befestigen, dass die Kontakte nichts Metallisches berühren.
+  en:
+    - Never connect electrolytic capacitors the wrong way round – they can get hot.
+    - Fix the battery in the cardboard car so that its contacts do not touch anything metal.

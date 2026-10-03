@@ -301,7 +301,7 @@ ${label(x + w / 2, y - 6, p.ref, 'middle')}`;
     const body = `<path d="M -16 ${6 * s} L 16 ${6 * s} A 17 17 0 1 ${s > 0 ? 0 : 1} -16 ${6 * s} Z" fill="#2b2b2b" stroke="#000"/>`;
     const legs = [['C', c], ['B', b], ['E', e]].map(([n, q]) => `<circle cx="${q[0]}" cy="${q[1]}" r="3.2" fill="#c9ced3"/>`).join('');
     const letters = [['C', -24], ['B', 0], ['E', 24]].map(([n, u]) => {
-      const [x, y] = ax.at(u, 19 * s);
+      const [x, y] = ax.at(u * 0.9, 13 * s);
       return label(x, y + 4, n, 'middle', 'pin');
     }).join('');
     if (p.label) return `${group(ax, body)}${legs}${letters}${refLabel(p, ax, 28)}`;
@@ -317,7 +317,7 @@ ${label(x + w / 2, y - 6, p.ref, 'middle')}`;
 
   elko(p, plus, minus) {
     const ax = axis(plus, minus);
-    const plusLabel = [plus[0] - ax.ux * 16 - ax.uy * 0, plus[1] - ax.uy * 16];
+    const plusLabel = [plus[0] + 9, plus[1] - 9];
     return `${lead(plus, minus)}${group(ax, `<circle r="14" fill="#1e3a8a" stroke="#0b1d4d"/>
   <path d="M 6 -12.65 A 14 14 0 0 1 6 12.65 Z" fill="#93c5fd"/>
   <text x="10" y="4" class="pin" text-anchor="middle">−</text>`)}${label(plusLabel[0], plusLabel[1] + 4, '+', 'middle', 'pol')}${refLabel(p, ax, 20, formatFarad(p.value))}`;

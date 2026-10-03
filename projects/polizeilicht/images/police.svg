@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 290" role="img" aria-label="Police flasher">
+  <defs>
+    <radialGradient id="red" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff1744" stop-opacity="0.9"/><stop offset="1" stop-color="#ff1744" stop-opacity="0"/></radialGradient>
+    <radialGradient id="blue" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2979ff" stop-opacity="0.5"/><stop offset="1" stop-color="#2979ff" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect x="10" y="10" width="620" height="270" rx="22" fill="#eceff1"/>
+  <rect x="10" y="236" width="620" height="44" fill="#90a4ae"/>
+  <path d="M60 256 h520" stroke="#fff" stroke-width="5" stroke-dasharray="36 24"/>
+  <!-- glow -->
+  <circle cx="270" cy="70" r="80" fill="url(#red)"/>
+  <circle cx="370" cy="70" r="60" fill="url(#blue)"/>
+  <!-- cardboard car -->
+  <path d="M120 200 v-40 q0 -14 14 -16 l60 -8 l40 -44 h150 l46 44 l60 10 q14 2 14 16 v38 z" fill="#d7b48a" stroke="#8d6b38" stroke-width="3"/>
+  <rect x="120" y="170" width="384" height="22" fill="#fff" opacity="0.85"/>
+  <rect x="120" y="170" width="384" height="22" fill="none" stroke="#1e88e5" stroke-width="4"/>
+  <text x="312" y="188" font-family="system-ui, sans-serif" font-size="17" font-weight="900" fill="#1e3a8a" text-anchor="middle" letter-spacing="2">POLIZEI · POLICE</text>
+  <path d="M248 108 h56 v40 h-90 z" fill="#b3e5fc" stroke="#8d6b38" stroke-width="2"/>
+  <path d="M316 108 h62 l34 40 h-96 z" fill="#b3e5fc" stroke="#8d6b38" stroke-width="2"/>
+  <circle cx="196" cy="204" r="28" fill="#37474f"/><circle cx="196" cy="204" r="11" fill="#b0bec5"/>
+  <circle cx="440" cy="204" r="28" fill="#37474f"/><circle cx="440" cy="204" r="11" fill="#b0bec5"/>
+  <!-- light bar -->
+  <rect x="272" y="84" width="104" height="22" rx="6" fill="#455a64"/>
+  <circle cx="296" cy="95" r="10" fill="#ff1744" stroke="#7f0000" stroke-width="2"/>
+  <circle cx="352" cy="95" r="10" fill="#90caf9" stroke="#0d47a1" stroke-width="2"/>
+  <g stroke="#ff1744" stroke-width="3" stroke-linecap="round"><path d="M296 70 v-14 M278 76 l-10 -10 M314 76 l10 -10"/></g>
+</svg>
