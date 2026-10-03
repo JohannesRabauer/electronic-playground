@@ -1,0 +1,274 @@
+# yaml-language-server: $schema=../project.schema.json
+id: batterie-vampir
+number: 6
+status: published
+slug: { de: batterie-vampir, en: joule-thief }
+
+title:
+  de: Batterie-Vampir
+  en: Joule Thief
+
+tagline:
+  de: Saugt die letzte Energie aus „leeren“ Batterien – und lässt damit eine weiße LED leuchten.
+  en: Sucks the last energy out of "empty" batteries – and uses it to light a white LED.
+
+facts:
+  age: 10
+  difficulty: 2
+  minutes: 100
+  cost_eur: 5
+  topics: [energy, light]
+
+learn:
+  de:
+    - Eine Spule selbst wickeln
+    - Wie eine Spule Energie speichert und als Spannungsstoß abgibt
+    - Warum eine „leere“ Batterie gar nicht ganz leer ist
+  en:
+    - Winding a coil yourself
+    - How a coil stores energy and releases it as a voltage kick
+    - Why an "empty" battery is not really empty
+
+hero: images/vampire.svg
+
+intro:
+  de: |
+    Eine weiße LED braucht etwa **3 Volt**. Eine AA-Batterie hat neu 1,5 V – und wenn sie im Spielzeug nicht mehr geht,
+    oft noch 1 V. Damit leuchtet keine LED … eigentlich.
+
+    Der **Batterie-Vampir** trickst: Ein Transistor schaltet eine selbst gewickelte Spule zigtausendmal pro Sekunde ein und aus.
+    Bei jedem Ausschalten gibt die Spule einen kleinen **Spannungsstoß** ab – hoch genug für die LED.
+  en: |
+    A white LED needs about **3 volts**. A new AA battery has 1.5 V – and when it no longer works in a toy, often still 1 V.
+    That cannot light an LED … normally.
+
+    The **Joule thief** cheats: a transistor switches a hand-wound coil on and off tens of thousands of times a second.
+    Every time it switches off, the coil gives a small **voltage kick** – high enough for the LED.
+
+simulation:
+  circuit: circuit.txt
+  try:
+    de: |
+      Die Batterie hat nur **1,2 V**, die weiße LED braucht 3 V – trotzdem leuchtet sie!
+      **Doppelklick auf die Batterie** und stell 0,8 V ein: Leuchtet sie noch? Ab welcher Spannung gibt der Vampir auf?
+      (Der Simulator rechnet hier sehr fein – er läuft deshalb in Zeitlupe.)
+    en: |
+      The battery only has **1.2 V** and the white LED needs 3 V – yet it lights up!
+      **Double-click the battery** and set 0.8 V: does it still light? At what voltage does the thief give up?
+      (The simulator calculates very finely here – so it runs in slow motion.)
+
+parts:
+  - { ref: L1, part: toroid, qty: 1 }
+  - { ref: R1, part: resistor, qty: 1, value: 1000, note: { de: "braun – schwarz – rot", en: "brown – black – red" } }
+  - { ref: Q1, part: transistor-bc337, qty: 1 }
+  - { ref: LED1, part: led-5mm, qty: 1, color: "#eef6ff", note: { de: weiß, en: white } }
+  - { ref: BAT, part: battery-holder-aa, qty: 1 }
+  - { part: battery-aa-empty, qty: 1 }
+  - { part: perfboard, qty: "11 × 10", note: { de: "Löcher (ca. 3 × 2,5 cm)", en: "holes (about 3 × 2.5 cm)" } }
+  - { part: enamelled-wire, qty: "2 × 50 cm" }
+  - { part: sandpaper, qty: 1 }
+  - { part: insulating-tape, qty: 1 }
+  - { part: soldering-iron, qty: 1 }
+  - { part: solder, qty: 1 }
+  - { part: side-cutter, qty: 1 }
+  - { part: pliers, qty: 1 }
+  - { part: safety-glasses, qty: 1 }
+
+board:
+  cols: 11
+  rows: 10
+  parts:
+    - { ref: L1, pins: { r1: B6, r2: D2, g1: E2, g2: H4 }, center: D5 }
+    - { ref: R1, pins: { "1": B7, "2": F7 }, label: below }
+    - { ref: Q1, pins: { C: H6, B: H7, E: H8 } }
+    - { ref: LED1, pins: { A: J6, K: J7 } }
+    - { ref: BAT, pins: { "+": K2, "-": K9 } }
+  bridges:
+    - { id: plus, points: [D2, E2, K2] }
+    - { id: coil-red, points: [B6, B7] }
+    - { id: base, points: [F7, H7] }
+    - { id: coil-green, points: [H4, H6] }
+    - { id: collector-led, points: [H6, J6] }
+    - { id: led-minus, points: [J7, J9] }
+    - { id: emitter, points: [H8, H9] }
+    - { id: minus, points: [H9, J9, K9] }
+
+nets:
+  PLUS: [BAT.+, L1.r2, L1.g1]
+  FEEDBACK: [L1.r1, R1.1]
+  BASE: [R1.2, Q1.B]
+  COLLECTOR: [L1.g2, Q1.C, LED1.A]
+  MINUS: [Q1.E, LED1.K, BAT.-]
+
+steps:
+  - id: coil
+    view: none
+    title: { de: Die Spule wickeln, en: Wind the coil }
+    text:
+      de: |
+        Nimm die zwei Kupferlackdrähte (rot und grün) und **halte sie nebeneinander**, wie ein Band.
+        Wickle dieses Band **12-mal** durch den Ferritring, schön gleichmäßig verteilt.
+        Lass an jedem Ende 3 cm überstehen. Jetzt hast du vier Enden:
+        **rot Anfang**, **rot Ende**, **grün Anfang**, **grün Ende**. Markiere die Anfänge mit einem Stück Klebeband.
+      en: |
+        Take the two enamelled wires (red and green) and **hold them side by side**, like a ribbon.
+        Wind this ribbon **12 times** through the ferrite ring, spread out evenly.
+        Leave 3 cm sticking out at each end. Now you have four ends:
+        **red start**, **red end**, **green start**, **green end**. Mark the starts with a bit of tape.
+    tip:
+      de: Schleife die letzten 5 mm jedes Endes mit Schleifpapier blank, bis das Kupfer glänzt – sonst hält das Lötzinn nicht.
+      en: Sand the last 5 mm of each end with sandpaper until the copper shines – otherwise the solder will not stick.
+
+  - id: prepare
+    view: top
+    marks: [A1]
+    title: { de: Platine vorbereiten, en: Prepare the board }
+    text:
+      de: Leg die Platine mit den **Kupferpunkten nach unten** vor dich und markiere die Ecke oben links als **A1**.
+      en: Place the board with the **copper pads facing down** and mark the top-left corner as **A1**.
+
+  - id: resistor
+    view: top
+    adds: [R1]
+    title: { de: Widerstand R1, en: Resistor R1 }
+    text:
+      de: R1 (braun – schwarz – rot, 1 kΩ) kommt waagerecht in **B7** und **F7**.
+      en: R1 (brown – black – red, 1 kΩ) goes sideways into **B7** and **F7**.
+
+  - id: transistor
+    view: top
+    adds: [Q1]
+    title: { de: Der Transistor, en: The transistor }
+    text:
+      de: 'Der **BC337**: C in **H6**, B in **H7**, E in **H8**. Die **flache Seite zeigt nach links**.'
+      en: 'The **BC337**: C into **H6**, B into **H7**, E into **H8**. The **flat side faces left**.'
+
+  - id: led
+    view: top
+    adds: [LED1]
+    title: { de: Die weiße LED, en: The white LED }
+    text:
+      de: Das **lange Bein (+)** kommt in **J6**, das kurze in **J7**.
+      en: The **long leg (+)** goes into **J6**, the short one into **J7**.
+
+  - id: coil-board
+    view: top
+    adds: [L1]
+    title: { de: Die Spule einlöten, en: Solder in the coil }
+    text:
+      de: |
+        Jetzt kommt es auf die Enden an:
+        **rot Anfang → B6**, **rot Ende → D2**, **grün Anfang → E2**, **grün Ende → H4**.
+        Drück den Ring flach auf die Platine.
+      en: |
+        Now the ends matter:
+        **red start → B6**, **red end → D2**, **green start → E2**, **green end → H4**.
+        Press the ring flat onto the board.
+    warning:
+      de: Nicht verwechseln – rot Ende und grün Anfang kommen beide an Plus. Das ist der Trick der Schaltung!
+      en: Do not mix them up – red end and green start both go to plus. That is the trick of the circuit!
+
+  - id: bridges-1
+    view: bottom
+    adds: [plus, coil-red, base, coil-green]
+    title: { de: Lötbrücken – Teil 1, en: Solder bridges – part 1 }
+    text:
+      de: |
+        Dreh die Platine um – **spiegelverkehrt!**
+        **D2 über E2 bis K2** (Plus), **B6–B7**, **F7–H7** und **H4–H6**.
+      en: |
+        Turn the board over – **mirrored!**
+        **D2 across E2 to K2** (plus), **B6–B7**, **F7–H7** and **H4–H6**.
+
+  - id: bridges-2
+    view: bottom
+    adds: [collector-led, led-minus, emitter, minus]
+    title: { de: Lötbrücken – Teil 2, en: Solder bridges – part 2 }
+    text:
+      de: '**H6–J6**, **J7–J9**, **H8–H9** und **H9 über J9 bis K9** (Minus).'
+      en: '**H6–J6**, **J7–J9**, **H8–H9** and **H9 across J9 to K9** (minus).'
+
+  - id: battery-holder
+    view: top
+    adds: [BAT]
+    title: { de: Batteriehalter, en: Battery holder }
+    text:
+      de: Das **rote Kabel (+)** kommt in **K2**, das **schwarze (−)** in **K9**.
+      en: The **red wire (+)** goes into **K2**, the **black one (−)** into **K9**.
+
+  - id: test
+    view: none
+    image: images/vampire.svg
+    title: { de: Gib dem Vampir Futter!, en: Feed the thief! }
+    text:
+      de: |
+        Such eine Batterie, die im Spielzeug oder in der Fernbedienung nicht mehr ging, und leg sie ein.
+        **Die weiße LED leuchtet!** Probier verschiedene „leere“ Batterien aus. Welche hält am längsten?
+      en: |
+        Find a battery that no longer worked in a toy or remote control and put it in.
+        **The white LED lights up!** Try different "empty" batteries. Which one lasts the longest?
+    parent:
+      de: Entladene Batterien danach trotzdem zum Sammelpunkt bringen – nicht in den Hausmüll.
+      en: Afterwards, still take the used batteries to a recycling point – not into household waste.
+
+explanation:
+  kids:
+    de: |
+      Eine Spule ist wie ein **Schwungrad für Strom**: Fließt Strom durch sie, baut sie ein Magnetfeld auf.
+      Wird der Strom plötzlich abgeschaltet, will sie ihn weiterschieben – und erzeugt dabei für einen Augenblick eine
+      **viel höhere Spannung**. Der Transistor schaltet die Spule zigtausendmal pro Sekunde ein und aus, und bei jedem
+      Ausschalten schubst die Spule die LED mit einem Stoß an. Das geht so schnell, dass du nur ein ruhiges Leuchten siehst.
+    en: |
+      A coil is like a **flywheel for electricity**: when current flows through it, it builds up a magnetic field.
+      When the current is suddenly switched off, it wants to keep pushing it – and creates a **much higher voltage** for an
+      instant. The transistor switches the coil on and off tens of thousands of times a second, and every time it switches
+      off, the coil gives the LED a push. It happens so fast that you only see a steady light.
+  parents:
+    de: |
+      Das ist ein **Sperrschwinger** (blocking oscillator) mit zwei gleichsinnig gewickelten Wicklungen. Die rote Wicklung
+      koppelt das Signal über R1 auf die Basis zurück (Mitkopplung). Leitet Q1, steigt der Strom in der grünen Wicklung,
+      bis der Kern sättigt bzw. die Basis nicht mehr nachkommt; dann sperrt Q1, und die Induktionsspannung am Kollektor
+      steigt, bis die LED leitet. Typisch sind einige zehn kHz. Die Schaltung läuft bis hinunter zu etwa 0,6–0,8 V.
+      Der BC337 verträgt die Stromspitzen besser als ein BC547.
+    en: |
+      This is a **blocking oscillator** with two windings wound in the same direction. The red winding feeds the signal back
+      to the base through R1 (positive feedback). While Q1 conducts, the current in the green winding rises until the core
+      saturates or the base can no longer keep up; then Q1 turns off, and the induced voltage at the collector rises until the
+      LED conducts. Typically a few tens of kHz. The circuit runs down to about 0.6–0.8 V.
+      The BC337 handles the current peaks better than a BC547.
+
+variations:
+  - title: { de: Mehr oder weniger Windungen, en: More or fewer turns }
+    text:
+      de: Wickle eine zweite Spule mit 6 oder 20 Windungen. Wird die LED heller oder dunkler?
+      en: Wind a second coil with 6 or 20 turns. Does the LED get brighter or dimmer?
+  - title: { de: Wie leer ist leer?, en: How empty is empty? }
+    text:
+      de: Hast du ein Messgerät? Miss die Spannung der Batterie, wenn der Vampir aufgibt. Im Simulator kannst du es auch ausprobieren.
+      en: Do you have a multimeter? Measure the battery voltage when the thief gives up. You can also try it in the simulator.
+  - title: { de: Zwei LEDs, en: Two LEDs }
+    text:
+      de: Löte eine zweite weiße LED parallel zur ersten (gleiche Richtung). Reicht die Energie für beide?
+      en: Solder a second white LED in parallel with the first one (same direction). Is there enough energy for both?
+
+troubleshooting:
+  - problem: { de: Die LED bleibt dunkel., en: The LED stays dark. }
+    solution:
+      de: Meist ist eine Wicklung „verkehrt herum“. Tausche die beiden **grünen** Enden (E2 und H4) – dann klappt es fast immer. Prüfe auch, ob die Lackdraht-Enden wirklich blank geschliffen sind.
+      en: Usually one winding is "the wrong way round". Swap the two **green** ends (E2 and H4) – that almost always fixes it. Also check that the enamelled wire ends are really sanded bare.
+  - problem: { de: Die LED leuchtet nur mit einer neuen Batterie., en: The LED only lights with a new battery. }
+    solution:
+      de: Prüfe, ob die LED richtig herum steckt (langes Bein in J6) und ob es wirklich ein BC337 ist.
+      en: Check that the LED is the right way round (long leg in J6) and that it really is a BC337.
+  - problem: { de: Der Transistor wird warm., en: The transistor gets warm. }
+    solution:
+      de: Ein bisschen warm ist normal. Wird er heiß, fehlt vermutlich die Verbindung zur LED (H6–J6) – dann hat der Spannungsstoß keinen Ausweg.
+      en: A little warm is normal. If it gets hot, the connection to the LED (H6–J6) is probably missing – then the voltage kick has nowhere to go.
+
+safety:
+  de:
+    - Den Lack der Drähte abschleifen, nicht abbrennen – der Rauch ist ungesund.
+    - Nur eine einzelne AA- oder AAA-Batterie verwenden, keine Lithium-Akkus.
+  en:
+    - Sand the enamel off the wires, do not burn it off – the smoke is unhealthy.
+    - Only use a single AA or AAA battery, no lithium cells.
