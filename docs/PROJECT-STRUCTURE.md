@@ -61,7 +61,27 @@ nets:                          # what must be connected
   TOUCH: [X1.2, R1.1, BZ1.+]
 ```
 
-Pin names per kind: resistor `1 2`, led `A K`, buzzer `+ -`, terminal `1 2`, battery-clip `+ -`.
+### Part kinds and their pins
+
+| Kind | Pins | Placement options |
+|---|---|---|
+| `resistor` | `1 2` | |
+| `led` | `A K` (A = anode, long leg) | |
+| `ldr`, `cap` | `1 2` | |
+| `elko` | `+ -` | |
+| `buzzer` | `+ -` | |
+| `transistor` | `C B E` | flat side is drawn automatically (C B E left to right when the flat side faces you) |
+| `button` | `1 2` | two diagonally opposite legs of a 6×6 mm button |
+| `terminal` | `1 2` | `opens: left/right/up/down` |
+| `leads` | from the catalog, e.g. `+ -` | `exits: left/right` (wires leaving the board: battery clips, probes) |
+| `dip8`, `dip16` | `1 … n` | `pin1: C10` and `rotate: 0` (notch up) or `270` (notch left) instead of `pins` |
+| `jumper` | `1 2` | insulated wire on the component side, may cross anything; `via: [B1, O1]` for its route |
+| `toroid` | `r1 r2 g1 g2` (red/green wire, start/end) | `center: D5` |
+
+Every part can also take `label: left/right/above/below` to move its label and `text: "5"` to replace it.
+The colour of LEDs and jumper wires comes from `color` in `parts`.
+
+A net with a single pin means "not connected", e.g. `CONTROL: [IC1.5]` for an unused chip pin.
 
 The build checks that:
 
@@ -76,8 +96,11 @@ tags their holes ("E4"). Use `view: bottom` for soldering bridges (the picture i
 like the real board turned over), `view: none` with an optional `image` for steps off the board,
 and `marks: [A1]` to point at extra holes.
 
-New part kinds need a drawing function in `scripts/lib/board.mjs` (`draw` and `KIND_PINS`)
-and an entry in `parts/catalog.yaml`.
+New part kinds need a drawing function in `scripts/lib/board.mjs` (`draw` and `KIND_PINS`),
+the kind in `parts/catalog.schema.json` and an entry in `parts/catalog.yaml`.
+
+**YAML tip:** in `{ de: …, en: … }` one-liners, a comma or a `: ` inside the text breaks the line apart.
+Put such texts in quotes: `{ de: "Kurz an, lang aus", en: "Short on, long off" }`.
 
 ## The simulation
 

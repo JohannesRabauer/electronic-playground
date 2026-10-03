@@ -2,9 +2,5 @@
 # Ideas that are not full projects yet. Labels may use {{Deutsch|English}}.
 - file: 01-led-mit-schalter.txt
   title: { de: LED mit Schalter, en: LED with switch }
-- file: 02-nachtlicht.txt
-  title: { de: Nachtlicht (LDR), en: Night light (LDR) }
-- file: 03-wechselblinker.txt
-  title: { de: Wechselblinker (2 Transistoren), en: Alternating flasher (2 transistors) }
 - file: 04-555-blinker.txt
   title: { de: Blinklicht mit NE555, en: NE555 flasher }
