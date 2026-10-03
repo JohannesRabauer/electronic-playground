@@ -1,0 +1,362 @@
+# yaml-language-server: $schema=../project.schema.json
+id: mini-orgel
+number: 5
+status: published
+slug: { de: mini-orgel, en: mini-organ }
+
+title:
+  de: Mini-Orgel
+  en: Mini Organ
+
+tagline:
+  de: Sechs Tasten, sechs Töne – genug für „Alle meine Entchen“.
+  en: Six keys, six notes – enough for your first tunes.
+
+facts:
+  age: 10
+  difficulty: 2
+  minutes: 150
+  cost_eur: 9
+  topics: [sound]
+
+learn:
+  de:
+    - Wie ein Chip (IC) eingebaut wird – mit Sockel und Kerbe
+    - Dass ein Ton ein ganz schnelles Ein und Aus ist
+    - Wie ein Widerstand die Tonhöhe bestimmt
+  en:
+    - How a chip (IC) is fitted – with a socket and a notch
+    - That a sound is a very fast on and off
+    - How a resistor sets the pitch
+
+hero: images/organ.svg
+
+intro:
+  de: |
+    Das Herz dieser Orgel ist ein kleiner Chip, der **NE555**. Er schaltet einen Piezo-Summer hunderte Male pro Sekunde
+    ein und aus – das hörst du als Ton. Wie schnell er das tut, bestimmt der Widerstand an der Taste, die du drückst.
+
+    Sechs Tasten ergeben die Töne **C D E F G A**. Damit kannst du schon „Alle meine Entchen“ spielen!
+  en: |
+    The heart of this organ is a small chip, the **NE555**. It switches a piezo buzzer on and off hundreds of times a
+    second – you hear that as a note. How fast it does that is set by the resistor on the key you press.
+
+    Six keys give the notes **C D E F G A** – enough for simple tunes like "Mary Had a Little Lamb" (E D C D E E E).
+
+simulation:
+  circuit: circuit.txt
+  try:
+    de: |
+      Die Tasten sind im Simulator Schalter: **Klick eine Taste an** (z. B. „C“), dann klick rechts auf **„▶ Audio abspielen“**.
+      Klick die Taste wieder an, um sie auszuschalten, und probier eine andere. Welche Taste klingt am höchsten?
+    en: |
+      In the simulator the keys are switches: **click a key on** (e.g. "C"), then click **"▶ Play Audio"** on the right.
+      Click the key again to switch it off and try another one. Which key sounds highest?
+
+parts:
+  - { ref: IC1, part: ic-555, qty: 1 }
+  - { ref: R1, part: resistor, qty: 1, value: 1000, note: { de: "braun – schwarz – rot", en: "brown – black – red" } }
+  - { ref: R2, part: resistor, qty: 1, value: 27000, note: { de: "Ton C: rot – violett – orange", en: "note C: red – violet – orange" } }
+  - { ref: R3, part: resistor, qty: 1, value: 24000, note: { de: "Ton D: rot – gelb – orange", en: "note D: red – yellow – orange" } }
+  - { ref: R4, part: resistor, qty: 1, value: 22000, note: { de: "Ton E: rot – rot – orange", en: "note E: red – red – orange" } }
+  - { ref: R5, part: resistor, qty: 1, value: 20000, note: { de: "Ton F: rot – schwarz – orange", en: "note F: red – black – orange" } }
+  - { ref: R6, part: resistor, qty: 1, value: 18000, note: { de: "Ton G: braun – grau – orange", en: "note G: brown – grey – orange" } }
+  - { ref: R7, part: resistor, qty: 1, value: 16000, note: { de: "Ton A: braun – blau – orange", en: "note A: brown – blue – orange" } }
+  - { ref: C1, part: cap-ceramic, qty: 1, value: 100e-9, note: { de: "Aufdruck 104", en: "marked 104" } }
+  - { ref: S1, part: push-button, qty: 1 }
+  - { ref: S2, part: push-button, qty: 1 }
+  - { ref: S3, part: push-button, qty: 1 }
+  - { ref: S4, part: push-button, qty: 1 }
+  - { ref: S5, part: push-button, qty: 1 }
+  - { ref: S6, part: push-button, qty: 1 }
+  - { ref: BZ1, part: buzzer-passive, qty: 1 }
+  - { ref: W1, part: jumper-wire, qty: 1, note: { de: "ca. 4 cm", en: "about 4 cm" } }
+  - { ref: BAT, part: battery-clip-9v, qty: 1 }
+  - { part: battery-9v, qty: 1 }
+  - { part: perfboard, qty: "26 × 17", note: { de: "Löcher (ca. 7 × 4,5 cm)", en: "holes (about 7 × 4.5 cm)" } }
+  - { part: soldering-iron, qty: 1 }
+  - { part: solder, qty: 1 }
+  - { part: side-cutter, qty: 1 }
+  - { part: pliers, qty: 1 }
+  - { part: wire-stripper, qty: 1 }
+  - { part: safety-glasses, qty: 1 }
+
+board:
+  cols: 26
+  rows: 17
+  parts:
+    - { ref: IC1, pin1: C10, rotate: 270 }
+    - { ref: R1, pins: { "1": D2, "2": D6 }, label: left }
+    - { ref: W1, pins: { "1": G10, "2": G3 } }
+    - { ref: R2, pins: { "1": I6, "2": I10 } }
+    - { ref: R3, pins: { "1": L6, "2": L10 } }
+    - { ref: R4, pins: { "1": O6, "2": O10 } }
+    - { ref: R5, pins: { "1": R6, "2": R10 } }
+    - { ref: R6, pins: { "1": U6, "2": U10 } }
+    - { ref: R7, pins: { "1": X6, "2": X10 } }
+    - { ref: S1, pins: { "1": I11, "2": K14 } }
+    - { ref: S2, pins: { "1": L11, "2": N14 } }
+    - { ref: S3, pins: { "1": O11, "2": Q14 } }
+    - { ref: S4, pins: { "1": R11, "2": T14 } }
+    - { ref: S5, pins: { "1": U11, "2": W14 } }
+    - { ref: S6, pins: { "1": X11, "2": Z14 } }
+    - { ref: C1, pins: { "1": H15, "2": H16 }, label: right }
+    - { ref: BZ1, pins: { "+": E12, "-": E15 } }
+    - { ref: BAT, pins: { "+": Z2, "-": Z16 } }
+  bridges:
+    - { id: plus, points: [C2, D2, G2, Z2] }
+    - { id: vcc, points: [C7, C2] }
+    - { id: w1-plus, points: [G3, G2] }
+    - { id: minus, points: [C16, E16, H16, Z16] }
+    - { id: gnd, points: [C10, C16] }
+    - { id: dis, points: [D7, D6, I6, L6, O6, R6, U6, X6] }
+    - { id: thr-trig, points: [E7, E8, E9, D9, D10] }
+    - { id: thr, points: [E8, H8, H14, K14, N14, Q14, T14, W14, Z14] }
+    - { id: c1, points: [H14, H15] }
+    - { id: reset, points: [F10, G10] }
+    - { id: out, points: [E10, E12] }
+    - { id: buzzer-minus, points: [E15, E16] }
+    - { id: key1, points: [I10, I11] }
+    - { id: key2, points: [L10, L11] }
+    - { id: key3, points: [O10, O11] }
+    - { id: key4, points: [R10, R11] }
+    - { id: key5, points: [U10, U11] }
+    - { id: key6, points: [X10, X11] }
+
+nets:
+  PLUS: [BAT.+, IC1.8, IC1.4, R1.1]
+  DISCHARGE: [IC1.7, R1.2, R2.1, R3.1, R4.1, R5.1, R6.1, R7.1]
+  THRESHOLD: [IC1.6, IC1.2, C1.1, S1.2, S2.2, S3.2, S4.2, S5.2, S6.2]
+  KEY_C: [R2.2, S1.1]
+  KEY_D: [R3.2, S2.1]
+  KEY_E: [R4.2, S3.1]
+  KEY_F: [R5.2, S4.1]
+  KEY_G: [R6.2, S5.1]
+  KEY_A: [R7.2, S6.1]
+  OUT: [IC1.3, BZ1.+]
+  CONTROL: [IC1.5]
+  MINUS: [IC1.1, C1.2, BZ1.-, BAT.-]
+
+steps:
+  - id: prepare
+    view: top
+    marks: [A1]
+    title: { de: Platine vorbereiten, en: Prepare the board }
+    text:
+      de: |
+        Diese Platine ist groß – fast so lang wie dein Zeigefinger. Leg sie mit den **Kupferpunkten nach unten**
+        vor dich und markiere **A1** oben links.
+      en: |
+        This board is big – almost as long as your index finger. Place it with the **copper pads facing down**
+        and mark **A1** at the top left.
+
+  - id: socket
+    view: top
+    adds: [IC1]
+    title: { de: Der IC-Sockel, en: The IC socket }
+    text:
+      de: |
+        Statt des Chips lötest du zuerst einen **Sockel** ein. Die **Kerbe zeigt nach links**.
+        Die unteren Beinchen kommen in **C10 bis F10**, die oberen in **C7 bis F7**.
+        Löte zuerst zwei Ecken, prüfe, ob der Sockel flach aufliegt, dann den Rest.
+      en: |
+        Instead of the chip, you first solder in a **socket**. The **notch faces left**.
+        The bottom legs go into **C10 to F10**, the top ones into **C7 to F7**.
+        Solder two corners first, check that the socket sits flat, then the rest.
+    tip:
+      de: Der Chip selbst kommt erst ganz am Schluss – so kann er beim Löten nicht kaputtgehen.
+      en: The chip itself goes in at the very end – that way it cannot be damaged while soldering.
+
+  - id: r1
+    view: top
+    adds: [R1]
+    title: { de: Widerstand R1, en: Resistor R1 }
+    text:
+      de: R1 (braun – schwarz – rot, 1 kΩ) kommt senkrecht in **D2** und **D6**.
+      en: R1 (brown – black – red, 1 kΩ) goes upright into **D2** and **D6**.
+
+  - id: jumper
+    view: top
+    adds: [W1]
+    title: { de: Eine isolierte Drahtbrücke, en: An insulated jumper wire }
+    text:
+      de: |
+        Hier muss eine Leitung über andere hinweg – dafür nimmst du ein Stück **isolierten Draht**.
+        Isoliere beide Enden ca. 3 mm ab und stecke den Draht von oben in **G3** und **G10**.
+      en: |
+        Here one connection has to cross others – for that you use a piece of **insulated wire**.
+        Strip about 3 mm at both ends and push the wire in from the top into **G3** and **G10**.
+    parent:
+      de: Isolierte Brücken auf der Bauteilseite dürfen über Lötbrücken auf der Unterseite hinweggehen – sie berühren sich ja nicht.
+      en: Insulated jumpers on the component side may run over solder bridges underneath – they do not touch.
+
+  - id: key-resistors
+    view: top
+    adds: [R2, R3, R4, R5, R6, R7]
+    title: { de: Die Ton-Widerstände, en: The note resistors }
+    text:
+      de: |
+        Jetzt die sechs Widerstände für die Töne – **die Reihenfolge ist wichtig**! Alle stehen senkrecht von Reihe 6 bis Reihe 10:
+        **I**: 27 kΩ (C) · **L**: 24 kΩ (D) · **O**: 22 kΩ (E) · **R**: 20 kΩ (F) · **U**: 18 kΩ (G) · **X**: 16 kΩ (A).
+      en: |
+        Now the six resistors for the notes – **the order matters**! They all stand upright from row 6 to row 10:
+        **I**: 27 kΩ (C) · **L**: 24 kΩ (D) · **O**: 22 kΩ (E) · **R**: 20 kΩ (F) · **U**: 18 kΩ (G) · **X**: 16 kΩ (A).
+    tip:
+      de: Leg die Widerstände vorher in der richtigen Reihenfolge auf den Tisch und vergleiche die Farbringe mit der Teileliste.
+      en: Lay the resistors out on the table in the right order first and compare the colour bands with the parts list.
+
+  - id: buttons
+    view: top
+    adds: [S1, S2, S3, S4, S5, S6]
+    title: { de: Die sechs Tasten, en: The six keys }
+    text:
+      de: |
+        Ein Taster hat vier Beinchen – wir brauchen nur **zwei schräg gegenüberliegende**. Kneif die anderen beiden ab.
+        Jede Taste kommt mit einem Bein unter ihren Widerstand (Reihe 11) und mit dem anderen schräg darunter in Reihe 14:
+        **I11/K14**, **L11/N14**, **O11/Q14**, **R11/T14**, **U11/W14**, **X11/Z14**.
+      en: |
+        A push button has four legs – we only need **two diagonally opposite ones**. Snip off the other two.
+        Each key goes with one leg below its resistor (row 11) and the other diagonally below in row 14:
+        **I11/K14**, **L11/N14**, **O11/Q14**, **R11/T14**, **U11/W14**, **X11/Z14**.
+    parent:
+      de: Die Beinchen der 6×6-Taster passen nicht ganz genau ins Raster – leicht mit der Zange zurechtbiegen.
+      en: The legs of 6×6 buttons do not fit the grid exactly – bend them a little with pliers.
+
+  - id: c1-buzzer
+    view: top
+    adds: [C1, BZ1]
+    title: { de: Kondensator und Summer, en: Capacitor and buzzer }
+    text:
+      de: |
+        Der kleine Kondensator **C1** (Aufdruck 104) kommt in **H15** und **H16**, die Richtung ist egal.
+        Der **passive** Summer: **+** in **E12**, das andere Bein in **E15**.
+      en: |
+        The small capacitor **C1** (marked 104) goes into **H15** and **H16**; direction does not matter.
+        The **passive** buzzer: **+** into **E12**, the other leg into **E15**.
+
+  - id: bridges-rails
+    view: bottom
+    adds: [plus, vcc, w1-plus, minus, gnd]
+    title: { de: Lötbrücken – Plus und Minus, en: Solder bridges – plus and minus }
+    text:
+      de: |
+        Dreh die Platine um – **spiegelverkehrt!** Plus: **C2 bis Z2** (über D2 und G2), dazu **C7–C2** und **G3–G2**.
+        Minus: **C16 bis Z16** (über E16 und H16), dazu **C10–C16**.
+      en: |
+        Turn the board over – **mirrored!** Plus: **C2 to Z2** (across D2 and G2), plus **C7–C2** and **G3–G2**.
+        Minus: **C16 to Z16** (across E16 and H16), plus **C10–C16**.
+    tip:
+      de: Für lange Brücken reicht ein Beinchen nicht – nimm ein Stück blanken Draht.
+      en: A single leg is too short for long bridges – use a piece of bare wire.
+
+  - id: bridges-chip
+    view: bottom
+    adds: [dis, thr-trig, thr, c1, reset, out, buzzer-minus]
+    title: { de: Lötbrücken – der Chip, en: Solder bridges – the chip }
+    text:
+      de: |
+        Jetzt die Leitungen am Chip:
+        **D7 → D6 → X6** (oben an allen Ton-Widerständen entlang),
+        **E7 → E9 → D9 → D10** (unter dem Sockel), **E8 → H8 → H14 → Z14** (an allen Tasten entlang),
+        **H14–H15**, **F10–G10**, **E10–E12** und **E15–E16**.
+      en: |
+        Now the lines at the chip:
+        **D7 → D6 → X6** (along the top of all note resistors),
+        **E7 → E9 → D9 → D10** (under the socket), **E8 → H8 → H14 → Z14** (along all keys),
+        **H14–H15**, **F10–G10**, **E10–E12** and **E15–E16**.
+    warning:
+      de: Unter dem Sockel liegen die Punkte dicht beieinander. Prüfe mit einer Lupe, dass kein Zinn zwei Beinchen verbindet.
+      en: Under the socket the pads are close together. Check with a magnifier that no solder joins two legs.
+
+  - id: bridges-keys
+    view: bottom
+    adds: [key1, key2, key3, key4, key5, key6]
+    title: { de: Lötbrücken – die Tasten, en: Solder bridges – the keys }
+    text:
+      de: "Zum Schluss sechs kurze Brücken, jede vom Widerstand zu seiner Taste: **I10–I11**, **L10–L11**, **O10–O11**, **R10–R11**, **U10–U11**, **X10–X11**."
+      en: "Finally six short bridges, each from a resistor to its key: **I10–I11**, **L10–L11**, **O10–O11**, **R10–R11**, **U10–U11**, **X10–X11**."
+
+  - id: battery-clip
+    view: top
+    adds: [BAT]
+    title: { de: Batterieclip, en: Battery clip }
+    text:
+      de: Verdrille und verzinne die Litzen. **Rot (+)** kommt in **Z2**, **schwarz (−)** in **Z16**.
+      en: Twist and tin the leads. **Red (+)** goes into **Z2**, **black (−)** into **Z16**.
+
+  - id: play
+    view: none
+    image: images/organ.svg
+    title: { de: Chip einsetzen und spielen!, en: Insert the chip and play! }
+    text:
+      de: |
+        Steck den **NE555** in den Sockel – **Kerbe nach links**, wie beim Sockel. Drück die Beinchen vorsichtig gerade, falls sie nicht passen.
+        Batterie anschließen und eine Taste drücken: **Ton!** Probier „Alle meine Entchen“:
+        **C D E F G G – A A A A G – A A A A G – F F F F E E – D D D D C**.
+      en: |
+        Plug the **NE555** into the socket – **notch to the left**, like the socket. Gently straighten the legs if they do not fit.
+        Connect the battery and press a key: **a note!** Try "Mary Had a Little Lamb":
+        **E D C D E E E – D D D – E G G – E D C D E E E – E D D E D C**.
+    tip:
+      de: Klingt ein Ton falsch? Kein Wunder – Widerstände und Kondensatoren haben Toleranzen. Mit einem anderen Widerstand kannst du nachstimmen.
+      en: Does a note sound off? No surprise – resistors and capacitors have tolerances. You can re-tune it with a different resistor.
+
+explanation:
+  kids:
+    de: |
+      Ein Ton ist eine **Schwingung**: Die Membran im Summer bewegt sich ganz schnell hin und her. Der NE555 sorgt dafür,
+      indem er den Strom hunderte Male pro Sekunde ein- und ausschaltet. Dafür lädt er den kleinen Kondensator C1 immer wieder
+      auf und entlädt ihn. Wie schnell das geht, bestimmt der Widerstand an der gedrückten Taste: **Kleiner Widerstand =
+      schnelleres Laden = höherer Ton.** Ohne gedrückte Taste kann C1 sich nicht laden – und es bleibt still.
+    en: |
+      A sound is a **vibration**: the membrane in the buzzer moves back and forth very quickly. The NE555 makes that happen
+      by switching the current on and off hundreds of times a second. To do this it charges the small capacitor C1 again and
+      again and discharges it. How fast that goes depends on the resistor on the pressed key: **smaller resistor = faster
+      charging = higher note.** With no key pressed, C1 cannot charge – and it stays silent.
+  parents:
+    de: |
+      Der NE555 arbeitet als **astabiler Multivibrator** mit R<sub>A</sub> = R1 = 1 kΩ und R<sub>B</sub> = Tastenwiderstand:
+      f ≈ 1,44 / ((R<sub>A</sub> + 2 R<sub>B</sub>) · C1). Mit C1 = 100 nF ergibt das C ≈ 262 Hz (27 kΩ), D ≈ 294 Hz (24 kΩ),
+      E ≈ 320 Hz (22 kΩ), F ≈ 351 Hz (20 kΩ), G ≈ 389 Hz (18 kΩ), A ≈ 436 Hz (16 kΩ) – eine C-Dur-Tonleiter mit E24-Widerständen.
+      Reset (Pin 4) liegt über die Drahtbrücke W1 an Plus, Pin 5 bleibt offen. Der Piezo hängt direkt am Ausgang (Pin 3).
+    en: |
+      The NE555 runs as an **astable multivibrator** with R<sub>A</sub> = R1 = 1 kΩ and R<sub>B</sub> = the key resistor:
+      f ≈ 1.44 / ((R<sub>A</sub> + 2 R<sub>B</sub>) · C1). With C1 = 100 nF that gives C ≈ 262 Hz (27 kΩ), D ≈ 294 Hz (24 kΩ),
+      E ≈ 320 Hz (22 kΩ), F ≈ 351 Hz (20 kΩ), G ≈ 389 Hz (18 kΩ), A ≈ 436 Hz (16 kΩ) – a C major scale with E24 resistors.
+      Reset (pin 4) is tied to plus via the jumper W1; pin 5 is left open. The piezo sits directly on the output (pin 3).
+
+variations:
+  - title: { de: Eine Oktave höher, en: One octave higher }
+    text:
+      de: Tausche C1 gegen **47 nF** (Aufdruck 473) – alle Töne werden etwa doppelt so hoch. Probier es im Simulator aus!
+      en: Swap C1 for **47 nF** (marked 473) – all notes become about twice as high. Try it in the simulator!
+  - title: { de: Mehr Tasten, en: More keys }
+    text:
+      de: Ein **H** bekommst du mit ca. 14 kΩ, das hohe **C** mit ca. 13 kΩ. Die Platine muss dafür breiter werden.
+      en: You get a **B** with about 14 kΩ and the high **C** with about 13 kΩ. The board has to get wider for that.
+  - title: { de: Sirene, en: Siren }
+    text:
+      de: Für Bastelprofis – ein Elko lässt den Ton langsam auf- und abschwellen. Bau es zuerst im Simulator.
+      en: For advanced makers – a capacitor makes the note slowly rise and fall. Build it in the simulator first.
+
+troubleshooting:
+  - problem: { de: Keine Taste macht einen Ton., en: No key makes a sound. }
+    solution:
+      de: Steckt der Chip richtig herum (Kerbe links) und mit allen Beinchen im Sockel? Ist der Summer ein **passiver** Summer? Prüfe die Drahtbrücke W1 und die Brücken unter dem Sockel.
+      en: Is the chip in the right way round (notch left) with all legs in the socket? Is the buzzer a **passive** buzzer? Check jumper W1 and the bridges under the socket.
+  - problem: { de: Eine Taste bleibt stumm., en: One key stays silent. }
+    solution:
+      de: Prüfe die kurze Brücke unter diesem Widerstand (Reihe 10–11) und ob du zwei schräg gegenüberliegende Beinchen behalten hast.
+      en: Check the short bridge below that resistor (row 10–11) and that you kept two diagonally opposite legs.
+  - problem: { de: Es piept dauernd ohne Taste., en: It beeps all the time without a key. }
+    solution:
+      de: Die Leitung E8–Z14 berührt die Leitung D6–X6 – oder eine Taste klemmt.
+      en: The line E8–Z14 touches the line D6–X6 – or a key is stuck.
+
+safety:
+  de:
+    - Den Chip nie bei angeschlossener Batterie einsetzen oder herausziehen.
+    - Piezo-Töne können auf Dauer nerven – spielt nicht direkt am Ohr.
+  en:
+    - Never insert or remove the chip while the battery is connected.
+    - Piezo notes can be piercing – do not play right next to your ear.

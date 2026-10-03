@@ -393,7 +393,8 @@ ${names[0] ? label(lx(q1), q1[1] - 7, names[0], dir > 0 ? 'start' : 'end', 'pol'
     const n = pinPts.length;
     const xs = pinPts.map((q) => q[0]), ys = pinPts.map((q) => q[1]);
     const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
-    const horizontal = maxX - minX > maxY - minY;
+    // rotate 90/270 = notch left or right; the pin field of an 8-pin chip is square, so ask the placement.
+    const horizontal = p.rotate === 90 || p.rotate === 270;
     const pad = 14, inset = 5;
     const [x, y, w, h] = horizontal
       ? [minX - pad, minY + inset, maxX - minX + 2 * pad, maxY - minY - 2 * inset]

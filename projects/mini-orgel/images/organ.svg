@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 290" role="img" aria-label="Mini organ">
+  <rect x="10" y="10" width="620" height="270" rx="22" fill="#f3e5f5"/>
+  <rect x="80" y="110" width="480" height="140" rx="12" fill="#d4b27a" stroke="#8d6b38" stroke-width="4"/>
+  <g fill="#6d5226" opacity="0.5">
+    <circle cx="110" cy="130" r="3"/><circle cx="530" cy="130" r="3"/><circle cx="110" cy="230" r="3"/><circle cx="530" cy="230" r="3"/>
+  </g>
+  <rect x="104" y="130" width="70" height="40" rx="4" fill="#1d1d1f"/><circle cx="104" cy="150" r="7" fill="#3a3a3a"/>
+  <text x="139" y="155" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#e8e8e8" text-anchor="middle">NE555</text>
+  <circle cx="140" cy="210" r="26" fill="#262626"/><circle cx="140" cy="210" r="5" fill="#555"/>
+  <g font-family="system-ui, sans-serif" font-size="18" font-weight="900" text-anchor="middle" fill="#fff">
+    <g transform="translate(200 175)"><rect x="-26" y="-26" width="52" height="52" rx="6" fill="#8d959c"/><circle r="17" fill="#e53935"/><text y="6">C</text></g>
+    <g transform="translate(262 175)"><rect x="-26" y="-26" width="52" height="52" rx="6" fill="#8d959c"/><circle r="17" fill="#fb8c00"/><text y="6">D</text></g>
+    <g transform="translate(324 175)"><rect x="-26" y="-26" width="52" height="52" rx="6" fill="#8d959c"/><circle r="17" fill="#fdd835"/><text y="6" fill="#333">E</text></g>
+    <g transform="translate(386 175)"><rect x="-26" y="-26" width="52" height="52" rx="6" fill="#8d959c"/><circle r="17" fill="#43a047"/><text y="6">F</text></g>
+    <g transform="translate(448 175)"><rect x="-26" y="-26" width="52" height="52" rx="6" fill="#8d959c"/><circle r="17" fill="#1e88e5"/><text y="6">G</text></g>
+    <g transform="translate(510 175)"><rect x="-26" y="-26" width="52" height="52" rx="6" fill="#8d959c"/><circle r="17" fill="#8e24aa"/><text y="6">A</text></g>
+  </g>
+  <g fill="#6a1b9a">
+    <path d="M200 40 v40 a10 8 0 1 1 -4 -6 v-34 z"/>
+    <path d="M300 30 v40 a10 8 0 1 1 -4 -6 v-34 h30 v10 h-26 z"/>
+    <path d="M330 30 v36 a10 8 0 1 1 -4 -6 v-30 z"/>
+    <path d="M430 46 v40 a10 8 0 1 1 -4 -6 v-34 z"/>
+  </g>
+</svg>
