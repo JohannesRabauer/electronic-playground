@@ -1,0 +1,291 @@
+# yaml-language-server: $schema=../project.schema.json
+id: durstmelder
+number: 3
+status: published
+slug: { de: blumen-durstmelder, en: thirsty-plant-alarm }
+
+title:
+  de: Blumen-Durstmelder
+  en: Thirsty Plant Alarm
+
+tagline:
+  de: Die Blume piept, wenn sie Durst hat – zwei Nägel in der Erde sind der Sensor.
+  en: The plant beeps when it is thirsty – two nails in the soil are the sensor.
+
+facts:
+  age: 8
+  difficulty: 1
+  minutes: 90
+  cost_eur: 6
+  topics: [sensor, sound]
+
+learn:
+  de:
+    - Dass Wasser Strom leitet – und trockene Erde kaum
+    - Wie zwei Transistoren zusammen einen winzigen Strom riesig verstärken
+    - Kabel abisolieren und anlöten
+  en:
+    - That water conducts electricity – and dry soil hardly does
+    - How two transistors together amplify a tiny current enormously
+    - Stripping wires and soldering them on
+
+hero: images/plant.svg
+
+intro:
+  de: |
+    Vergisst bei euch auch manchmal jemand, die Blumen zu gießen? Dieser Durstmelder passt auf:
+    Zwei Nägel stecken in der Blumenerde. Ist die Erde feucht, bleibt alles still.
+    Trocknet sie aus, **piept** es – bis jemand die Gießkanne holt.
+
+    Das Besondere: Die Schaltung merkt schon einen winzig kleinen Strom. Dafür arbeiten
+    **zwei Transistoren** als Team zusammen.
+  en: |
+    Does someone in your family sometimes forget to water the plants? This alarm keeps watch:
+    two nails are pushed into the soil. While the soil is damp, all is quiet.
+    When it dries out, it **beeps** – until someone fetches the watering can.
+
+    The special thing: the circuit notices even a tiny current. For that, **two transistors**
+    work together as a team.
+
+simulation:
+  circuit: circuit.txt
+  try:
+    de: |
+      Die Erde ist trocken – hörst du den Summer? (Im Simulator siehst du den Strom durch „Summer BZ1“.)
+      Klick auf den Schalter **„Gießen!“** – jetzt ist die Erde nass. Was passiert mit dem Strom im Summer?
+    en: |
+      The soil is dry – can you "hear" the buzzer? (In the simulator you see the current through "Buzzer BZ1".)
+      Click the switch **"Water it!"** – now the soil is wet. What happens to the current in the buzzer?
+
+parts:
+  - { ref: R1, part: resistor, qty: 1, value: 470000, note: { de: "gelb – violett – gelb – gold", en: "yellow – violet – yellow – gold" } }
+  - { ref: Q1, part: transistor-bc547, qty: 1 }
+  - { ref: Q2, part: transistor-bc547, qty: 1 }
+  - { ref: BZ1, part: buzzer-active, qty: 1 }
+  - { ref: PRB, part: probe-wires, qty: 1 }
+  - { ref: BAT, part: battery-clip-9v, qty: 1 }
+  - { part: battery-9v, qty: 1 }
+  - { part: perfboard, qty: "13 × 10", note: { de: "Löcher (ca. 3,5 × 2,5 cm)", en: "holes (about 3.5 × 2.5 cm)" } }
+  - { part: stranded-wire, qty: "2 × 30 cm" }
+  - { part: nails, qty: 2 }
+  - { part: soldering-iron, qty: 1 }
+  - { part: solder, qty: 1 }
+  - { part: side-cutter, qty: 1 }
+  - { part: pliers, qty: 1 }
+  - { part: wire-stripper, qty: 1 }
+  - { part: safety-glasses, qty: 1 }
+
+board:
+  cols: 13
+  rows: 10
+  parts:
+    - { ref: R1, pins: { "1": C2, "2": C6 } }
+    - { ref: Q1, pins: { C: F5, B: F6, E: F7 }, label: above }
+    - { ref: Q2, pins: { C: H6, B: H7, E: H8 } }
+    - { ref: BZ1, pins: { "+": J2, "-": J5 } }
+    - { ref: PRB, pins: { "1": A6, "2": A9 }, exits: left }
+    - { ref: BAT, pins: { "+": M2, "-": M9 } }
+  bridges:
+    - { id: plus, points: [C2, J2, M2] }
+    - { id: sense, points: [A6, C6, F6] }
+    - { id: darlington, points: [F7, H7] }
+    - { id: collector, points: [F5, H5, J5] }
+    - { id: collector-2, points: [H5, H6] }
+    - { id: emitter, points: [H8, H9] }
+    - { id: minus, points: [A9, H9, M9] }
+
+nets:
+  PLUS: [BAT.+, R1.1, BZ1.+]
+  SENSE: [R1.2, PRB.1, Q1.B]
+  DARLINGTON: [Q1.E, Q2.B]
+  COLLECTOR: [Q1.C, Q2.C, BZ1.-]
+  MINUS: [Q2.E, PRB.2, BAT.-]
+
+steps:
+  - id: prepare
+    view: top
+    marks: [A1]
+    title: { de: Platine vorbereiten, en: Prepare the board }
+    text:
+      de: Leg die Platine mit den **Kupferpunkten nach unten** vor dich und markiere die Ecke oben links als **A1**.
+      en: Place the board with the **copper pads facing down** and mark the top-left corner as **A1**.
+
+  - id: resistor
+    view: top
+    adds: [R1]
+    title: { de: Widerstand R1, en: Resistor R1 }
+    text:
+      de: |
+        R1 hat die Farben **gelb – violett – gelb** (470 kΩ, ein ziemlich großer Widerstand).
+        Er kommt senkrecht in **C2** und **C6**.
+      en: |
+        R1 has the colours **yellow – violet – yellow** (470 kΩ, quite a big resistor).
+        It goes upright into **C2** and **C6**.
+    tip:
+      de: Heb die abgeschnittenen Beinchen für die Lötbrücken auf.
+      en: Keep the cut-off legs for the solder bridges.
+
+  - id: transistors
+    view: top
+    adds: [Q1, Q2]
+    title: { de: Zwei Transistoren, en: Two transistors }
+    text:
+      de: |
+        **Q1**: C in **F5**, B in **F6**, E in **F7**.
+        **Q2**: C in **H6**, B in **H7**, E in **H8**.
+        Bei beiden zeigt die **flache Seite nach links**.
+      en: |
+        **Q1**: C in **F5**, B in **F6**, E in **F7**.
+        **Q2**: C in **H6**, B in **H7**, E in **H8**.
+        On both, the **flat side faces left**.
+    tip:
+      de: Löte zügig – Transistoren mögen keine lange Hitze.
+      en: Solder quickly – transistors do not like heat for long.
+
+  - id: buzzer
+    view: top
+    adds: [BZ1]
+    title: { de: Der Summer, en: The buzzer }
+    text:
+      de: Das Bein mit dem **+** kommt in **J2**, das andere in **J5**.
+      en: The leg marked **+** goes into **J2**, the other one into **J5**.
+
+  - id: bridges-1
+    view: bottom
+    adds: [plus, sense, darlington]
+    title: { de: Lötbrücken – Teil 1, en: Solder bridges – part 1 }
+    text:
+      de: |
+        Dreh die Platine um – **spiegelverkehrt!**
+        **C2 über J2 bis M2** (Plus), **A6 über C6 bis F6** (die Sensor-Leitung) und **F7 bis H7**
+        (hier gibt Q1 seinen Strom an Q2 weiter).
+      en: |
+        Turn the board over – **mirrored!**
+        **C2 across J2 to M2** (plus), **A6 across C6 to F6** (the sensor line) and **F7 to H7**
+        (here Q1 passes its current to Q2).
+
+  - id: bridges-2
+    view: bottom
+    adds: [collector, collector-2, emitter, minus]
+    title: { de: Lötbrücken – Teil 2, en: Solder bridges – part 2 }
+    text:
+      de: |
+        **F5 über H5 bis J5** und **H5 bis H6** – das verbindet beide Transistoren mit dem Summer.
+        Dann **H8 bis H9** und **A9 über H9 bis M9** (Minus).
+      en: |
+        **F5 across H5 to J5** and **H5 to H6** – this connects both transistors to the buzzer.
+        Then **H8 to H9** and **A9 across H9 to M9** (minus).
+
+  - id: battery-clip
+    view: top
+    adds: [BAT]
+    title: { de: Batterieclip, en: Battery clip }
+    text:
+      de: Verdrille und verzinne die Litzen. **Rot (+)** kommt in **M2**, **schwarz (−)** in **M9**.
+      en: Twist and tin the leads. **Red (+)** goes into **M2**, **black (−)** into **M9**.
+
+  - id: probes
+    view: top
+    adds: [PRB]
+    title: { de: Die Fühler, en: The probes }
+    text:
+      de: |
+        Schneide zwei Litzen von je **30 cm** ab und isoliere die Enden ab. Ein Ende kommt in **A6**, das andere in **A9**.
+        Die anderen Enden wickelst du fest um den Kopf je eines Nagels und lötest sie dort an.
+      en: |
+        Cut two wires, **30 cm** each, and strip the ends. One end goes into **A6**, the other into **A9**.
+        Wrap the other ends tightly around the head of a nail each and solder them there.
+    parent:
+      de: Nägel nehmen Lötzinn schlecht an. Mit Schleifpapier blank machen und etwas länger heizen – oder die Litze nur fest umwickeln.
+      en: Nails do not take solder well. Sand them bare and heat a little longer – or just wrap the wire on tightly.
+
+  - id: test
+    view: none
+    title: { de: Testen, en: Test it }
+    text:
+      de: |
+        Steck die Batterie an – es **piept**, denn Luft leitet keinen Strom.
+        Stell beide Nägel in ein Glas Wasser: **Stille!** Zieh sie heraus: Es piept wieder.
+      en: |
+        Connect the battery – it **beeps**, because air does not conduct electricity.
+        Put both nails in a glass of water: **silence!** Pull them out: it beeps again.
+
+  - id: install
+    view: none
+    image: images/plant.svg
+    title: { de: In den Blumentopf, en: Into the flower pot }
+    text:
+      de: |
+        Steck die Nägel etwa **5 cm auseinander** in die Erde. Gieß die Blume – der Summer verstummt.
+        Ein paar Tage später, wenn die Erde trocken ist, meldet sich die Blume.
+      en: |
+        Push the nails into the soil about **5 cm apart**. Water the plant – the buzzer goes quiet.
+        A few days later, when the soil is dry, the plant will let you know.
+    tip:
+      de: Piept es zu früh, steck die Nägel näher zusammen. Piept es zu spät, weiter auseinander.
+      en: If it beeps too early, put the nails closer together. If it beeps too late, further apart.
+
+explanation:
+  kids:
+    de: |
+      Wasser leitet Strom – trockene Erde fast gar nicht. Zwischen den Nägeln fließt also nur Strom, wenn die Erde nass ist.
+      Der Trick: Solange Strom durch die Erde fließt, bekommen die Transistoren **nichts** ab, und der Summer bleibt still.
+      Ist die Erde trocken, fließt der winzige Strom durch R1 stattdessen in den ersten Transistor. Der verstärkt ihn und gibt ihn
+      an den zweiten weiter, der ihn noch einmal verstärkt – **zwei Verstärker hintereinander**. So reicht ein Hauch Strom, um zu piepen.
+    en: |
+      Water conducts electricity – dry soil hardly at all. So current only flows between the nails when the soil is wet.
+      The trick: as long as current flows through the soil, the transistors get **nothing**, and the buzzer stays quiet.
+      When the soil is dry, the tiny current through R1 goes into the first transistor instead. It amplifies it and passes it on
+      to the second one, which amplifies it again – **two amplifiers in a row**. So a whisper of current is enough to beep.
+  parents:
+    de: |
+      Q1 und Q2 bilden eine **Darlington-Schaltung** mit einer Stromverstärkung von mehreren Zehntausend. Sie schaltet ab
+      etwa 1,2 V an der Basis von Q1. R1 und die Erde bilden einen Spannungsteiler: Ab ca. 0,15 · 470 kΩ ≈ **70 kΩ**
+      Erdwiderstand piept es. Feuchte Erde zwischen zwei Nägeln hat meist 1–20 kΩ. Im Ruhezustand fließen nur
+      9 V / 480 kΩ ≈ 20 µA – die Batterie hält lange. Durch den Gleichstrom korrodieren die Nägel langsam; verzinkte oder
+      Edelstahl-Nägel halten länger.
+    en: |
+      Q1 and Q2 form a **Darlington pair** with a current gain of several tens of thousands. It switches on at about
+      1.2 V at the base of Q1. R1 and the soil form a voltage divider: from about 0.15 · 470 kΩ ≈ **70 kΩ** of soil
+      resistance it beeps. Damp soil between two nails usually has 1–20 kΩ. At rest only 9 V / 480 kΩ ≈ 20 µA flows –
+      the battery lasts a long time. The direct current slowly corrodes the nails; galvanised or stainless steel nails last longer.
+
+variations:
+  - title: { de: Lügendetektor, en: Lie detector }
+    text:
+      de: |
+        Nimm die Nägel in beide Hände. Trockene Haut leitet schlecht – es piept. Wer aufgeregt ist, bekommt feuchte Hände,
+        und das Piepen wird leiser oder hört auf. Funktioniert es bei deinen Eltern?
+      en: |
+        Hold the nails in both hands. Dry skin conducts badly – it beeps. Someone who is nervous gets sweaty hands,
+        and the beeping gets quieter or stops. Does it work on your parents?
+  - title: { de: Empfindlichkeit ändern, en: Change the sensitivity }
+    text:
+      de: Mit **1 MΩ** für R1 piept es erst, wenn die Erde sehr trocken ist, mit **220 kΩ** schon früher.
+      en: With **1 MΩ** for R1 it only beeps when the soil is very dry; with **220 kΩ** it beeps earlier.
+  - title: { de: Leise Version, en: Quiet version }
+    text:
+      de: Statt des Summers eine LED mit 470-Ω-Widerstand einbauen – praktisch fürs Schlafzimmer.
+      en: Use an LED with a 470 Ω resistor instead of the buzzer – handy for the bedroom.
+
+troubleshooting:
+  - problem: { de: Es piept nie., en: It never beeps. }
+    solution:
+      de: Ist der Summer ein **aktiver** Summer und richtig herum (+ in J2)? Zeigen beide Transistoren mit der flachen Seite nach links? Ist R1 wirklich 470 kΩ?
+      en: Is the buzzer an **active** buzzer and the right way round (+ in J2)? Do both transistors have their flat side facing left? Is R1 really 470 kΩ?
+  - problem: { de: Es piept auch im Wasserglas., en: It beeps even in the glass of water. }
+    solution:
+      de: Prüfe die Fühler-Litzen in A6 und A9 und die Verbindung zu den Nägeln. Berühren sich unten Lötbrücken, die nicht zusammengehören?
+      en: Check the probe wires in A6 and A9 and the connection to the nails. Are solder bridges touching underneath that do not belong together?
+  - problem: { de: "Es piept, obwohl die Erde feucht ist.", en: It beeps although the soil is damp. }
+    solution:
+      de: Manche Erde leitet schlecht. Steck die Nägel näher zusammen oder tiefer in die Erde.
+      en: Some soil conducts badly. Push the nails closer together or deeper into the soil.
+
+safety:
+  de:
+    - Die Nägel sind spitz – steck sie vorsichtig in die Erde und lass sie nicht herumliegen.
+    - Die Platine selbst darf nicht nass werden. Leg sie neben den Topf, nicht hinein.
+  en:
+    - The nails are sharp – push them into the soil carefully and do not leave them lying around.
+    - The board itself must not get wet. Put it next to the pot, not into it.

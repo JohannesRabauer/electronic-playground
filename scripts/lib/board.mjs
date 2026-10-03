@@ -231,9 +231,11 @@ function labelPos(ax, offset, side) {
   }[side];
 }
 
-const refLabel = (p, ax, offset, text = p.ref) => {
+// Ref label beside a part; with a value it becomes two short lines ("R2" / "47 kΩ").
+const refLabel = (p, ax, offset, value) => {
   const lp = labelPos(ax, offset, p.label);
-  return label(lp.x, lp.y, text, lp.anchor);
+  if (!value) return label(lp.x, lp.y, p.ref, lp.anchor);
+  return label(lp.x, lp.y - 6, p.ref, lp.anchor) + label(lp.x, lp.y + 8, value, lp.anchor, 'ref value');
 };
 
 const draw = {
@@ -244,7 +246,7 @@ const draw = {
     const x0 = -bodyLen / 2;
     const bandXs = [0.18, 0.34, 0.5, 0.8].map((f) => x0 + f * bodyLen);
     return `${lead(a, b)}${group(ax, `<rect x="${x0}" y="-7" width="${bodyLen}" height="14" rx="6" fill="#e9cfa4" stroke="#9c7b4b"/>
-  ${bandXs.map((x, i) => `<rect x="${x - 2.5}" y="-7" width="5" height="14" fill="${bands[i]}"/>`).join('')}`)}${refLabel(p, ax, 14, `${p.ref} · ${formatOhms(p.value)}`)}`;
+  ${bandXs.map((x, i) => `<rect x="${x - 2.5}" y="-7" width="5" height="14" fill="${bands[i]}"/>`).join('')}`)}${refLabel(p, ax, 14, formatOhms(p.value))}`;
   },
 
   led(p, a, k) {
@@ -302,6 +304,7 @@ ${label(x + w / 2, y - 6, p.ref, 'middle')}`;
       const [x, y] = ax.at(u, 19 * s);
       return label(x, y + 4, n, 'middle', 'pin');
     }).join('');
+    if (p.label) return `${group(ax, body)}${legs}${letters}${refLabel(p, ax, 28)}`;
     const [lx, ly] = ax.at(0, -30 * s);
     return `${group(ax, body)}${legs}${letters}${label(lx, ly + 4, p.ref, 'middle')}`;
   },
@@ -317,12 +320,12 @@ ${label(x + w / 2, y - 6, p.ref, 'middle')}`;
     const plusLabel = [plus[0] - ax.ux * 16 - ax.uy * 0, plus[1] - ax.uy * 16];
     return `${lead(plus, minus)}${group(ax, `<circle r="14" fill="#1e3a8a" stroke="#0b1d4d"/>
   <path d="M 6 -12.65 A 14 14 0 0 1 6 12.65 Z" fill="#93c5fd"/>
-  <text x="10" y="4" class="pin" text-anchor="middle">−</text>`)}${label(plusLabel[0], plusLabel[1] + 4, '+', 'middle', 'pol')}${refLabel(p, ax, 20, `${p.ref} · ${formatFarad(p.value)}`)}`;
+  <text x="10" y="4" class="pin" text-anchor="middle">−</text>`)}${label(plusLabel[0], plusLabel[1] + 4, '+', 'middle', 'pol')}${refLabel(p, ax, 20, formatFarad(p.value))}`;
   },
 
   cap(p, a, b) {
     const ax = axis(a, b);
-    return `${lead(a, b)}${group(ax, `<ellipse rx="10" ry="7" fill="#e8a33c" stroke="#a4661a"/>`)}${refLabel(p, ax, 14, `${p.ref} · ${formatFarad(p.value)}`)}`;
+    return `${lead(a, b)}${group(ax, `<ellipse rx="10" ry="7" fill="#e8a33c" stroke="#a4661a"/>`)}${refLabel(p, ax, 14, formatFarad(p.value))}`;
   },
 
   button(p, a, b) {
