@@ -10,7 +10,19 @@
     "required": ["category", "name"],
     "properties": {
       "category": { "enum": ["component", "board", "material", "tool"] },
-      "kind": { "enum": ["resistor", "led", "buzzer", "terminal", "battery-clip"], "description": "How it is drawn on the perfboard." },
+      "kind": { "enum": ["resistor", "led", "buzzer", "terminal", "transistor", "ldr", "elko", "cap", "button", "jumper", "toroid", "leads", "dip8", "dip16"], "description": "How it is drawn on the perfboard." },
+      "chip": { "type": "string", "description": "Text printed on a chip (dip kinds)." },
+      "leads": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "For kind leads: wires that leave the board.",
+        "properties": {
+          "pins": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 },
+          "colors": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 },
+          "tag": { "type": "string" },
+          "labels": { "type": "object", "additionalProperties": false, "required": ["de", "en"], "properties": { "de": { "type": "array", "items": { "type": "string" } }, "en": { "type": "array", "items": { "type": "string" } } } }
+        }
+      },
       "icon": { "type": "string", "description": "Emoji for parts that are not drawn." },
       "name": { "$ref": "#/$defs/i18n" },
       "hint": { "$ref": "#/$defs/i18n" }

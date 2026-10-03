@@ -1,7 +1,7 @@
 // HTML templates. Every project page has the same sections in the same order,
 // both on the website and in the A4 print version (see docs/PROJECT-STRUCTURE.md).
 import { marked } from 'marked';
-import { renderBoard, renderPartIcon, formatOhms } from './board.mjs';
+import { renderBoard, renderPartIcon, formatValue } from './board.mjs';
 
 export const LANGS = ['de', 'en'];
 export const PRINT_DIR = { de: 'drucken', en: 'print' };
@@ -75,12 +75,12 @@ function partsSection(p, catalog, t, lang) {
   const rows = (cats) => p.parts.filter((x) => cats.includes(catalog[x.part].category));
   const name = (x) => {
     const c = catalog[x.part];
-    const value = x.value ? ` ${formatOhms(x.value)}` : '';
+    const value = x.value ? ` ${formatValue(c.kind, x.value)}` : '';
     return `${esc(c.name[lang])}${esc(value)}`;
   };
   const icon = (x) => {
     const c = catalog[x.part];
-    return c.kind ? renderPartIcon(c.kind, x.value, x.color) : `<span class="emoji" aria-hidden="true">${c.icon || '•'}</span>`;
+    return c.kind ? renderPartIcon(c, x) : `<span class="emoji" aria-hidden="true">${c.icon || '•'}</span>`;
   };
   const table = (list) => `<table class="parts">
 <thead><tr><th></th><th>${esc(t.col_qty)}</th><th>${esc(t.col_ref)}</th><th>${esc(t.col_part)}</th><th>${esc(t.col_note)}</th></tr></thead>

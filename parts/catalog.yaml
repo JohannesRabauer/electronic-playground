@@ -1,9 +1,12 @@
 # Shared catalog of everything projects use. Projects reference these ids in `parts`.
+# Schema: parts/catalog.schema.json
 #
 # category: component | board | material | tool  (decides the table it is listed in)
-# kind:     how it is drawn on the perfboard (resistor, led, buzzer, terminal, battery-clip)
+# kind:     how it is drawn on the perfboard (see scripts/lib/board.mjs)
 # icon:     emoji for things that are not drawn
 # name/hint: German and English. `hint` helps parents buy the right thing.
+
+# ---------------------------------------------------------------- components
 
 resistor:
   category: component
@@ -17,11 +20,53 @@ led-5mm:
   name: { de: LED 5 mm, en: LED 5 mm }
   hint: { de: "Das lange Bein ist Plus (+).", en: "The long leg is plus (+)." }
 
+ldr:
+  category: component
+  kind: ldr
+  name: { de: Fotowiderstand (LDR), en: Light-dependent resistor (LDR) }
+  hint: { de: "Z. B. GL5528 (5 mm). Die Richtung ist egal.", en: "E.g. GL5528 (5 mm). Direction does not matter." }
+
+transistor-bc547:
+  category: component
+  kind: transistor
+  name: { de: Transistor BC547, en: Transistor BC547 }
+  hint: { de: "NPN. Flache Seite zu dir, Beinchen nach unten: C – B – E.", en: "NPN. Flat side towards you, legs down: C – B – E." }
+
+transistor-bc337:
+  category: component
+  kind: transistor
+  name: { de: Transistor BC337, en: Transistor BC337 }
+  hint: { de: "NPN, verträgt mehr Strom. Flache Seite zu dir, Beinchen nach unten: C – B – E.", en: "NPN, handles more current. Flat side towards you, legs down: C – B – E." }
+
+elko:
+  category: component
+  kind: elko
+  name: { de: Elektrolytkondensator (Elko), en: Electrolytic capacitor }
+  hint: { de: "Mindestens 16 V. Der helle Streifen mit „−“ zeigt das Minus-Bein (das kürzere).", en: "At least 16 V. The light stripe with \"−\" marks the minus leg (the shorter one)." }
+
+cap-ceramic:
+  category: component
+  kind: cap
+  name: { de: Keramikkondensator, en: Ceramic capacitor }
+  hint: { de: "Aufdruck 104 = 100 nF. Die Richtung ist egal.", en: "Marked 104 = 100 nF. Direction does not matter." }
+
 buzzer-active:
   category: component
   kind: buzzer
   name: { de: Aktiver Summer, en: Active buzzer }
   hint: { de: "\"Aktiv\" für 3–24 V kaufen, 12 mm Durchmesser, Rastermaß 7,6 mm. Ein passiver Summer bleibt stumm!", en: "Buy an \"active\" one for 3–24 V, 12 mm diameter, 7.6 mm pin spacing. A passive buzzer stays silent!" }
+
+buzzer-passive:
+  category: component
+  kind: buzzer
+  name: { de: Passiver Summer (Piezo), en: Passive buzzer (piezo) }
+  hint: { de: "\"Passiv\" kaufen, 12 mm, Rastermaß 7,6 mm – er spielt jeden Ton, den die Schaltung vorgibt.", en: "Buy a \"passive\" one, 12 mm, 7.6 mm pin spacing – it plays whatever tone the circuit makes." }
+
+push-button:
+  category: component
+  kind: button
+  name: { de: Taster 6 × 6 mm, en: Push button 6 × 6 mm }
+  hint: { de: "Hat 4 Beinchen – wir brauchen nur zwei schräg gegenüberliegende.", en: "Has 4 legs – we only need two diagonally opposite ones." }
 
 terminal-2:
   category: component
@@ -29,11 +74,52 @@ terminal-2:
   name: { de: Schraubklemme 2-polig, en: 2-pin screw terminal }
   hint: { de: "Rastermaß 5,08 mm (passt auf Lochraster).", en: "5.08 mm pitch (fits perfboard)." }
 
+ic-555:
+  category: component
+  kind: dip8
+  chip: NE555
+  name: { de: Timer-IC NE555 + 8-poliger IC-Sockel, en: NE555 timer IC + 8-pin IC socket }
+  hint: { de: "Gelötet wird nur der Sockel – der Chip wird am Ende eingesteckt.", en: "Only the socket is soldered – the chip is plugged in at the end." }
+
+ic-4017:
+  category: component
+  kind: dip16
+  chip: CD4017
+  name: { de: Zähler-IC CD4017 + 16-poliger IC-Sockel, en: CD4017 counter IC + 16-pin IC socket }
+  hint: { de: "Gelötet wird nur der Sockel – der Chip wird am Ende eingesteckt.", en: "Only the socket is soldered – the chip is plugged in at the end." }
+
+toroid:
+  category: component
+  kind: toroid
+  name: { de: Ferrit-Ringkern, en: Ferrite toroid }
+  hint: { de: "Ca. 10 mm Außendurchmesser. Alte Energiesparlampen und Netzteile haben oft einen.", en: "About 10 mm outer diameter. Old energy-saving bulbs and power supplies often contain one." }
+
+jumper-wire:
+  category: component
+  kind: jumper
+  name: { de: Drahtbrücke (isolierter Draht), en: Jumper wire (insulated) }
+  hint: { de: "Starrer Klingeldraht ist ideal.", en: "Solid-core hook-up wire is ideal." }
+
 battery-clip-9v:
   category: component
-  kind: battery-clip
+  kind: leads
+  leads: { pins: ["+", "-"], colors: ["#d32f2f", "#222"], tag: "9V", labels: { de: ["+ rot", "− schwarz"], en: ["+ red", "− black"] } }
   name: { de: 9-V-Batterieclip, en: 9 V battery clip }
   hint: { de: "Mit roter und schwarzer Litze.", en: "With red and black leads." }
+
+battery-holder-aa:
+  category: component
+  kind: leads
+  leads: { pins: ["+", "-"], colors: ["#d32f2f", "#222"], tag: "AA", labels: { de: ["+ rot", "− schwarz"], en: ["+ red", "− black"] } }
+  name: { de: Batteriehalter für 1 × AA, en: Battery holder for 1 × AA }
+  hint: { de: "Mit Kabeln.", en: "With wires." }
+
+probe-wires:
+  category: component
+  kind: leads
+  leads: { pins: ["1", "2"], colors: ["#1e88e5", "#43a047"], tag: "🌱", labels: { de: ["Fühler 1", "Fühler 2"], en: ["Probe 1", "Probe 2"] } }
+  name: { de: Zwei Fühler (Litze + Nagel), en: Two probes (wire + nail) }
+  hint: { de: "Je 30 cm Litze, am Ende an einen verzinkten Nagel gelötet oder gewickelt.", en: "30 cm of wire each, soldered or wrapped to a galvanised nail at the end." }
 
 battery-9v:
   category: component
@@ -41,11 +127,19 @@ battery-9v:
   name: { de: 9-V-Blockbatterie, en: 9 V battery }
   hint: { de: "Oder ein 9-V-Akku.", en: "Or a rechargeable 9 V battery." }
 
+battery-aa-empty:
+  category: component
+  icon: "🪫"
+  name: { de: „Leere“ AA-Batterie, en: '"Empty" AA battery' }
+  hint: { de: "Eine, die im Spielzeug nicht mehr geht – noch ca. 1 V.", en: "One that no longer works in a toy – still about 1 V." }
+
 perfboard:
   category: board
   icon: "🟫"
   name: { de: Lochrasterplatine, en: Perfboard }
   hint: { de: "Rastermaß 2,54 mm, mit einzelnen Lötpunkten (keine Streifen). Große Platinen kann man mit dem Cutter anritzen und brechen.", en: "2.54 mm pitch, with separate pads (not stripboard). Score big boards with a craft knife and snap them." }
+
+# ---------------------------------------------------------------- materials
 
 copper-wire-bare:
   category: material
@@ -53,11 +147,23 @@ copper-wire-bare:
   name: { de: "Blanker Kupferdraht 1,5 mm", en: Bare copper wire 1.5 mm }
   hint: { de: "Z. B. aus einem Stück NYM-Installationskabel 1,5 mm² (Mantel und Isolierung entfernen). Kein Lackdraht!", en: "E.g. from a piece of solid house wiring, 1.5 mm² / 14 AWG (strip all insulation). No enamelled wire!" }
 
+enamelled-wire:
+  category: material
+  icon: "🧶"
+  name: { de: "Kupferlackdraht 0,3 mm, zwei Farben", en: "Enamelled copper wire 0.3 mm, two colours" }
+  hint: { de: "Je ca. 50 cm. Die Enden mit Schleifpapier blank machen.", en: "About 50 cm each. Sand the ends bare." }
+
 stranded-wire:
   category: material
   icon: "🧵"
   name: { de: Flexible Litze, en: Stranded wire }
   hint: { de: "Isoliert, ca. 0,25 mm².", en: "Insulated, about 0.25 mm² / 24 AWG." }
+
+nails:
+  category: material
+  icon: "📌"
+  name: { de: Verzinkte Nägel, en: Galvanised nails }
+  hint: { de: "Ca. 5 cm lang – sie rosten nicht so schnell in feuchter Erde.", en: "About 5 cm long – they rust less in damp soil." }
 
 wood-board:
   category: material
@@ -76,6 +182,20 @@ wooden-dowel:
   icon: "🥢"
   name: { de: Rundholz oder leerer Stift, en: Wooden dowel or empty pen }
   hint: { de: "Als Griff, ca. 10 cm lang.", en: "For the handle, about 10 cm long." }
+
+sandpaper:
+  category: material
+  icon: "🟨"
+  name: { de: Schleifpapier, en: Sandpaper }
+  hint: { de: "Fein (Körnung 240 oder feiner).", en: "Fine (240 grit or finer)." }
+
+craft-box:
+  category: material
+  icon: "📦"
+  name: { de: Bastelmaterial für ein Gehäuse, en: Craft material for a case }
+  hint: { de: "Karton, Marmeladenglas, Joghurtbecher – was da ist.", en: "Cardboard, a jam jar, a yoghurt pot – whatever you have." }
+
+# ---------------------------------------------------------------- tools
 
 soldering-iron:
   category: tool
@@ -98,6 +218,11 @@ pliers:
   category: tool
   icon: "🔧"
   name: { de: Flachzange, en: Flat-nose pliers }
+
+wire-stripper:
+  category: tool
+  icon: "🪢"
+  name: { de: Abisolierzange, en: Wire stripper }
 
 screwdriver:
   category: tool

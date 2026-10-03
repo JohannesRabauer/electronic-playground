@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import YAML from 'yaml';
 import Ajv2020 from 'ajv/dist/2020.js';
-import { checkBoard, KIND_PINS } from './board.mjs';
+import { checkBoard, pinsOf, dipPins } from './board.mjs';
 
 const readYaml = (file) => YAML.parse(fs.readFileSync(file, 'utf8'));
 
@@ -71,6 +71,7 @@ function checkProject(p, id, dir, catalog, errors) {
       byRef.set(part.ref, part);
     }
     if (entry.kind === 'resistor' && !part.value) err(`${part.ref || part.part}: resistors need a value (ohms)`);
+    if (['elko', 'cap'].includes(entry.kind) && !part.value) err(`${part.ref || part.part}: capacitors need a value (farads)`);
   }
 
   // Board parts take their part id, value and colour from the parts list.
@@ -79,10 +80,15 @@ function checkProject(p, id, dir, catalog, errors) {
     const part = byRef.get(bp.ref);
     if (!part) { err(`board part ${bp.ref} is not in parts`); continue; }
     Object.assign(bp, { part: part.part, value: part.value, color: part.color });
+    const dip = /^dip(\d+)$/.exec(catalog[part.part].kind || '');
+    if (dip) {
+      if (!bp.pin1) { err(`${bp.ref}: chips are placed with "pin1" (and optional "rotate")`); continue; }
+      bp.pins = dipPins(bp.pin1, Number(dip[1]), bp.rotate || 0);
+    } else if (bp.pin1) err(`${bp.ref}: "pin1" is only for chips`);
     placed.add(bp.ref);
   }
   for (const [ref, part] of byRef) {
-    if (KIND_PINS[catalog[part.part].kind] && !placed.has(ref)) err(`${ref} has a ref but is not placed on the board`);
+    if (pinsOf(catalog[part.part]) && !placed.has(ref)) err(`${ref} has a ref but is not placed on the board`);
   }
   if (errors.some((e) => e.startsWith(`${id}: board part`))) return;
   for (const e of checkBoard(p, catalog)) err(`board: ${e}`);

@@ -126,6 +126,9 @@ svg.board .ref { font-size: 13px; font-weight: 800; fill: #1f2933; paint-order: 
 svg.board .pol { font-size: 12px; font-weight: 800; fill: #b71c1c; paint-order: stroke; stroke: #f3e2c0; stroke-width: 3px; stroke-linejoin: round; }
 svg.board .pol-light { fill: #fff; stroke: none; }
 svg.board .clip { font-size: 13px; font-weight: 800; fill: #fff; }
+svg.board .chip { font-size: 12px; font-weight: 800; fill: #e8e8e8; letter-spacing: .04em; }
+svg.board .pin { font-size: 10px; font-weight: 800; fill: #fff; paint-order: stroke; stroke: #333; stroke-width: 3px; }
+svg.board .pinnum { font-size: 9px; font-weight: 700; fill: #5a4630; }
 svg.board .tag { font-size: 11px; font-weight: 800; fill: #fff; }
 svg.board .hole-tag rect { fill: #ff6d00; }
 

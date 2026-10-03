@@ -5,19 +5,33 @@
 // e.g. "E4" = column E, row 4. "A1" is the top-left hole of the top view.
 
 const PITCH = 24; // px per 2.54 mm hole
-const PAD_LEFT = 72; // room for coordinates and parts that stick out
-const PAD_RIGHT = 120; // room for the battery clip
+const PAD_SIDE = 120; // room for coordinates, overhanging parts and off-board leads
 const PAD_TOP = 34;
 const PAD_BOTTOM = 26;
 
-// Which pins each kind of part has (in the order they are drawn).
-export const KIND_PINS = {
+// Pin names per kind, in the order the drawing functions receive them.
+const KIND_PINS = {
   resistor: ['1', '2'],
   led: ['A', 'K'],
   buzzer: ['+', '-'],
   terminal: ['1', '2'],
-  'battery-clip': ['+', '-'],
+  transistor: ['C', 'B', 'E'],
+  ldr: ['1', '2'],
+  elko: ['+', '-'],
+  cap: ['1', '2'],
+  button: ['1', '2'],
+  jumper: ['1', '2'],
+  toroid: ['r1', 'r2', 'g1', 'g2'],
 };
+
+/** Pin names of a catalog entry (DIP chips and off-board leads are configurable). */
+export function pinsOf(entry) {
+  if (!entry) return undefined;
+  if (entry.kind === 'leads') return entry.leads?.pins || ['+', '-'];
+  const dip = /^dip(\d+)$/.exec(entry.kind || '');
+  if (dip) return Array.from({ length: Number(dip[1]) }, (_, i) => String(i + 1));
+  return KIND_PINS[entry.kind];
+}
 
 export function parseHole(name) {
   const m = /^([A-Z])([0-9]{1,2})$/.exec(name);
@@ -27,12 +41,33 @@ export function parseHole(name) {
 
 const holeName = (c, r) => String.fromCharCode(65 + c) + (r + 1);
 
+/**
+ * Pin holes of a DIP chip (in its socket) from the hole of pin 1.
+ * rotate 0:   notch up, pin 1 top-left, pins 1..n/2 go down, the rest come back up 3 columns right.
+ * rotate 270: notch left, pin 1 bottom-left, pins 1..n/2 go right, the rest come back 3 rows up.
+ * (90 and 180 are the same turned further.)
+ */
+export function dipPins(pin1, n, rotate = 0) {
+  const { c, r } = parseHole(pin1);
+  const half = n / 2;
+  const turn = ({ x, y }) => ({ 0: [x, y], 90: [-y, x], 180: [-x, -y], 270: [y, -x] }[rotate]);
+  const pins = {};
+  for (let k = 1; k <= half; k++) {
+    const [dx, dy] = turn({ x: 0, y: k - 1 });
+    pins[k] = holeName(c + dx, r + dy);
+    const [ex, ey] = turn({ x: 3, y: k - 1 });
+    pins[n + 1 - k] = holeName(c + ex, r + ey);
+  }
+  return pins;
+}
+
 // ---------------------------------------------------------------- checking
 
 /**
  * Verifies a project's board: holes on the board, no two pins in one hole,
  * bridges straight and not running over foreign holes, and the resulting
  * connections exactly match project.nets. Returns a list of error strings.
+ * A net with a single pin means "not connected" (e.g. an unused chip pin).
  */
 export function checkBoard(project, catalog) {
   const errors = [];
@@ -41,17 +76,16 @@ export function checkBoard(project, catalog) {
   const inBoard = ({ c, r }) => c >= 0 && r >= 0 && c < board.cols && r < board.rows;
 
   for (const p of board.parts) {
-    const kind = catalog[p.part]?.kind;
-    const expected = KIND_PINS[kind];
+    const expected = pinsOf(catalog[p.part]);
     if (!expected) {
       errors.push(`board part ${p.ref}: part "${p.part}" has no drawable kind`);
       continue;
     }
-    const got = Object.keys(p.pins);
+    const got = Object.keys(p.pins || {});
     if (got.length !== expected.length || !expected.every((k) => got.includes(k))) {
-      errors.push(`board part ${p.ref}: pins must be ${expected.join(', ')} (got ${got.join(', ')})`);
+      errors.push(`board part ${p.ref}: pins must be ${expected.join(', ')} (got ${got.join(', ') || 'none'})`);
     }
-    for (const [pin, hole] of Object.entries(p.pins)) {
+    for (const [pin, hole] of Object.entries(p.pins || {})) {
       let h;
       try { h = parseHole(hole); } catch (e) { errors.push(`${p.ref}.${pin}: ${e.message}`); continue; }
       if (!inBoard(h)) errors.push(`${p.ref}.${pin}: hole ${hole} is outside the ${board.cols}x${board.rows} board`);
@@ -69,6 +103,9 @@ export function checkBoard(project, catalog) {
     if (ra !== rb) parent.set(ra, rb);
   };
   for (const hole of pinAt.keys()) parent.set(hole, hole);
+
+  // A jumper wire connects its two ends.
+  for (const p of board.parts.filter((x) => catalog[x.part]?.kind === 'jumper')) union(p.pins['1'], p.pins['2']);
 
   const coveredBy = new Map(); // hole -> [{bridge, listed}]
   for (const b of board.bridges) {
@@ -103,6 +140,7 @@ export function checkBoard(project, catalog) {
 
   // Compare with declared nets.
   const pinHole = new Map([...pinAt].map(([h, p]) => [p, h]));
+  const jumperPins = new Set(board.parts.filter((x) => catalog[x.part]?.kind === 'jumper').flatMap((x) => [`${x.ref}.1`, `${x.ref}.2`]));
   const seen = new Set();
   const netOfRoot = new Map();
   for (const [net, pins] of Object.entries(nets)) {
@@ -119,7 +157,7 @@ export function checkBoard(project, catalog) {
     }
   }
   for (const pin of pinHole.keys()) {
-    if (!seen.has(pin)) errors.push(`pin ${pin} is not part of any net`);
+    if (!seen.has(pin) && !jumperPins.has(pin)) errors.push(`pin ${pin} is not part of any net`);
   }
   return errors;
 }
@@ -143,26 +181,43 @@ export function formatOhms(ohms) {
   return `${ohms} Ω`;
 }
 
+export function formatFarad(f) {
+  if (f >= 1e-6) return `${+(f * 1e6).toFixed(2)} µF`;
+  if (f >= 1e-9) return `${+(f * 1e9).toFixed(2)} nF`;
+  return `${+(f * 1e12).toFixed(2)} pF`;
+}
+
+/** Human-readable value of a part: ohms for resistors, farads for capacitors. */
+export function formatValue(kind, value) {
+  if (value == null) return '';
+  return kind === 'elko' || kind === 'cap' ? formatFarad(value) : formatOhms(value);
+}
+
 function geometry(board, mirror) {
-  const width = PAD_LEFT + board.cols * PITCH + PAD_RIGHT;
+  const width = 2 * PAD_SIDE + board.cols * PITCH;
   const height = PAD_TOP + board.rows * PITCH + PAD_BOTTOM;
   const xy = (hole) => {
     const { c, r } = parseHole(hole);
     const cc = mirror ? board.cols - 1 - c : c;
-    return [PAD_LEFT + cc * PITCH + PITCH / 2, PAD_TOP + r * PITCH + PITCH / 2];
+    return [PAD_SIDE + cc * PITCH + PITCH / 2, PAD_TOP + r * PITCH + PITCH / 2];
   };
-  return { width, height, xy };
+  return { width, height, xy, left: PAD_SIDE, right: PAD_SIDE + board.cols * PITCH };
 }
 
-// Angle and helpers for drawing a two-pin part between p1 and p2.
+// Axis helpers for drawing a part between p1 and p2.
 function axis(p1, p2) {
   const dx = p2[0] - p1[0], dy = p2[1] - p1[1];
   const len = Math.hypot(dx, dy) || 1;
-  return { mid: [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2], len, ux: dx / len, uy: dy / len, deg: (Math.atan2(dy, dx) * 180) / Math.PI };
+  const ux = dx / len, uy = dy / len;
+  const mid = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2];
+  // local (along, across) -> global
+  const at = (u, v) => [mid[0] + u * ux - v * uy, mid[1] + u * uy + v * ux];
+  return { mid, len, ux, uy, at, deg: (Math.atan2(dy, dx) * 180) / Math.PI };
 }
 
 const lead = (a, b) => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#a7adb4" stroke-width="3" stroke-linecap="round"/>`;
 const label = (x, y, text, anchor = 'start', cls = 'ref') => `<text x="${x}" y="${y}" class="${cls}" text-anchor="${anchor}">${esc(text)}</text>`;
+const group = (ax, inner) => `<g transform="translate(${ax.mid[0]} ${ax.mid[1]}) rotate(${ax.deg})">${inner}</g>`;
 
 function labelPos(ax, offset, side) {
   // Default: to the right of vertical parts, below horizontal ones. `side` overrides.
@@ -176,6 +231,11 @@ function labelPos(ax, offset, side) {
   }[side];
 }
 
+const refLabel = (p, ax, offset, text = p.ref) => {
+  const lp = labelPos(ax, offset, p.label);
+  return label(lp.x, lp.y, text, lp.anchor);
+};
+
 const draw = {
   resistor(p, a, b) {
     const ax = axis(a, b);
@@ -183,12 +243,8 @@ const draw = {
     const bodyLen = Math.min(ax.len - 18, 46);
     const x0 = -bodyLen / 2;
     const bandXs = [0.18, 0.34, 0.5, 0.8].map((f) => x0 + f * bodyLen);
-    const lp = labelPos(ax, 14, p.label);
-    return `${lead(a, b)}
-<g transform="translate(${ax.mid[0]} ${ax.mid[1]}) rotate(${ax.deg})">
-  <rect x="${x0}" y="-7" width="${bodyLen}" height="14" rx="6" fill="#e9cfa4" stroke="#9c7b4b"/>
-  ${bandXs.map((x, i) => `<rect x="${x - 2.5}" y="-7" width="5" height="14" fill="${bands[i]}"/>`).join('')}
-</g>${label(lp.x, lp.y, `${p.ref} · ${formatOhms(p.value)}`, lp.anchor)}`;
+    return `${lead(a, b)}${group(ax, `<rect x="${x0}" y="-7" width="${bodyLen}" height="14" rx="6" fill="#e9cfa4" stroke="#9c7b4b"/>
+  ${bandXs.map((x, i) => `<rect x="${x - 2.5}" y="-7" width="5" height="14" fill="${bands[i]}"/>`).join('')}`)}${refLabel(p, ax, 14, `${p.ref} · ${formatOhms(p.value)}`)}`;
   },
 
   led(p, a, k) {
@@ -197,13 +253,9 @@ const draw = {
     const r = 10.5;
     const flat = 9; // flat side of the case marks the cathode (-)
     const yf = Math.sqrt(r * r - flat * flat).toFixed(2);
-    const lp = labelPos(ax, 16, p.label);
     const plus = [a[0] - ax.ux * 14, a[1] - ax.uy * 14];
-    return `${lead(a, k)}
-<g transform="translate(${ax.mid[0]} ${ax.mid[1]}) rotate(${ax.deg})">
-  <path d="M ${flat} -${yf} A ${r} ${r} 0 1 0 ${flat} ${yf} Z" fill="${col}" fill-opacity="0.85" stroke="#7a1b1b" stroke-width="1.5"/>
-  <circle cx="-3" cy="-3" r="3" fill="#fff" fill-opacity="0.6"/>
-</g>${label(plus[0], plus[1] + 4, '+', 'middle', 'pol')}${label(lp.x, lp.y, p.ref, lp.anchor)}`;
+    return `${lead(a, k)}${group(ax, `<path d="M ${flat} -${yf} A ${r} ${r} 0 1 0 ${flat} ${yf} Z" fill="${col}" fill-opacity="0.85" stroke="#333" stroke-width="1.5"/>
+  <circle cx="-3" cy="-3" r="3" fill="#fff" fill-opacity="0.6"/>`)}${label(plus[0], plus[1] + 4, '+', 'middle', 'pol')}${refLabel(p, ax, 16)}`;
   },
 
   buzzer(p, plus, minus) {
@@ -239,16 +291,124 @@ ${label(plus[0] + 9, plus[1] + 5, '+', 'start', 'pol pol-light')}${label(lp.x, l
 ${label(x + w / 2, y - 6, p.ref, 'middle')}`;
   },
 
-  'battery-clip'(p, plus, minus, mirror, g) {
-    const exitX = g.width - PAD_RIGHT + 30;
-    const clipX = g.width - 46;
-    const cy = (plus[1] + minus[1]) / 2;
+  transistor(p, c, b, e, mirror) {
+    // TO-92 seen from above. Flat side faces you when the legs read C B E from left to right (BC547/BC337).
+    const ax = axis(c, e);
+    const flatSide = mirror ? -1 : 1; // the bottom view is mirrored
+    const s = flatSide;
+    const body = `<path d="M -16 ${6 * s} L 16 ${6 * s} A 17 17 0 1 ${s > 0 ? 0 : 1} -16 ${6 * s} Z" fill="#2b2b2b" stroke="#000"/>`;
+    const legs = [['C', c], ['B', b], ['E', e]].map(([n, q]) => `<circle cx="${q[0]}" cy="${q[1]}" r="3.2" fill="#c9ced3"/>`).join('');
+    const letters = [['C', -24], ['B', 0], ['E', 24]].map(([n, u]) => {
+      const [x, y] = ax.at(u, 19 * s);
+      return label(x, y + 4, n, 'middle', 'pin');
+    }).join('');
+    const [lx, ly] = ax.at(0, -30 * s);
+    return `${group(ax, body)}${legs}${letters}${label(lx, ly + 4, p.ref, 'middle')}`;
+  },
+
+  ldr(p, a, b) {
+    const ax = axis(a, b);
+    return `${lead(a, b)}${group(ax, `<circle r="12" fill="#f6e7c6" stroke="#8a6d3b" stroke-width="1.5"/>
+  <path d="M -7 -6 h 12 v 3 h -12 v 3 h 12 v 3 h -12 v 3 h 12" fill="none" stroke="#c0392b" stroke-width="1.6"/>`)}${refLabel(p, ax, 18)}`;
+  },
+
+  elko(p, plus, minus) {
+    const ax = axis(plus, minus);
+    const plusLabel = [plus[0] - ax.ux * 16 - ax.uy * 0, plus[1] - ax.uy * 16];
+    return `${lead(plus, minus)}${group(ax, `<circle r="14" fill="#1e3a8a" stroke="#0b1d4d"/>
+  <path d="M 6 -12.65 A 14 14 0 0 1 6 12.65 Z" fill="#93c5fd"/>
+  <text x="10" y="4" class="pin" text-anchor="middle">−</text>`)}${label(plusLabel[0], plusLabel[1] + 4, '+', 'middle', 'pol')}${refLabel(p, ax, 20, `${p.ref} · ${formatFarad(p.value)}`)}`;
+  },
+
+  cap(p, a, b) {
+    const ax = axis(a, b);
+    return `${lead(a, b)}${group(ax, `<ellipse rx="10" ry="7" fill="#e8a33c" stroke="#a4661a"/>`)}${refLabel(p, ax, 14, `${p.ref} · ${formatFarad(p.value)}`)}`;
+  },
+
+  button(p, a, b) {
+    // 6x6 mm push button; only two diagonal legs are kept.
+    const ax = axis(a, b);
+    const [cx, cy] = ax.mid;
+    return `<rect x="${cx - 27}" y="${cy - 27}" width="54" height="54" rx="4" fill="#8d959c" stroke="#59616a"/>
+<circle cx="${cx}" cy="${cy}" r="15" fill="#2b2f33"/>
+<circle cx="${a[0]}" cy="${a[1]}" r="3.2" fill="#c9ced3"/><circle cx="${b[0]}" cy="${b[1]}" r="3.2" fill="#c9ced3"/>
+${label(cx, cy - 32, p.ref, 'middle')}`;
+  },
+
+  jumper(p, a, b) {
+    // Insulated wire on the component side; it may cross anything.
+    const pts = [a, ...(p.via || []).map((h) => p.xy(h)), b];
+    const d = pts.map((q, i) => `${i ? 'L' : 'M'} ${q[0]} ${q[1]}`).join(' ');
+    const col = p.color || '#1e88e5';
+    return `<path d="${d}" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+<path d="${d}" fill="none" stroke="${col}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="${a[0]}" cy="${a[1]}" r="3" fill="#c9ced3"/><circle cx="${b[0]}" cy="${b[1]}" r="3" fill="#c9ced3"/>`;
+  },
+
+  toroid(p, r1, r2, g1, g2) {
+    // Hand-wound ferrite ring: red wire r1 -> r2, green wire g1 -> g2.
+    const pts = [r1, r2, g1, g2];
+    const cx = p.center ? p.xy(p.center)[0] : pts.reduce((s, q) => s + q[0], 0) / 4;
+    const cy = p.center ? p.xy(p.center)[1] : pts.reduce((s, q) => s + q[1], 0) / 4;
+    const R = 26;
+    const turns = Array.from({ length: 16 }, (_, i) => {
+      const a = (i / 16) * Math.PI * 2;
+      const col = i % 2 ? '#2e7d32' : '#c62828';
+      return `<line x1="${cx + Math.cos(a) * (R - 9)}" y1="${cy + Math.sin(a) * (R - 9)}" x2="${cx + Math.cos(a) * (R + 9)}" y2="${cy + Math.sin(a) * (R + 9)}" stroke="${col}" stroke-width="3"/>`;
+    }).join('');
+    const leadTo = (q, col) => {
+      const a = Math.atan2(q[1] - cy, q[0] - cx);
+      return `<line x1="${cx + Math.cos(a) * (R + 8)}" y1="${cy + Math.sin(a) * (R + 8)}" x2="${q[0]}" y2="${q[1]}" stroke="${col}" stroke-width="3" stroke-linecap="round"/>`;
+    };
+    return `${leadTo(r1, '#c62828')}${leadTo(r2, '#c62828')}${leadTo(g1, '#2e7d32')}${leadTo(g2, '#2e7d32')}
+<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#4a4a4a" stroke-width="14"/>${turns}
+${label(cx, cy + 4, p.ref, 'middle')}`;
+  },
+
+  leads(p, q1, q2, mirror, g) {
+    // Two wires leaving the board, e.g. a battery clip or sensor probes.
+    let exits = p.exits || 'right';
+    if (mirror) exits = exits === 'right' ? 'left' : 'right';
+    const dir = exits === 'right' ? 1 : -1;
+    const edge = exits === 'right' ? g.right + 24 : g.left - 24;
+    const endX = exits === 'right' ? g.width - 46 : 46;
+    const cy = (q1[1] + q2[1]) / 2;
+    const cols = p.leads?.colors || ['#d32f2f', '#222'];
     const wire = (from, col, dy) =>
-      `<path d="M ${from[0]} ${from[1]} L ${exitX} ${from[1]} C ${exitX + 30} ${from[1]}, ${clipX - 30} ${cy + dy}, ${clipX - 14} ${cy + dy}" fill="none" stroke="${col}" stroke-width="4" stroke-linecap="round"/>`;
-    return `${wire(plus, '#d32f2f', -7)}${wire(minus, '#222', 7)}
-<rect x="${clipX - 16}" y="${cy - 22}" width="40" height="44" rx="5" fill="#333"/>
-<text x="${clipX + 4}" y="${cy + 5}" class="clip" text-anchor="middle">9V</text>
-${label(plus[0] + 6, plus[1] - 7, g.lang === 'de' ? '+ rot' : '+ red', 'start', 'pol')}${label(minus[0] + 6, minus[1] - 7, g.lang === 'de' ? '− schwarz' : '− black', 'start', 'pol')}`;
+      `<path d="M ${from[0]} ${from[1]} L ${edge} ${from[1]} C ${edge + dir * 30} ${from[1]}, ${endX - dir * 30} ${cy + dy}, ${endX - dir * 14} ${cy + dy}" fill="none" stroke="${col}" stroke-width="4" stroke-linecap="round"/>`;
+    const names = p.leads?.labels?.[g.lang] || [];
+    const tag = p.leads?.tag || '';
+    const lx = (q) => (dir > 0 ? q[0] + 6 : q[0] - 6);
+    return `${wire(q1, cols[0], -7)}${wire(q2, cols[1], 7)}
+<rect x="${endX - 20}" y="${cy - 22}" width="40" height="44" rx="5" fill="#333"/>
+<text x="${endX}" y="${cy + 5}" class="clip" text-anchor="middle">${esc(tag)}</text>
+${names[0] ? label(lx(q1), q1[1] - 7, names[0], dir > 0 ? 'start' : 'end', 'pol') : ''}${names[1] ? label(lx(q2), q2[1] - 7, names[1], dir > 0 ? 'start' : 'end', 'pol') : ''}`;
+  },
+
+  dip(p, pinPts) {
+    // Chip in its socket. A notch and a dot mark pin 1.
+    const n = pinPts.length;
+    const xs = pinPts.map((q) => q[0]), ys = pinPts.map((q) => q[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+    const horizontal = maxX - minX > maxY - minY;
+    const pad = 14, inset = 5;
+    const [x, y, w, h] = horizontal
+      ? [minX - pad, minY + inset, maxX - minX + 2 * pad, maxY - minY - 2 * inset]
+      : [minX + inset, minY - pad, maxX - minX - 2 * inset, maxY - minY + 2 * pad];
+    const p1 = pinPts[0];
+    const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+    // Notch on the short side next to pin 1, dot just inside pin 1.
+    const notch = horizontal ? [p1[0] < cx ? x : x + w, cy] : [cx, p1[1] < cy ? y : y + h];
+    const dot = [p1[0] + Math.sign(cx - p1[0]) * 10, p1[1] + Math.sign(cy - p1[1]) * 12];
+    const pins = pinPts.map((q) => `<rect x="${q[0] - 4}" y="${q[1] - 4}" width="8" height="8" fill="#c9ced3"/>`).join('');
+    const nums = pinPts.map((q, i) => (horizontal
+      ? label(q[0], q[1] + (q[1] > cy ? 18 : -10), String(i + 1), 'middle', 'pinnum')
+      : label(q[0] + (q[0] > cx ? 14 : -14), q[1] + 4, String(i + 1), 'middle', 'pinnum'))).join('');
+    return `<rect x="${x - 3}" y="${y - 3}" width="${w + 6}" height="${h + 6}" rx="3" fill="#3a3a3a" stroke="#222"/>${pins}
+<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="#1d1d1f"/>
+<circle cx="${notch[0]}" cy="${notch[1]}" r="6" fill="#3a3a3a"/>
+<circle cx="${dot[0]}" cy="${dot[1]}" r="2.5" fill="#bbb"/>
+<text x="${x + w / 2}" y="${y + h / 2 + 4}" class="chip" text-anchor="middle">${esc(p.chip || p.ref)}</text>${nums}`;
   },
 };
 
@@ -276,7 +436,7 @@ export function renderBoard(project, catalog, opts) {
   out.push(`<defs><filter id="${fid}" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ffb300" flood-opacity="1"/></filter></defs>`);
 
   // Board and holes.
-  const bx = PAD_LEFT - 6, by = PAD_TOP - 6;
+  const bx = g.left - 6, by = PAD_TOP - 6;
   const bw = board.cols * PITCH + 12, bh = board.rows * PITCH + 12;
   out.push(`<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="6" fill="${mirror ? '#c8a165' : '#d4b27a'}" stroke="#8d6b38" stroke-width="2"/>`);
   for (let c = 0; c < board.cols; c++) {
@@ -285,7 +445,7 @@ export function renderBoard(project, catalog, opts) {
   }
   for (let r = 0; r < board.rows; r++) {
     const [, y] = g.xy(holeName(0, r));
-    out.push(label(PAD_LEFT - 14, y + 4, String(r + 1), 'end', 'coord'));
+    out.push(label(g.left - 14, y + 4, String(r + 1), 'end', 'coord'));
   }
   for (let c = 0; c < board.cols; c++) {
     for (let r = 0; r < board.rows; r++) {
@@ -297,20 +457,27 @@ export function renderBoard(project, catalog, opts) {
   }
 
   const wrap = (key, svg) => (highlight.has(key) ? `<g filter="url(#${fid})">${svg}</g>` : svg);
-  const pinPoints = (p) => KIND_PINS[catalog[p.part].kind].map((pin) => g.xy(p.pins[pin]));
   const shown = board.parts.filter((p) => visible.has(p.ref));
+  const drawPart = (p) => {
+    const entry = catalog[p.part];
+    const pts = pinsOf(entry).map((pin) => g.xy(p.pins[pin]));
+    const q = { ...p, xy: g.xy, leads: entry.leads, chip: entry.chip };
+    if (entry.kind === 'leads') return draw.leads(q, pts[0], pts[1], mirror, g);
+    if (/^dip/.test(entry.kind)) return draw.dip(q, pts);
+    return draw[entry.kind](q, ...pts, mirror, g);
+  };
 
   if (mirror) {
     // Ghost of the parts on the other side, so children can find their way.
     out.push('<g opacity="0.16">');
-    for (const p of shown) {
-      const kind = catalog[p.part].kind;
-      if (kind !== 'battery-clip') out.push(draw[kind](p, ...pinPoints(p), mirror, g));
-    }
+    for (const p of shown) if (!['leads', 'jumper'].includes(catalog[p.part].kind)) out.push(drawPart(p));
     out.push('</g>');
     // Solder joints of every built part.
     for (const p of shown) {
-      for (const [x, y] of pinPoints(p)) out.push(wrap(p.ref, `<circle cx="${x}" cy="${y}" r="6.5" fill="#d9dde1" stroke="#8a9096"/>`));
+      for (const hole of Object.values(p.pins)) {
+        const [x, y] = g.xy(hole);
+        out.push(wrap(p.ref, `<circle cx="${x}" cy="${y}" r="6.5" fill="#d9dde1" stroke="#8a9096"/>`));
+      }
     }
     for (const b of board.bridges.filter((b) => visible.has(b.id))) {
       const pts = b.points.map((n) => g.xy(n));
@@ -319,7 +486,9 @@ export function renderBoard(project, catalog, opts) {
       out.push(wrap(b.id, path + joints));
     }
   } else {
-    for (const p of shown) out.push(wrap(p.ref, draw[catalog[p.part].kind](p, ...pinPoints(p), mirror, g)));
+    // Big flat parts first, wires last, so nothing important is hidden.
+    const order = (p) => ({ jumper: 3, leads: 2 }[catalog[p.part].kind] || 1);
+    for (const p of [...shown].sort((a, b) => order(a) - order(b))) out.push(wrap(p.ref, drawPart(p)));
   }
 
   // Name the holes of the highlighted items - "put the leg into E4".
@@ -344,19 +513,31 @@ export function renderBoard(project, catalog, opts) {
   return out.join('\n');
 }
 
-/** Small icon of a part kind for the parts list. */
-export function renderPartIcon(kind, value, color) {
+/** Small icon of a part for the parts list. */
+export function renderPartIcon(entry, part) {
   const w = 96, h = 40;
+  const svg = (inner) => `<svg class="icon" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const strip = (s) => s.replace(/<text[^>]*class="(ref|pol|pin)[^"]*"[^>]*>.*?<\/text>/g, '');
+  const p = { ref: '', value: part.value || 1000, color: part.color, opens: 'up' };
   const a = [12, 20], b = [84, 20];
-  const p = { ref: '', value: value || 1000, color, opens: 'up' };
-  let body;
-  switch (kind) {
-    case 'resistor': body = draw.resistor(p, a, b); break;
-    case 'led': body = draw.led(p, [36, 20], [60, 20]); break;
-    case 'buzzer': return `<svg class="icon" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><circle cx="48" cy="20" r="18" fill="#262626"/><circle cx="48" cy="20" r="3.5" fill="#555"/><text x="58" y="13" class="pol pol-light">+</text></svg>`;
-    case 'terminal': return `<svg class="icon" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="4" width="44" height="32" rx="3" fill="#2f80d0"/><circle cx="37" cy="20" r="7" fill="#d8dde2"/><circle cx="59" cy="20" r="7" fill="#d8dde2"/></svg>`;
-    case 'battery-clip': return `<svg class="icon" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="24" height="24" rx="3" fill="#333"/><path d="M32 16 C 55 16, 60 12, 90 12" stroke="#d32f2f" stroke-width="3" fill="none"/><path d="M32 24 C 55 24, 60 28, 90 28" stroke="#222" stroke-width="3" fill="none"/></svg>`;
-    default: return '';
+  switch (entry.kind) {
+    case 'resistor': return svg(strip(draw.resistor(p, a, b)));
+    case 'led': return svg(strip(draw.led(p, [36, 20], [60, 20])));
+    case 'ldr': return svg(strip(draw.ldr(p, [24, 20], [72, 20])));
+    case 'elko': return svg(strip(draw.elko(p, [30, 20], [66, 20])));
+    case 'cap': return svg(strip(draw.cap(p, [30, 20], [66, 20])));
+    case 'buzzer': return svg('<circle cx="48" cy="20" r="18" fill="#262626"/><circle cx="48" cy="20" r="3.5" fill="#555"/><text x="58" y="13" class="pol pol-light">+</text>');
+    case 'terminal': return svg('<rect x="26" y="4" width="44" height="32" rx="3" fill="#2f80d0"/><circle cx="37" cy="20" r="7" fill="#d8dde2"/><circle cx="59" cy="20" r="7" fill="#d8dde2"/>');
+    case 'transistor': return svg('<path d="M 32 26 L 64 26 A 17 17 0 0 0 32 26 Z" fill="#2b2b2b"/><line x1="40" y1="26" x2="40" y2="38" stroke="#a7adb4" stroke-width="2"/><line x1="48" y1="26" x2="48" y2="38" stroke="#a7adb4" stroke-width="2"/><line x1="56" y1="26" x2="56" y2="38" stroke="#a7adb4" stroke-width="2"/>');
+    case 'button': return svg('<rect x="32" y="4" width="32" height="32" rx="3" fill="#8d959c"/><circle cx="48" cy="20" r="9" fill="#2b2f33"/>');
+    case 'jumper': return svg('<path d="M 10 28 C 30 4, 66 4, 86 28" fill="none" stroke="#1e88e5" stroke-width="5" stroke-linecap="round"/>');
+    case 'toroid': return svg('<circle cx="48" cy="20" r="13" fill="none" stroke="#4a4a4a" stroke-width="8"/><path d="M 40 9 l 4 6 M 52 9 l -4 6 M 58 20 h -6 M 38 20 h 6" stroke="#c62828" stroke-width="2"/>');
+    case 'leads': {
+      const [c1, c2] = entry.leads?.colors || ['#d32f2f', '#222'];
+      return svg(`<rect x="8" y="8" width="24" height="24" rx="3" fill="#333"/><path d="M32 16 C 55 16, 60 12, 90 12" stroke="${c1}" stroke-width="3" fill="none"/><path d="M32 24 C 55 24, 60 28, 90 28" stroke="${c2}" stroke-width="3" fill="none"/>`);
+    }
+    default:
+      if (/^dip/.test(entry.kind || '')) return svg('<rect x="22" y="8" width="52" height="24" rx="2" fill="#1d1d1f"/><circle cx="22" cy="20" r="4" fill="#fff"/>' + [30, 40, 50, 60].map((x) => `<rect x="${x}" y="3" width="4" height="5" fill="#c9ced3"/><rect x="${x}" y="32" width="4" height="5" fill="#c9ced3"/>`).join(''));
+      return '';
   }
-  return `<svg class="icon" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">${body.replace(/<text[^>]*class="ref"[^>]*>.*?<\/text>/g, '')}</svg>`;
 }

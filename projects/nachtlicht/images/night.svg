@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 290" role="img" aria-label="Night light">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffe082" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#ffe082" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="10" y="10" width="620" height="270" rx="22" fill="#1a2350"/>
+  <circle cx="540" cy="70" r="34" fill="#fff8d6"/>
+  <circle cx="556" cy="60" r="30" fill="#1a2350"/>
+  <g fill="#fff">
+    <circle cx="80" cy="50" r="2.5"/><circle cx="150" cy="90" r="2"/><circle cx="230" cy="40" r="3"/>
+    <circle cx="420" cy="50" r="2"/><circle cx="470" cy="120" r="2.5"/><circle cx="330" cy="80" r="2"/>
+  </g>
+  <rect x="10" y="230" width="620" height="50" rx="0" fill="#2a1f3d"/>
+  <rect x="10" y="262" width="620" height="18" rx="0" fill="#2a1f3d"/>
+  <!-- jam jar lamp -->
+  <circle cx="320" cy="170" r="110" fill="url(#glow)"/>
+  <rect x="262" y="104" width="116" height="16" rx="5" fill="#b0bec5"/>
+  <path d="M268 120 h104 v100 a14 14 0 0 1 -14 14 h-76 a14 14 0 0 1 -14 -14 z" fill="#fff3c4" fill-opacity="0.55" stroke="#e0e6ea" stroke-width="3"/>
+  <rect x="290" y="186" width="60" height="34" rx="4" fill="#d4b27a" stroke="#8d6b38" stroke-width="2"/>
+  <circle cx="320" cy="180" r="9" fill="#ffd54f" stroke="#c49000" stroke-width="2"/>
+  <circle cx="320" cy="180" r="22" fill="url(#glow)"/>
+  <!-- sleepy face on the jar -->
+  <path d="M296 150 q8 6 16 0 M328 150 q8 6 16 0" stroke="#7a5c00" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <text x="380" y="110" font-family="system-ui, sans-serif" font-size="22" font-weight="800" fill="#c5cae9">z z z</text>
+</svg>

@@ -1,0 +1,290 @@
+# yaml-language-server: $schema=../project.schema.json
+id: nachtlicht
+number: 2
+status: published
+slug: { de: nachtlicht, en: night-light }
+
+title:
+  de: Nachtlicht
+  en: Night Light
+
+tagline:
+  de: Ein Licht, das von selbst angeht, wenn es dunkel wird.
+  en: A light that switches itself on when it gets dark.
+
+facts:
+  age: 8
+  difficulty: 1
+  minutes: 75
+  cost_eur: 6
+  topics: [light, sensor]
+
+learn:
+  de:
+    - Wie ein Sensor Licht „fühlt“
+    - Wie ein Transistor als elektronischer Schalter arbeitet
+    - Farbringe von Widerständen lesen
+  en:
+    - How a sensor "feels" light
+    - How a transistor works as an electronic switch
+    - Reading resistor colour bands
+
+hero: images/night.svg
+
+intro:
+  de: |
+    Dieses Nachtlicht hat ein **Auge**: einen Fotowiderstand (LDR). Solange es hell ist, bleibt die LED aus.
+    Wird es dunkel, geht sie ganz von allein an – ohne dass du einen Schalter drückst.
+
+    Steck die fertige Platine in ein Marmeladenglas mit etwas Butterbrotpapier, und du hast eine
+    gemütliche Lampe für dein Zimmer.
+  en: |
+    This night light has an **eye**: a light-dependent resistor (LDR). While it is bright, the LED stays off.
+    When it gets dark, it switches on all by itself – without you pressing a switch.
+
+    Put the finished board into a jam jar with some baking paper and you have a cosy lamp for your room.
+
+simulation:
+  circuit: circuit.txt
+  try:
+    de: |
+      Schieb den Regler **„Helligkeit“** rechts im Simulator langsam nach links – es wird dunkel.
+      Ab wann geht die LED an? Schau dir dabei an, wie sich der Wert am LDR ändert.
+    en: |
+      Slowly move the **"Brightness"** slider on the right of the simulator to the left – it gets dark.
+      When does the LED switch on? Watch how the value at the LDR changes.
+
+parts:
+  - { ref: R1, part: resistor, qty: 1, value: 47000, note: { de: "gelb – violett – orange – gold", en: "yellow – violet – orange – gold" } }
+  - { ref: R2, part: resistor, qty: 1, value: 470, note: { de: "gelb – violett – braun – gold", en: "yellow – violet – brown – gold" } }
+  - { ref: LDR1, part: ldr, qty: 1 }
+  - { ref: Q1, part: transistor-bc547, qty: 1 }
+  - { ref: LED1, part: led-5mm, qty: 1, color: "#ffd54f", note: { de: gelb oder warmweiß, en: yellow or warm white } }
+  - { ref: BAT, part: battery-clip-9v, qty: 1 }
+  - { part: battery-9v, qty: 1 }
+  - { part: perfboard, qty: "12 × 10", note: { de: "Löcher (ca. 3 × 2,5 cm)", en: "holes (about 3 × 2.5 cm)" } }
+  - { part: craft-box, qty: 1, note: { de: "z. B. Marmeladenglas + Butterbrotpapier", en: "e.g. a jam jar + baking paper" } }
+  - { part: soldering-iron, qty: 1 }
+  - { part: solder, qty: 1 }
+  - { part: side-cutter, qty: 1 }
+  - { part: pliers, qty: 1 }
+  - { part: safety-glasses, qty: 1 }
+
+board:
+  cols: 12
+  rows: 10
+  parts:
+    - { ref: R1, pins: { "1": D2, "2": D6 }, label: left }
+    - { ref: R2, pins: { "1": L3, "2": H3 } }
+    - { ref: LED1, pins: { A: G3, K: G4 }, label: left }
+    - { ref: LDR1, pins: { "1": D7, "2": D9 }, label: left }
+    - { ref: Q1, pins: { C: G5, B: G6, E: G7 } }
+    - { ref: BAT, pins: { "+": L2, "-": L9 } }
+  bridges:
+    - { id: plus, points: [D2, L2, L3] }
+    - { id: led, points: [G3, H3] }
+    - { id: collector, points: [G4, G5] }
+    - { id: sensor, points: [D7, D6, G6] }
+    - { id: emitter, points: [G7, G9] }
+    - { id: minus, points: [D9, G9, L9] }
+
+nets:
+  PLUS: [BAT.+, R1.1, R2.1]
+  SENSE: [R1.2, LDR1.1, Q1.B]
+  LED: [R2.2, LED1.A]
+  COLLECTOR: [LED1.K, Q1.C]
+  MINUS: [LDR1.2, Q1.E, BAT.-]
+
+steps:
+  - id: prepare
+    view: top
+    marks: [A1]
+    title: { de: Platine vorbereiten, en: Prepare the board }
+    text:
+      de: Leg die Platine mit den **Kupferpunkten nach unten** vor dich und markiere die Ecke oben links als **A1**.
+      en: Place the board with the **copper pads facing down** and mark the top-left corner as **A1**.
+
+  - id: resistors
+    view: top
+    adds: [R1, R2]
+    title: { de: Die zwei Widerstände, en: The two resistors }
+    text:
+      de: |
+        Die beiden Widerstände sehen fast gleich aus – schau dir den **dritten Farbring** an!
+        **R1** (gelb – violett – **orange**, 47 kΩ) kommt senkrecht in **D2** und **D6**.
+        **R2** (gelb – violett – **braun**, 470 Ω) kommt waagerecht in **H3** und **L3**.
+        Löte alle vier Beinchen fest und schneide die Reste ab.
+      en: |
+        The two resistors look almost the same – look at the **third colour band**!
+        **R1** (yellow – violet – **orange**, 47 kΩ) goes upright into **D2** and **D6**.
+        **R2** (yellow – violet – **brown**, 470 Ω) goes sideways into **H3** and **L3**.
+        Solder all four legs and cut off the rest.
+    tip:
+      de: Heb die abgeschnittenen Beinchen auf – das sind deine Lötbrücken.
+      en: Keep the cut-off legs – they are your solder bridges.
+
+  - id: led
+    view: top
+    adds: [LED1]
+    title: { de: Die LED, en: The LED }
+    text:
+      de: Das **lange Bein (+)** kommt in **G3**, das kurze in **G4**.
+      en: The **long leg (+)** goes into **G3**, the short one into **G4**.
+    warning:
+      de: Halte den Lötkolben höchstens 3 Sekunden an ein LED-Bein.
+      en: Do not hold the iron on an LED leg for more than 3 seconds.
+
+  - id: ldr
+    view: top
+    adds: [LDR1]
+    title: { de: Das Licht-Auge (LDR), en: The light eye (LDR) }
+    text:
+      de: |
+        Der Fotowiderstand kommt in **D7** und **D9**. Die Richtung ist egal.
+        Lass ihn ein paar Millimeter über der Platine stehen, damit er gut „sehen“ kann.
+      en: |
+        The LDR goes into **D7** and **D9**. The direction does not matter.
+        Let it stand a few millimetres above the board so it can "see" well.
+
+  - id: transistor
+    view: top
+    adds: [Q1]
+    title: { de: Der Transistor, en: The transistor }
+    text:
+      de: |
+        Der Transistor hat drei Beinchen: **C** in **G5**, **B** in **G6**, **E** in **G7**.
+        Die **flache Seite** mit der Schrift zeigt dabei **nach links**.
+      en: |
+        The transistor has three legs: **C** in **G5**, **B** in **G6**, **E** in **G7**.
+        The **flat side** with the writing faces **to the left**.
+    tip:
+      de: Die Beinchen liegen dicht beieinander. Löte zügig und prüfe danach, dass kein Lötzinn zwei Punkte verbindet.
+      en: The legs are close together. Solder quickly and check afterwards that no solder joins two pads.
+
+  - id: bridges-1
+    view: bottom
+    adds: [plus, led, collector]
+    title: { de: Lötbrücken oben, en: Top solder bridges }
+    text:
+      de: |
+        Dreh die Platine um – **jetzt ist alles spiegelverkehrt!**
+        Verbinde **D2 über L2 bis L3** (das ist Plus), **G3 mit H3** und **G4 mit G5**.
+      en: |
+        Turn the board over – **now everything is mirrored!**
+        Connect **D2 across L2 to L3** (that is plus), **G3 to H3** and **G4 to G5**.
+    tip:
+      de: Halte den Draht mit der Zange, nicht mit den Fingern – er wird heiß.
+      en: Hold the wire with pliers, not your fingers – it gets hot.
+
+  - id: bridges-2
+    view: bottom
+    adds: [sensor, emitter, minus]
+    title: { de: Lötbrücken unten, en: Bottom solder bridges }
+    text:
+      de: |
+        Jetzt noch: **D7 über D6 bis G6** (das ist die Sensor-Leitung), **G7 bis G9** und
+        **D9 über G9 bis L9** (das ist Minus). Prüfe zum Schluss, dass sich keine Brücken berühren.
+      en: |
+        Now: **D7 across D6 to G6** (the sensor line), **G7 to G9** and
+        **D9 across G9 to L9** (that is minus). Finally check that no bridges touch each other.
+
+  - id: battery-clip
+    view: top
+    adds: [BAT]
+    title: { de: Batterieclip anlöten, en: Solder the battery clip }
+    text:
+      de: Verdrille und verzinne die Litzen. **Rot (+)** kommt in **L2**, **schwarz (−)** in **L9**.
+      en: Twist and tin the leads. **Red (+)** goes into **L2**, **black (−)** into **L9**.
+
+  - id: test
+    view: none
+    title: { de: Testen, en: Test it }
+    text:
+      de: |
+        Steck die Batterie an. Im hellen Zimmer bleibt die LED aus.
+        Halte deine Hand über den LDR: **Die LED geht an!** Nimm die Hand weg: Sie geht wieder aus.
+      en: |
+        Connect the battery. In a bright room the LED stays off.
+        Hold your hand over the LDR: **the LED switches on!** Take your hand away: it switches off again.
+
+  - id: lamp
+    view: none
+    image: images/night.svg
+    title: { de: Eine Lampe bauen, en: Build a lamp }
+    text:
+      de: |
+        Leg die Platine mit Batterie in ein Marmeladenglas und klebe Butterbrotpapier innen an die Wand.
+        Wichtig: Der LDR darf **das Licht der eigenen LED nicht sehen** – sonst denkt er, es wäre hell, und schaltet sie wieder aus.
+        Ein kleines Stück Karton zwischen LED und LDR hilft.
+      en: |
+        Put the board and battery into a jam jar and stick baking paper on the inside.
+        Important: the LDR must **not see the light of its own LED** – otherwise it thinks it is bright and switches it off again.
+        A small piece of cardboard between the LED and the LDR helps.
+    parent:
+      de: Wenn die LED in der Dämmerung flackert, sieht der LDR ihr Licht. Das ist ein schönes Beispiel für eine Rückkopplung.
+      en: If the LED flickers at dusk, the LDR sees its light. That is a nice example of feedback.
+
+explanation:
+  kids:
+    de: |
+      Der **LDR** ist ein Widerstand, der sich nach dem Licht richtet: Bei Helligkeit lässt er viel Strom durch,
+      im Dunkeln fast keinen. Zusammen mit **R1** teilt er die Spannung auf. Im Hellen „fließt“ alles durch den LDR ab,
+      und für den Transistor bleibt nichts übrig. Im Dunkeln wird der LDR zur Sperre, die Spannung am Transistor steigt –
+      und der Transistor **schaltet die LED ein**. Ein Transistor ist also ein Schalter, den ein winziger Strom bedienen kann.
+    en: |
+      The **LDR** is a resistor that changes with light: when it is bright it lets a lot of current through,
+      in the dark almost none. Together with **R1** it divides the voltage. In the light, everything "drains away" through
+      the LDR and nothing is left for the transistor. In the dark the LDR blocks, the voltage at the transistor rises –
+      and the transistor **switches the LED on**. So a transistor is a switch that a tiny current can operate.
+  parents:
+    de: |
+      R1 und der LDR bilden einen Spannungsteiler: U<sub>B</sub> = 9 V · R<sub>LDR</sub> / (47 kΩ + R<sub>LDR</sub>).
+      Der BC547 schaltet ab etwa 0,65 V durch, also ab R<sub>LDR</sub> ≈ 3,7 kΩ. Ein GL5528 hat im hellen Zimmer
+      1–3 kΩ und im Dunkeln über 1 MΩ – die Schwelle liegt also in der Dämmerung. Der LED-Strom ist
+      (9 V − 2 V) / 470 Ω ≈ 15 mA. Im Hellen fließen nur ca. 0,2 mA, die Batterie hält daher monatelang.
+    en: |
+      R1 and the LDR form a voltage divider: V<sub>B</sub> = 9 V · R<sub>LDR</sub> / (47 kΩ + R<sub>LDR</sub>).
+      The BC547 turns on at about 0.65 V, i.e. from R<sub>LDR</sub> ≈ 3.7 kΩ. A GL5528 has 1–3 kΩ in a bright room
+      and over 1 MΩ in the dark – so the threshold is at dusk. The LED current is (9 V − 2 V) / 470 Ω ≈ 15 mA.
+      In the light only about 0.2 mA flows, so the battery lasts for months.
+
+variations:
+  - title: { de: Empfindlicher oder träger, en: More or less sensitive }
+    text:
+      de: Mit **22 kΩ** statt 47 kΩ für R1 muss es dunkler werden, mit **100 kΩ** geht die LED schon früher an.
+      en: With **22 kΩ** instead of 47 kΩ for R1 it has to get darker; with **100 kΩ** the LED comes on earlier.
+  - title: { de: Lichtalarm, en: Light alarm }
+    text:
+      de: |
+        Tausche die Plätze: Der LDR kommt nach oben (an Plus), unten ein **4,7-kΩ**-Widerstand.
+        Jetzt leuchtet die LED, wenn es **hell** wird – zum Beispiel, wenn jemand deine Schublade öffnet!
+      en: |
+        Swap places: the LDR goes to the top (to plus), a **4.7 kΩ** resistor at the bottom.
+        Now the LED lights up when it gets **bright** – for example when someone opens your drawer!
+    circuit: variation-light-alarm.txt
+  - title: { de: Andere Farbe, en: Another colour }
+    text:
+      de: Eine blaue oder rosa LED gibt ein ganz anderes Licht. Probier aus, welche dir am besten gefällt.
+      en: A blue or pink LED gives a completely different light. Find out which one you like best.
+
+troubleshooting:
+  - problem: { de: Die LED leuchtet nie., en: The LED never lights up. }
+    solution:
+      de: Ist die LED richtig herum (langes Bein in G3)? Zeigt die flache Seite des Transistors nach links? Ist die Batterie voll?
+      en: Is the LED the right way round (long leg in G3)? Does the flat side of the transistor face left? Is the battery charged?
+  - problem: { de: Die LED leuchtet immer – auch im Hellen., en: The LED is always on – even in the light. }
+    solution:
+      de: Prüfe R1 – ist es wirklich 47 kΩ (dritter Ring orange) und nicht 470 Ω? Ist der LDR gut verlötet? Vielleicht ist dein Zimmer auch einfach recht dunkel – probier es am Fenster.
+      en: Check R1 – is it really 47 kΩ (third band orange) and not 470 Ω? Is the LDR soldered properly? Maybe your room is just quite dark – try it by the window.
+  - problem: { de: In der Dämmerung flackert die LED., en: The LED flickers at dusk. }
+    solution:
+      de: Der LDR sieht das Licht der LED. Stell ein Stück Karton dazwischen oder biege die LED weg.
+      en: The LDR sees the LED's light. Put a piece of cardboard in between or bend the LED away.
+
+safety:
+  de:
+    - Der Transistor kann beim Löten kaputtgehen, wenn er zu lange heiß wird – lieber kurz löten und abkühlen lassen.
+    - Klemm die Batterie ab, wenn du das Nachtlicht länger nicht brauchst.
+  en:
+    - The transistor can be damaged if it gets hot for too long – solder briefly and let it cool down.
+    - Disconnect the battery if you will not use the night light for a while.
