@@ -1,0 +1,425 @@
+# yaml-language-server: $schema=../project.schema.json
+id: glueckszahl
+number: 7
+status: published
+slug: { de: glueckszahl-maschine, en: lucky-number-machine }
+
+title:
+  de: Glückszahl-Maschine
+  en: Lucky Number Machine
+
+tagline:
+  de: Halte den Knopf gedrückt, lass los – welche der zehn Zahlen leuchtet?
+  en: Hold the button, let go – which of the ten numbers lights up?
+
+facts:
+  age: 11
+  difficulty: 3
+  minutes: 240
+  cost_eur: 10
+  topics: [game, light]
+
+learn:
+  de:
+    - Wie ein Chip zählen kann (Dezimalzähler CD4017)
+    - Wie ein Takt-Chip (NE555) einen anderen Chip antreibt
+    - Große Platinen mit vielen Lötbrücken und Drahtbrücken planen
+  en:
+    - How a chip can count (CD4017 decade counter)
+    - How a clock chip (NE555) drives another chip
+    - Building a big board with many solder bridges and jumper wires
+
+hero: images/lucky.svg
+
+intro:
+  de: |
+    Das ist das **Meisterstück**: zwei Chips, zehn LEDs und über 80 Lötstellen.
+    Solange du den Knopf drückst, springt das Licht blitzschnell von Zahl zu Zahl. Lässt du los, bleibt es stehen –
+    und keiner kann vorhersagen, wo. Perfekt zum Würfeln, Auslosen oder für eure eigenen Spiele!
+
+    Bau zuerst ein paar einfachere Projekte – vor allem die **Mini-Orgel**, denn der NE555 arbeitet hier genauso.
+  en: |
+    This is the **masterpiece**: two chips, ten LEDs and more than 80 solder joints.
+    While you hold the button, the light jumps from number to number at lightning speed. When you let go, it stops –
+    and nobody can predict where. Perfect for rolling dice, drawing lots or your own games!
+
+    Build a few easier projects first – especially the **Mini Organ**, because the NE555 works the same way here.
+
+simulation:
+  circuit: circuit.txt
+  try:
+    de: |
+      **Halte die Maus auf dem Taster S1** gedrückt: Die LEDs leuchten der Reihe nach 0, 1, 2, … auf.
+      Lass los – welche Zahl bleibt stehen? Schau dir an, wie der NE555 (links) den Zähler (rechts) antreibt.
+    en: |
+      **Hold the mouse down on push button S1**: the LEDs light up in turn 0, 1, 2, …
+      Let go – which number stays on? Look at how the NE555 (left) drives the counter (right).
+
+parts:
+  - { ref: IC1, part: ic-555, qty: 1 }
+  - { ref: IC2, part: ic-4017, qty: 1 }
+  - { ref: R1, part: resistor, qty: 1, value: 1000, note: { de: "braun – schwarz – rot", en: "brown – black – red" } }
+  - { ref: R2, part: resistor, qty: 1, value: 4700, note: { de: "gelb – violett – rot", en: "yellow – violet – red" } }
+  - { ref: R3, part: resistor, qty: 1, value: 10000, note: { de: "braun – schwarz – orange", en: "brown – black – orange" } }
+  - { ref: R4, part: resistor, qty: 1, value: 1000, note: { de: "braun – schwarz – rot", en: "brown – black – red" } }
+  - { ref: C1, part: elko, qty: 1, value: 10e-6 }
+  - { ref: S1, part: push-button, qty: 1 }
+  - { ref: W1, part: jumper-wire, qty: 1, color: "#fb8c00", note: { de: "ca. 15 cm", en: "about 15 cm" } }
+  - { ref: W3, part: jumper-wire, qty: 1, color: "#d32f2f", note: { de: "ca. 8 cm", en: "about 8 cm" } }
+  - { ref: LED0, part: led-5mm, qty: 1, color: "#e53935", note: { de: Farben nach Wahl, en: colours of your choice } }
+  - { ref: LED1, part: led-5mm, qty: 1, color: "#fb8c00" }
+  - { ref: LED2, part: led-5mm, qty: 1, color: "#fdd835" }
+  - { ref: LED3, part: led-5mm, qty: 1, color: "#43a047" }
+  - { ref: LED4, part: led-5mm, qty: 1, color: "#00acc1" }
+  - { ref: LED5, part: led-5mm, qty: 1, color: "#1e88e5" }
+  - { ref: LED6, part: led-5mm, qty: 1, color: "#8e24aa" }
+  - { ref: LED7, part: led-5mm, qty: 1, color: "#d81b60" }
+  - { ref: LED8, part: led-5mm, qty: 1, color: "#eceff1" }
+  - { ref: LED9, part: led-5mm, qty: 1, color: "#ef5350" }
+  - { ref: BAT, part: battery-clip-9v, qty: 1 }
+  - { part: battery-9v, qty: 1 }
+  - { part: perfboard, qty: "26 × 24", note: { de: "Löcher (ca. 7 × 6 cm)", en: "holes (about 7 × 6 cm)" } }
+  - { part: copper-wire-bare, qty: "50 cm", note: { de: "dünner, ca. 0,6 mm – für die langen Lötbrücken", en: "thinner, about 0.6 mm – for the long solder bridges" } }
+  - { part: soldering-iron, qty: 1 }
+  - { part: solder, qty: 1 }
+  - { part: side-cutter, qty: 1 }
+  - { part: pliers, qty: 1 }
+  - { part: wire-stripper, qty: 1 }
+  - { part: safety-glasses, qty: 1 }
+
+board:
+  cols: 26
+  rows: 24
+  parts:
+    - { ref: IC1, pin1: C5, rotate: 0 }
+    - { ref: IC2, pin1: M14, rotate: 270 }
+    - { ref: R1, pins: { "1": G2, "2": G6 } }
+    - { ref: R2, pins: { "1": H6, "2": H10 } }
+    - { ref: R3, pins: { "1": B9, "2": B13 }, label: left }
+    - { ref: R4, pins: { "1": Y19, "2": Y23 } }
+    - { ref: C1, pins: { "+": H11, "-": H12 }, label: right }
+    - { ref: S1, pins: { "1": C9, "2": E12 } }
+    - { ref: W1, pins: { "1": B7, "2": O10 }, via: [B1, O1] }
+    - { ref: W3, pins: { "1": E13, "2": E4 }, via: [E14, A14, A4] }
+    - { ref: LED5, pins: { A: J18, K: J19 }, label: below, text: "5" }
+    - { ref: LED1, pins: { A: L18, K: L19 }, label: below, text: "1" }
+    - { ref: LED0, pins: { A: N18, K: N19 }, label: below, text: "0" }
+    - { ref: LED2, pins: { A: P18, K: P19 }, label: below, text: "2" }
+    - { ref: LED6, pins: { A: R18, K: R19 }, label: below, text: "6" }
+    - { ref: LED7, pins: { A: T18, K: T19 }, label: below, text: "7" }
+    - { ref: LED3, pins: { A: V18, K: V19 }, label: below, text: "3" }
+    - { ref: LED9, pins: { A: Q8, K: Q7 }, label: above, text: "9" }
+    - { ref: LED4, pins: { A: S8, K: S7 }, label: above, text: "4" }
+    - { ref: LED8, pins: { A: U8, K: U7 }, label: above, text: "8" }
+    - { ref: BAT, pins: { "+": Z2, "-": Z23 } }
+  bridges:
+    # plus and minus
+    - { id: plus, points: [E2, F2, G2, M2, Z2] }
+    - { id: vcc, points: [F5, F2] }
+    - { id: w3-plus, points: [E4, E2] }
+    - { id: vdd, points: [M11, M2] }
+    - { id: minus, points: [A23, I23, Y23, Z23] }
+    - { id: gnd555, points: [C5, B5, A5, A13, A23] }
+    - { id: r3-gnd, points: [B13, A13] }
+    - { id: gnd-link, points: [N12, I12, I23] }
+    # NE555
+    - { id: reset, points: [B9, B8, C8, C9] }
+    - { id: out, points: [C7, B7] }
+    - { id: trig-thr, points: [C6, D6, D7, F7] }
+    - { id: dis, points: [F6, G6, H6] }
+    - { id: thr, points: [F7, G7, G10, H10] }
+    - { id: c1, points: [H10, H11] }
+    - { id: c1-gnd, points: [H12, I12] }
+    - { id: s1-w3, points: [E12, E13] }
+    # CD4017
+    - { id: gnd4017, points: [N11, N12, P12, T12, T14] }
+    - { id: enable, points: [P11, P12] }
+    - { id: clock, points: [O11, O10] }
+    # outputs, bottom row
+    - { id: q5, points: [M14, M15, J15, J18] }
+    - { id: q1, points: [N14, N16, L16, L18] }
+    - { id: q0, points: [O14, O17, N17, N18] }
+    - { id: q2, points: [P14, P18] }
+    - { id: q6, points: [Q14, Q17, R17, R18] }
+    - { id: q7, points: [R14, R16, T16, T18] }
+    - { id: q3, points: [S14, S15, V15, V18] }
+    # outputs, top row
+    - { id: q9, points: [R11, R10, Q10, Q8] }
+    - { id: q4, points: [S11, S8] }
+    - { id: q8, points: [T11, T10, U10, U8] }
+    # LED cathodes
+    - { id: k-bottom, points: [J19, L19, N19, P19, R19, T19, V19, W19, Y19] }
+    - { id: k-top, points: [Q7, S7, U7, W7, W19] }
+
+nets:
+  PLUS: [BAT.+, IC1.8, R1.1, IC2.16, S1.2]
+  RESET: [IC1.4, R3.1, S1.1]
+  DISCHARGE: [IC1.7, R1.2, R2.1]
+  THRESHOLD: [IC1.2, IC1.6, R2.2, C1.+]
+  CLOCK: [IC1.3, IC2.14]
+  CONTROL: [IC1.5]
+  CARRY: [IC2.12]
+  MINUS: [IC1.1, R3.2, C1.-, IC2.8, IC2.13, IC2.15, R4.2, BAT.-]
+  OUT0: [IC2.3, LED0.A]
+  OUT1: [IC2.2, LED1.A]
+  OUT2: [IC2.4, LED2.A]
+  OUT3: [IC2.7, LED3.A]
+  OUT4: [IC2.10, LED4.A]
+  OUT5: [IC2.1, LED5.A]
+  OUT6: [IC2.5, LED6.A]
+  OUT7: [IC2.6, LED7.A]
+  OUT8: [IC2.9, LED8.A]
+  OUT9: [IC2.11, LED9.A]
+  CATHODES: [LED0.K, LED1.K, LED2.K, LED3.K, LED4.K, LED5.K, LED6.K, LED7.K, LED8.K, LED9.K, R4.1]
+
+steps:
+  - id: prepare
+    view: top
+    marks: [A1]
+    title: { de: Platine vorbereiten, en: Prepare the board }
+    text:
+      de: |
+        Das ist die größte Platine bisher. Leg sie mit den **Kupferpunkten nach unten** vor dich und markiere **A1**.
+        Plane genug Zeit ein – am besten an zwei Nachmittagen.
+      en: |
+        This is the biggest board yet. Place it with the **copper pads facing down** and mark **A1**.
+        Plan enough time – ideally two afternoons.
+
+  - id: sockets
+    view: top
+    adds: [IC1, IC2]
+    title: { de: Zwei IC-Sockel, en: Two IC sockets }
+    text:
+      de: |
+        **8-poliger Sockel (IC1)**: steht senkrecht, **Kerbe nach oben**, linke Beinchen in **C5–C8**, rechte in **F5–F8**.
+        **16-poliger Sockel (IC2)**: liegt waagerecht, **Kerbe nach links**, untere Beinchen in **M14–T14**, obere in **M11–T11**.
+      en: |
+        **8-pin socket (IC1)**: upright, **notch at the top**, left legs into **C5–C8**, right legs into **F5–F8**.
+        **16-pin socket (IC2)**: lying sideways, **notch on the left**, bottom legs into **M14–T14**, top legs into **M11–T11**.
+    tip:
+      de: Löte erst zwei gegenüberliegende Ecken, prüfe ob der Sockel flach liegt, dann den Rest.
+      en: Solder two opposite corners first, check that the socket lies flat, then the rest.
+
+  - id: resistors
+    view: top
+    adds: [R1, R2, R3, R4]
+    title: { de: Vier Widerstände, en: Four resistors }
+    text:
+      de: |
+        **R1** 1 kΩ (braun – schwarz – rot): **G2–G6** · **R2** 4,7 kΩ (gelb – violett – rot): **H6–H10** ·
+        **R3** 10 kΩ (braun – schwarz – orange): **B9–B13** · **R4** 1 kΩ: **Y19–Y23**.
+      en: |
+        **R1** 1 kΩ (brown – black – red): **G2–G6** · **R2** 4.7 kΩ (yellow – violet – red): **H6–H10** ·
+        **R3** 10 kΩ (brown – black – orange): **B9–B13** · **R4** 1 kΩ: **Y19–Y23**.
+
+  - id: c1-button
+    view: top
+    adds: [C1, S1]
+    title: { de: Elko und Taster, en: Capacitor and button }
+    text:
+      de: |
+        **C1** (10 µF): Plus (langes Bein) in **H11**, Minus in **H12**.
+        **S1**: zwei schräg gegenüberliegende Beinchen behalten, in **C9** und **E12**.
+      en: |
+        **C1** (10 µF): plus (long leg) into **H11**, minus into **H12**.
+        **S1**: keep two diagonally opposite legs, into **C9** and **E12**.
+
+  - id: leds-bottom
+    view: top
+    adds: [LED5, LED1, LED0, LED2, LED6, LED7, LED3]
+    title: { de: Sieben LEDs unten, en: Seven LEDs at the bottom }
+    text:
+      de: |
+        Alle sieben LEDs: **langes Bein oben in Reihe 18**, kurzes Bein unten in Reihe 19.
+        Spalten **J, L, N, P, R, T, V**. Ihre Zahlen von links nach rechts sind **5 – 1 – 0 – 2 – 6 – 7 – 3**.
+        Schreib die Zahlen mit einem Stift neben die LEDs auf die Platine.
+      en: |
+        All seven LEDs: **long leg at the top in row 18**, short leg below in row 19.
+        Columns **J, L, N, P, R, T, V**. Their numbers from left to right are **5 – 1 – 0 – 2 – 6 – 7 – 3**.
+        Write the numbers next to the LEDs on the board with a pen.
+    parent:
+      de: Die Reihenfolge wirkt zufällig – sie folgt den Anschlüssen des CD4017. So bleibt jede Leitung eine einfache Lötbrücke.
+      en: The order looks random – it follows the pins of the CD4017. That way every connection stays a simple solder bridge.
+
+  - id: leds-top
+    view: top
+    adds: [LED9, LED4, LED8]
+    title: { de: Drei LEDs oben, en: Three LEDs at the top }
+    text:
+      de: |
+        Achtung, die oberen drei stehen **andersherum**: **langes Bein unten in Reihe 8**, kurzes oben in Reihe 7.
+        Spalten **Q, S, U** – das sind die Zahlen **9 – 4 – 8**.
+      en: |
+        Careful, the top three are **the other way round**: **long leg below in row 8**, short leg above in row 7.
+        Columns **Q, S, U** – these are the numbers **9 – 4 – 8**.
+
+  - id: jumpers
+    view: top
+    adds: [W1, W3]
+    title: { de: Zwei isolierte Drahtbrücken, en: Two insulated jumper wires }
+    text:
+      de: |
+        **W1** (orange, ca. 15 cm) verbindet den Takt-Ausgang des NE555 mit dem Zähler: von **B7** am linken Rand hoch,
+        oben entlang und runter nach **O10**. **W3** (rot, ca. 8 cm) bringt Plus zum Taster: von **E13** um die linke Seite herum nach **E4**.
+        Biege die Drähte flach an die Platine.
+      en: |
+        **W1** (orange, about 15 cm) connects the NE555's clock output to the counter: from **B7** up the left edge,
+        along the top and down to **O10**. **W3** (red, about 8 cm) brings plus to the button: from **E13** around the left side to **E4**.
+        Bend the wires flat against the board.
+
+  - id: bridges-power
+    view: bottom
+    adds: [plus, vcc, w3-plus, vdd, minus, gnd555, r3-gnd, gnd-link]
+    title: { de: Lötbrücken – Plus und Minus, en: Solder bridges – plus and minus }
+    text:
+      de: |
+        Dreh die Platine um – **spiegelverkehrt!** Plus: **E2 bis Z2**, dazu **F5–F2**, **E4–E2** und **M11–M2**.
+        Minus: **A23 bis Z23**, dazu **C5 → B5 → A5 → A23**, **B13–A13** und **N12 → I12 → I23**.
+      en: |
+        Turn the board over – **mirrored!** Plus: **E2 to Z2**, plus **F5–F2**, **E4–E2** and **M11–M2**.
+        Minus: **A23 to Z23**, plus **C5 → B5 → A5 → A23**, **B13–A13** and **N12 → I12 → I23**.
+    tip:
+      de: Für die langen Brücken nimmst du dünnen blanken Draht. Löte ihn erst an einem Ende, zieh ihn mit der Zange straff und löte dann die anderen Punkte.
+      en: Use thin bare wire for the long bridges. Solder one end first, pull it tight with the pliers, then solder the other points.
+
+  - id: bridges-555
+    view: bottom
+    adds: [reset, out, trig-thr, dis, thr, c1, c1-gnd, s1-w3]
+    title: { de: Lötbrücken – der Takt-Chip, en: Solder bridges – the clock chip }
+    text:
+      de: |
+        Rund um IC1: **B9 → B8 → C8 → C9**, **C7–B7**, **C6 → D6 → D7 → F7** (unter dem Sockel),
+        **F6 → H6**, **F7 → G7 → G10 → H10**, **H10–H11**, **H12–I12** und **E12–E13**.
+      en: |
+        Around IC1: **B9 → B8 → C8 → C9**, **C7–B7**, **C6 → D6 → D7 → F7** (under the socket),
+        **F6 → H6**, **F7 → G7 → G10 → H10**, **H10–H11**, **H12–I12** and **E12–E13**.
+
+  - id: bridges-4017
+    view: bottom
+    adds: [gnd4017, enable, clock]
+    title: { de: Lötbrücken – der Zähler, en: Solder bridges – the counter }
+    text:
+      de: Unter IC2 **N11 → N12 → T12 → T14** (über P12), dazu **P11–P12** und **O11–O10**.
+      en: Under IC2 **N11 → N12 → T12 → T14** (across P12), plus **P11–P12** and **O11–O10**.
+
+  - id: bridges-outputs
+    view: bottom
+    adds: [q5, q1, q0, q2, q6, q7, q3, q9, q4, q8]
+    title: { de: Lötbrücken – zehn Ausgänge, en: Solder bridges – ten outputs }
+    text:
+      de: |
+        Jetzt bekommt jede LED ihre Leitung vom Zähler. Unten sind es Treppen: z. B. **M14 → M15 → J15 → J18**.
+        Fang innen an (**P14–P18**) und arbeite dich nach außen. Oben: **R11 → R10 → Q10 → Q8**, **S11–S8**, **T11 → T10 → U10 → U8**.
+        Das Bild zeigt dir jede Ecke.
+      en: |
+        Now each LED gets its line from the counter. At the bottom they are staircases: e.g. **M14 → M15 → J15 → J18**.
+        Start in the middle (**P14–P18**) and work your way outwards. At the top: **R11 → R10 → Q10 → Q8**, **S11–S8**, **T11 → T10 → U10 → U8**.
+        The picture shows you every corner.
+    warning:
+      de: Die Treppen liegen eng beieinander. Prüfe nach jeder Brücke, dass sie keinen Nachbarpunkt berührt.
+      en: The staircases are close together. After each bridge, check that it does not touch a neighbouring pad.
+
+  - id: bridges-cathodes
+    view: bottom
+    adds: [k-bottom, k-top]
+    title: { de: Lötbrücken – die LED-Minuspole, en: Solder bridges – the LED minus legs }
+    text:
+      de: Alle kurzen LED-Beinchen werden verbunden. **J19 bis Y19** (über alle LED-Punkte und W19) und **Q7 → W7 → W19**.
+      en: All short LED legs are connected. **J19 to Y19** (across all LED pads and W19) and **Q7 → W7 → W19**.
+
+  - id: battery-clip
+    view: top
+    adds: [BAT]
+    title: { de: Batterieclip, en: Battery clip }
+    text:
+      de: Verdrille und verzinne die Litzen. **Rot (+)** kommt in **Z2**, **schwarz (−)** in **Z23**.
+      en: Twist and tin the leads. **Red (+)** goes into **Z2**, **black (−)** into **Z23**.
+
+  - id: play
+    view: none
+    image: images/lucky.svg
+    title: { de: Chips einsetzen und spielen!, en: Insert the chips and play! }
+    text:
+      de: |
+        Steck den **NE555** in IC1 (**Kerbe nach oben**) und den **CD4017** in IC2 (**Kerbe nach links**).
+        Batterie anschließen, Knopf gedrückt halten – das Licht flitzt herum. Loslassen: Deine Glückszahl!
+        Spielidee: Jeder tippt vorher eine Zahl. Wer richtig liegt, bekommt einen Punkt.
+      en: |
+        Plug the **NE555** into IC1 (**notch at the top**) and the **CD4017** into IC2 (**notch on the left**).
+        Connect the battery, hold the button – the light races around. Let go: your lucky number!
+        Game idea: everyone guesses a number first. Whoever is right gets a point.
+    warning:
+      de: Der CD4017 mag keine statische Aufladung. Fass vorher einen Heizkörper an und berühre die Beinchen möglichst nicht.
+      en: The CD4017 does not like static electricity. Touch a radiator first and avoid touching its legs.
+
+explanation:
+  kids:
+    de: |
+      Der **NE555** ist der Taktgeber: Er gibt etwa 14 Pulse pro Sekunde – wie ein Metronom. Er läuft aber nur, solange du
+      den Knopf drückst. Der **CD4017** ist ein Zähler: Bei jedem Puls schaltet er seinen Ausgang eine Stelle weiter,
+      0 → 1 → 2 … → 9 → 0. An jedem Ausgang hängt eine LED. Weil 14 Sprünge pro Sekunde viel zu schnell für deine Finger
+      sind, kannst du nicht absichtlich auf einer bestimmten Zahl stoppen – das Ergebnis ist **Zufall**.
+    en: |
+      The **NE555** is the clock: it gives about 14 pulses a second – like a metronome. But it only runs while you hold
+      the button. The **CD4017** is a counter: with every pulse it moves its output one place on, 0 → 1 → 2 … → 9 → 0.
+      There is an LED on every output. Because 14 jumps a second are far too fast for your fingers, you cannot stop on a
+      particular number on purpose – the result is **chance**.
+  parents:
+    de: |
+      IC1 ist ein astabiler NE555 mit R<sub>A</sub> = 1 kΩ, R<sub>B</sub> = 4,7 kΩ, C = 10 µF:
+      f ≈ 1,44 / ((1 + 9,4) kΩ · 10 µF) ≈ **14 Hz**. Reset (Pin 4) liegt über R3 an Masse – der Timer steht und sein
+      Ausgang ist low. S1 legt Reset an Plus und startet ihn. IC2 (CD4017) zählt mit jeder steigenden Flanke weiter;
+      Reset (15) und Enable/Clock-Inhibit (13) liegen an Masse, Carry (12) bleibt frei. Die LED-Kathoden teilen sich
+      R4 = 1 kΩ, weil immer nur eine LED leuchtet. Die CMOS-Ausgänge liefern bei 9 V einige mA. Nach dem Spielen die
+      Batterie abklemmen – eine LED leuchtet sonst dauerhaft.
+    en: |
+      IC1 is an astable NE555 with R<sub>A</sub> = 1 kΩ, R<sub>B</sub> = 4.7 kΩ, C = 10 µF:
+      f ≈ 1.44 / ((1 + 9.4) kΩ · 10 µF) ≈ **14 Hz**. Reset (pin 4) is pulled to ground through R3 – the timer stops with its
+      output low. S1 pulls reset to plus and starts it. IC2 (CD4017) advances on every rising edge; reset (15) and
+      enable/clock inhibit (13) are tied to ground, carry (12) is left open. The LED cathodes share R4 = 1 kΩ because only
+      one LED is ever on. The CMOS outputs supply a few mA at 9 V. Disconnect the battery after playing – otherwise one
+      LED stays lit.
+
+variations:
+  - title: { de: Ausrollen wie ein echtes Glücksrad, en: Coast like a real wheel }
+    text:
+      de: |
+        Für Profis: Wenn der Timer seine Ladung aus einem großen Elko (z. B. 220 µF) statt direkt aus der Batterie holt,
+        wird er nach dem Loslassen langsam immer langsamer – wie ein auslaufendes Glücksrad. Baue es zuerst im Simulator.
+      en: |
+        For experts: if the timer takes its charge from a big capacitor (e.g. 220 µF) instead of directly from the battery,
+        it gets slower and slower after you let go – like a wheel coasting to a stop. Build it in the simulator first.
+  - title: { de: Würfel, en: Dice }
+    text:
+      de: Verbinde Q6 (Pin 5) mit Reset (Pin 15) statt Pin 15 an Minus zu legen. Dann zählt der Chip nur 0–5 – ein Würfel!
+      en: Connect Q6 (pin 5) to reset (pin 15) instead of tying pin 15 to minus. Then the chip only counts 0–5 – a die!
+  - title: { de: Langsames Lauflicht, en: Slow chaser }
+    text:
+      de: Mit 100 µF statt 10 µF für C1 kannst du zuschauen, wie der Zähler Schritt für Schritt weiterzählt.
+      en: With 100 µF instead of 10 µF for C1 you can watch the counter step along one by one.
+
+troubleshooting:
+  - problem: { de: Keine LED leuchtet., en: No LED lights up. }
+    solution:
+      de: Stecken beide Chips richtig herum? Prüfe die Brücken der LED-Minuspole (Reihe 19 und W7–W19) und R4. Sind die LEDs richtig herum (unten langes Bein oben, oben langes Bein unten)?
+      en: Are both chips in the right way round? Check the bridges of the LED minus legs (row 19 and W7–W19) and R4. Are the LEDs the right way round (bottom ones long leg up, top ones long leg down)?
+  - problem: { de: "Eine LED leuchtet, aber nichts bewegt sich.", en: One LED is on but nothing moves. }
+    solution:
+      de: Der Takt kommt nicht an. Prüfe die Drahtbrücke W1 (B7–O10), W3 und den Taster. Läuft es, wenn du Pin 4 von IC1 kurz mit Plus verbindest?
+      en: The clock does not arrive. Check jumper W1 (B7–O10), W3 and the button. Does it run if you briefly connect pin 4 of IC1 to plus?
+  - problem: { de: Eine Zahl wird übersprungen., en: One number is skipped. }
+    solution:
+      de: Diese LED ist falsch herum oder ihre Treppen-Brücke hat keinen Kontakt.
+      en: That LED is the wrong way round or its staircase bridge has no contact.
+  - problem: { de: Es läuft auch ohne Knopf., en: It runs without pressing the button. }
+    solution:
+      de: R3 (10 kΩ) fehlt oder hat keinen Kontakt zu Minus (B13–A13).
+      en: R3 (10 kΩ) is missing or has no contact to minus (B13–A13).
+
+safety:
+  de:
+    - Chips nie bei angeschlossener Batterie einsetzen oder herausziehen.
+    - Nach dem Spielen die Batterie abklemmen – sonst leuchtet eine LED weiter und leert sie.
+  en:
+    - Never insert or remove chips while the battery is connected.
+    - Disconnect the battery after playing – otherwise one LED stays on and drains it.

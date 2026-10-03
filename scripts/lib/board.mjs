@@ -234,6 +234,7 @@ function labelPos(ax, offset, side) {
 // Ref label beside a part; with a value it becomes two short lines ("R2" / "47 kΩ").
 const refLabel = (p, ax, offset, value) => {
   const lp = labelPos(ax, offset, p.label);
+  if (p.text) return label(lp.x, lp.y, p.text, lp.anchor, 'ref big');
   if (!value) return label(lp.x, lp.y, p.ref, lp.anchor);
   return label(lp.x, lp.y - 6, p.ref, lp.anchor) + label(lp.x, lp.y + 8, value, lp.anchor, 'ref value');
 };

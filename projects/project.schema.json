@@ -77,7 +77,8 @@
               "via": { "type": "array", "items": { "type": "string", "pattern": "^[A-Z][0-9]{1,2}$" }, "description": "Jumper wires: bend points (only for the drawing)." },
               "center": { "type": "string", "pattern": "^[A-Z][0-9]{1,2}$", "description": "Toroids: where the ring sits." },
               "opens": { "enum": ["left", "right", "up", "down"], "description": "Screw terminals: side where the wires go in." },
-              "label": { "enum": ["left", "right", "above", "below"], "description": "Where the ref/value label is drawn, if the default spot is covered." }
+              "label": { "enum": ["left", "right", "above", "below"], "description": "Where the ref/value label is drawn, if the default spot is covered." },
+              "text": { "type": "string", "description": "Short text drawn instead of the ref, e.g. the number of an LED." }
             }
           }
         },
