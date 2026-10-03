@@ -1,0 +1,61 @@
+# Builds the website (including the compiled circuit simulator) with the same
+# Dockerfile used locally, and publishes it to GitHub Pages on every push to main.
+# Pull requests only build, which also validates every project.
+name: Website
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - id: pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v6
+
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Build website
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/builder/Dockerfile
+          target: export
+          outputs: type=local,dest=dist
+          build-args: |
+            BASE_PATH=${{ steps.pages.outputs.base_path || '' }}/
+            SITE_URL=${{ steps.pages.outputs.base_url || 'http://localhost:8080' }}/
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

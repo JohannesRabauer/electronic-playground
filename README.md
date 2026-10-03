@@ -1,50 +1,53 @@
-# Electronic Playground
+# Electronics Playground · Elektronik-Spielplatz
 
-Small soldering projects to build with the kids, plus a circuit editor and simulator that runs in the browser.
+Soldering projects for kids aged 8–14, in German and English. Every project has:
 
-The editor is [CircuitJS1](https://github.com/pfalstad/circuitjs1) (the Falstad circuit simulator, GPL-2.0).
-It is built from source and runs in a small nginx container.
-You draw the circuit, and it **simulates while you draw**: the LEDs light up, the moving dots show the current, and the sliders change brightness and resistor values.
+- a shopping list,
+- a perfboard layout,
+- a step-by-step guide with a picture for every step,
+- a **circuit simulator** to try the circuit before soldering,
+- a printable **A4 version** for the workbench.
 
-## Start
+The website is static and published to GitHub Pages. The simulator is
+[CircuitJS1](https://github.com/pfalstad/circuitjs1) by Paul Falstad and Iain Sharp (GPL-2.0),
+compiled from source during the build.
+
+## Run it locally
+
+You only need Docker:
 
 ```bash
-docker compose up -d
+docker compose up --build
 ```
 
-Open <http://localhost:8080>. The first build compiles the simulator and takes a few minutes. After that, startup takes a second.
+Open <http://localhost:8080>. The first build compiles the simulator and takes a few minutes.
 
-Our projects are in the menu under **Schaltungen → Kinder-Projekte**. Project 1 opens on start.
+The `builder` container watches `projects/`, `parts/`, `site/` and `sandbox/` and rebuilds
+within a second or two of every save. Reload the page to see the change. Validation errors
+appear in the log:
 
-## Projects
+```bash
+docker compose logs -f builder
+```
 
-| # | Project | What you learn | Parts |
-|---|---|---|---|
-| 1 | LED mit Schalter | Closed circuit, why the LED needs a resistor | 9V battery + clip, switch, 470 Ω, red LED |
-| 2 | Nachtlicht | Sensor + transistor as a switch | 9V battery + clip, 100 kΩ, LDR (e.g. GL5528), BC547, 470 Ω, yellow LED |
-| 3 | Wechselblinker | Capacitors charge and discharge, oscillator | 9V battery + clip, 2× BC547, 2× 47 kΩ, 2× 22 µF electrolytic, 2× 470 Ω, red + green LED |
-| 4 | Blinklicht mit NE555 | Using a chip (IC), timing with R and C | 9V battery + clip, NE555 + 8-pin socket, 10 kΩ, 68 kΩ, 10 µF electrolytic, 10 nF, 470 Ω, LED |
+Changes to `scripts/` need a restart: `docker compose restart builder`.
 
-The projects get harder in order, so 1 is a good first soldering job. Things to watch:
+## Repository layout
 
-- **LED**: long leg = **+** (anode). In the drawing, the triangle points toward **−**.
-- **Electrolytic capacitor**: the stripe on the case marks **−**.
-- **BC547** (flat side facing you, legs down): C – B – E from left to right.
-- **NE555**: the notch or dot marks pin 1. Solder the socket first, then plug in the chip.
+| Path | What |
+|---|---|
+| `projects/<id>/` | One folder per project: `project.yaml`, simulation, images |
+| `projects/project.schema.json` | The rules every project must follow |
+| `docs/PROJECT-STRUCTURE.md` | **How to write a project**, start here |
+| `parts/catalog.yaml` | All parts, materials and tools (DE/EN names, buying hints) |
+| `sandbox/` | Loose circuits for the simulator menu (ideas, not projects yet) |
+| `site/` | UI texts (`i18n.yaml`), stylesheet, small script |
+| `scripts/` | The static site generator (Node, no framework) |
+| `docker/` | Dockerfile (simulator build + site build) and nginx config |
 
-## Add or change your own circuits
+## Publishing
 
-1. In the simulator, draw a circuit or change an existing one.
-2. **Datei → Als Text exportieren**, then copy the text into a new file in [circuits/](circuits/), e.g. `circuits/05-mein-projekt.txt`.
-3. Add a line to [circuits/menu.txt](circuits/menu.txt): `kids/05-mein-projekt.txt 5. Mein Projekt`
-4. Run `docker compose restart`. Circuit files are re-read on every page load; only the menu needs the restart.
+`.github/workflows/pages.yml` builds the site with the same Dockerfile and deploys it to
+GitHub Pages on every push to `main`. Pull requests only build, which also validates all projects.
 
-To open one circuit directly: `http://localhost:8080/circuitjs.html?startCircuit=kids/05-mein-projekt.txt`
-
-## How it works
-
-- [docker/circuitjs/Dockerfile](docker/circuitjs/Dockerfile): Gradle/GWT build stage, pinned to a CircuitJS commit, followed by nginx.
-- [docker/circuitjs/40-kids-menu.sh](docker/circuitjs/40-kids-menu.sh): on container start, puts `circuits/menu.txt` at the top of the simulator's example menu.
-- `circuits/` is mounted read-only into the container, so no rebuild is needed after changing it.
-
-To update CircuitJS, change `CIRCUITJS_REF` in the Dockerfile and run `docker compose up -d --build`.
+To update the simulator, change `CIRCUITJS_REF` in `docker/builder/Dockerfile`.

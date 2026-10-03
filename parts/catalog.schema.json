@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Parts catalog",
+  "description": "parts/catalog.yaml: every part, material and tool projects can use.",
+  "type": "object",
+  "propertyNames": { "pattern": "^[a-z0-9-]+$" },
+  "additionalProperties": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["category", "name"],
+    "properties": {
+      "category": { "enum": ["component", "board", "material", "tool"] },
+      "kind": { "enum": ["resistor", "led", "buzzer", "terminal", "battery-clip"], "description": "How it is drawn on the perfboard." },
+      "icon": { "type": "string", "description": "Emoji for parts that are not drawn." },
+      "name": { "$ref": "#/$defs/i18n" },
+      "hint": { "$ref": "#/$defs/i18n" }
+    },
+    "oneOf": [{ "required": ["kind"] }, { "required": ["icon"] }]
+  },
+  "$defs": {
+    "i18n": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["de", "en"],
+      "properties": { "de": { "type": "string", "minLength": 1 }, "en": { "type": "string", "minLength": 1 } }
+    }
+  }
+}

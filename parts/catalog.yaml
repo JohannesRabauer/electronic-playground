@@ -1,0 +1,115 @@
+# Shared catalog of everything projects use. Projects reference these ids in `parts`.
+#
+# category: component | board | material | tool  (decides the table it is listed in)
+# kind:     how it is drawn on the perfboard (resistor, led, buzzer, terminal, battery-clip)
+# icon:     emoji for things that are not drawn
+# name/hint: German and English. `hint` helps parents buy the right thing.
+
+resistor:
+  category: component
+  kind: resistor
+  name: { de: Widerstand, en: Resistor }
+  hint: { de: "Kohleschicht, 1/4 Watt. Die Farbringe zeigen den Wert.", en: "Carbon film, 1/4 watt. The colour bands show the value." }
+
+led-5mm:
+  category: component
+  kind: led
+  name: { de: LED 5 mm, en: LED 5 mm }
+  hint: { de: "Das lange Bein ist Plus (+).", en: "The long leg is plus (+)." }
+
+buzzer-active:
+  category: component
+  kind: buzzer
+  name: { de: Aktiver Summer, en: Active buzzer }
+  hint: { de: "\"Aktiv\" für 3–24 V kaufen, 12 mm Durchmesser, Rastermaß 7,6 mm. Ein passiver Summer bleibt stumm!", en: "Buy an \"active\" one for 3–24 V, 12 mm diameter, 7.6 mm pin spacing. A passive buzzer stays silent!" }
+
+terminal-2:
+  category: component
+  kind: terminal
+  name: { de: Schraubklemme 2-polig, en: 2-pin screw terminal }
+  hint: { de: "Rastermaß 5,08 mm (passt auf Lochraster).", en: "5.08 mm pitch (fits perfboard)." }
+
+battery-clip-9v:
+  category: component
+  kind: battery-clip
+  name: { de: 9-V-Batterieclip, en: 9 V battery clip }
+  hint: { de: "Mit roter und schwarzer Litze.", en: "With red and black leads." }
+
+battery-9v:
+  category: component
+  icon: "🔋"
+  name: { de: 9-V-Blockbatterie, en: 9 V battery }
+  hint: { de: "Oder ein 9-V-Akku.", en: "Or a rechargeable 9 V battery." }
+
+perfboard:
+  category: board
+  icon: "🟫"
+  name: { de: Lochrasterplatine, en: Perfboard }
+  hint: { de: "Rastermaß 2,54 mm, mit einzelnen Lötpunkten (keine Streifen). Große Platinen kann man mit dem Cutter anritzen und brechen.", en: "2.54 mm pitch, with separate pads (not stripboard). Score big boards with a craft knife and snap them." }
+
+copper-wire-bare:
+  category: material
+  icon: "〰️"
+  name: { de: "Blanker Kupferdraht 1,5 mm", en: Bare copper wire 1.5 mm }
+  hint: { de: "Z. B. aus einem Stück NYM-Installationskabel 1,5 mm² (Mantel und Isolierung entfernen). Kein Lackdraht!", en: "E.g. from a piece of solid house wiring, 1.5 mm² / 14 AWG (strip all insulation). No enamelled wire!" }
+
+stranded-wire:
+  category: material
+  icon: "🧵"
+  name: { de: Flexible Litze, en: Stranded wire }
+  hint: { de: "Isoliert, ca. 0,25 mm².", en: "Insulated, about 0.25 mm² / 24 AWG." }
+
+wood-board:
+  category: material
+  icon: "🪵"
+  name: { de: Holzbrett, en: Wooden board }
+  hint: { de: "Ein Reststück reicht.", en: "Any offcut will do." }
+
+insulating-tape:
+  category: material
+  icon: "🩹"
+  name: { de: Isolierband, en: Insulating tape }
+  hint: { de: "Bunt macht mehr Spaß.", en: "Colourful is more fun." }
+
+wooden-dowel:
+  category: material
+  icon: "🥢"
+  name: { de: Rundholz oder leerer Stift, en: Wooden dowel or empty pen }
+  hint: { de: "Als Griff, ca. 10 cm lang.", en: "For the handle, about 10 cm long." }
+
+soldering-iron:
+  category: tool
+  icon: "🔥"
+  name: { de: Lötkolben mit Ablage, en: Soldering iron with stand }
+  hint: { de: "Mit Temperaturregelung, ca. 350 °C.", en: "Temperature controlled, about 350 °C." }
+
+solder:
+  category: tool
+  icon: "🧪"
+  name: { de: Lötzinn bleifrei, en: Lead-free solder }
+  hint: { de: "Mit Flussmittelseele, 0,8–1 mm.", en: "Flux core, 0.8–1 mm." }
+
+side-cutter:
+  category: tool
+  icon: "✂️"
+  name: { de: Seitenschneider, en: Side cutters }
+
+pliers:
+  category: tool
+  icon: "🔧"
+  name: { de: Flachzange, en: Flat-nose pliers }
+
+screwdriver:
+  category: tool
+  icon: "🪛"
+  name: { de: Kleiner Schlitzschraubendreher, en: Small flat screwdriver }
+
+safety-glasses:
+  category: tool
+  icon: "🥽"
+  name: { de: Schutzbrille, en: Safety glasses }
+
+drill:
+  category: tool
+  icon: "🛠️"
+  name: { de: Bohrmaschine (für Eltern), en: Drill (for parents) }

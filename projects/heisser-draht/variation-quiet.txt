@@ -1,0 +1,17 @@
+$ 1 0.000005 10.2 50 10 50 5e-11
+v 64 336 64 96 0 0 40 9 0 0 0.5
+w 64 96 176 96 0
+s 176 96 272 96 0 1 true
+w 272 96 384 96 0
+r 384 96 384 208 0 470
+162 384 208 384 336 2 default-led 1 0 0 0.01
+w 384 96 512 96 0
+r 512 96 512 240 0 360
+s 512 240 512 336 0 0 false
+w 64 336 384 336 0
+w 384 336 512 336 0
+x 84 222 168 225 4 16 {{9-V-Batterie|9 V battery}}
+x 112 72 380 75 4 16 {{Draht berühren (Maus gedrückt halten)|Touch the wire (hold the mouse down)}}
+x 396 290 440 293 4 16 LED1
+x 536 170 650 173 4 16 {{Summer BZ1|Buzzer BZ1}}
+x 532 292 660 295 4 16 {{Leise-Schalter|Quiet switch}}

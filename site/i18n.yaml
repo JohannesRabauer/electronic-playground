@@ -1,0 +1,141 @@
+# Texts of the website frame. Projects bring their own texts in project.yaml.
+de:
+  lang_name: Deutsch
+  site_title: Elektronik-Spielplatz
+  site_tagline: Lötprojekte für Kinder von 8 bis 14 – erst im Simulator ausprobieren, dann selbst bauen.
+  home_intro: |
+    Hier findest du kleine Elektronik-Projekte zum **Selberlöten**. Jedes Projekt hat eine Einkaufsliste,
+    einen Plan für die Lochrasterplatine, eine Schritt-für-Schritt-Anleitung und einen **Simulator**,
+    in dem du die Schaltung vorher ausprobieren kannst.
+  parents_title: Für Eltern
+  parents_text: |
+    Alle Projekte laufen mit einer 9-V-Batterie und sind ungefährlich. Ab etwa 8 Jahren können Kinder mit
+    einem Erwachsenen daneben löten. Jede Anleitung gibt es auch als **A4-Ausdruck** für die Werkbank.
+  projects_title: Projekte
+  sandbox_title: Freies Experimentieren
+  sandbox_text: Öffne den Simulator und baue deine eigene Schaltung – oder probiere unsere Ideen im Menü „Schaltungen“.
+  open_sim: Simulator öffnen
+  age: Alter
+  age_value: "ab {n} Jahren"
+  difficulty: Schwierigkeit
+  difficulty_names: [leicht, mittel, knifflig]
+  time: Zeit
+  time_value: "ca. {n} Minuten"
+  cost: Kosten
+  cost_value: "ca. {n} €"
+  learn: Das lernst du
+  topics: { light: Licht, sound: Ton, sensor: Sensoren, game: Spiel, energy: Energie }
+  sections:
+    try: Ausprobieren
+    parts: Das brauchst du
+    board: Die Platine
+    steps: Schritt für Schritt
+    explain: Was passiert da?
+    variations: Verändere es!
+    troubleshooting: Funktioniert nicht?
+    safety: Sicherheit
+  sim_open_full: Simulator groß öffnen
+  sim_variation: Im Simulator ausprobieren
+  components: Bauteile
+  materials: Material
+  tools: Werkzeug
+  col_qty: Anzahl
+  col_ref: Kürzel
+  col_part: Teil
+  col_note: Hinweis
+  board_top: Bestückungsseite (oben)
+  board_bottom: Lötseite (unten – spiegelverkehrt!)
+  board_hint: Die Bauteile stecken oben, gelötet wird unten. Lötbrücken machst du aus abgeschnittenen Bauteilbeinen.
+  step: Schritt
+  done: geschafft
+  tip: Tipp
+  warning: Achtung
+  parent: Für Eltern
+  explain_kids: Einfach erklärt
+  explain_parents: Genauer erklärt (für Eltern)
+  safety_general:
+    - Der Lötkolben wird über 300 °C heiß. Leg ihn immer in die Ablage und fass nur den Griff an.
+    - Trag eine Schutzbrille – beim Abschneiden fliegen Drahtstücke durch die Gegend.
+    - Lüfte beim Löten und atme den Rauch nicht direkt ein.
+    - Wasch dir nach dem Löten die Hände.
+    - Nur mit Batterien arbeiten – niemals mit Strom aus der Steckdose!
+  print: Bauanleitung drucken (A4)
+  print_now: Jetzt drucken
+  print_hint: "Tipp: Im Druckdialog „Hintergrundgrafiken“ einschalten."
+  other_lang: English version
+  all_projects: Alle Projekte
+  qr_caption: Simulator und mehr online
+  page_of: Seite
+  footer: "Elektronik-Spielplatz · Simulator: CircuitJS von Paul Falstad und Iain Sharp (GPL)"
+  sim_menu_projects: Projekte (Deutsch)
+  sim_menu_sandbox: Ideen & Entwürfe
+
+en:
+  lang_name: English
+  site_title: Electronics Playground
+  site_tagline: Soldering projects for kids aged 8 to 14 – try them in the simulator first, then build them yourself.
+  home_intro: |
+    Here you will find small electronics projects to **solder yourself**. Every project has a shopping list,
+    a perfboard layout, a step-by-step guide and a **simulator** where you can try the circuit first.
+  parents_title: For parents
+  parents_text: |
+    All projects run on a 9 V battery and are safe. From about age 8, children can solder with an adult
+    next to them. Every guide is also available as an **A4 printout** for the workbench.
+  projects_title: Projects
+  sandbox_title: Free experimenting
+  sandbox_text: Open the simulator and build your own circuit – or try our ideas in the "Circuits" menu.
+  open_sim: Open the simulator
+  age: Age
+  age_value: "{n}+ years"
+  difficulty: Difficulty
+  difficulty_names: [easy, medium, tricky]
+  time: Time
+  time_value: "about {n} minutes"
+  cost: Cost
+  cost_value: "about €{n}"
+  learn: What you will learn
+  topics: { light: Light, sound: Sound, sensor: Sensors, game: Game, energy: Energy }
+  sections:
+    try: Try it
+    parts: What you need
+    board: The board
+    steps: Step by step
+    explain: What is happening?
+    variations: Change it!
+    troubleshooting: Not working?
+    safety: Safety
+  sim_open_full: Open the full simulator
+  sim_variation: Try it in the simulator
+  components: Components
+  materials: Materials
+  tools: Tools
+  col_qty: Qty
+  col_ref: Ref
+  col_part: Part
+  col_note: Note
+  board_top: Component side (top)
+  board_bottom: Solder side (bottom – mirrored!)
+  board_hint: The parts go in on top, you solder underneath. Make the solder bridges from cut-off component legs.
+  step: Step
+  done: done
+  tip: Tip
+  warning: Careful
+  parent: For parents
+  explain_kids: Simply explained
+  explain_parents: In more detail (for parents)
+  safety_general:
+    - The soldering iron gets hotter than 300 °C. Always put it back in the stand and only touch the handle.
+    - Wear safety glasses – bits of wire fly around when you cut them.
+    - Keep the room aired and do not breathe in the smoke directly.
+    - Wash your hands after soldering.
+    - Only work with batteries – never with power from a wall socket!
+  print: Print the building guide (A4)
+  print_now: Print now
+  print_hint: "Tip: switch on \"Background graphics\" in the print dialog."
+  other_lang: Deutsche Version
+  all_projects: All projects
+  qr_caption: Simulator and more online
+  page_of: Page
+  footer: "Electronics Playground · Simulator: CircuitJS by Paul Falstad and Iain Sharp (GPL)"
+  sim_menu_projects: Projects (English)
+  sim_menu_sandbox: Ideas & drafts

@@ -1,11 +1,28 @@
+# Local preview with live rebuild:  docker compose up --build
+# Then open http://localhost:8080 - edits in projects/, parts/, site/ and sandbox/
+# are rebuilt within a second or two (reload the page).
 services:
-  circuitjs:
-    build: ./docker/circuitjs
-    image: electronic-playground/circuitjs:local
-    container_name: circuitjs
+  builder:
+    build:
+      context: .
+      dockerfile: docker/builder/Dockerfile
+      target: dev
+    image: electronic-playground/dev:local
+    command: node scripts/build.mjs --watch
+    environment:
+      BASE_PATH: /
+      SITE_URL: http://localhost:8080/
+    volumes:
+      - .:/app
+      - /app/node_modules  # keep the image's node_modules, not the host's
+    init: true
+
+  web:
+    image: docker.io/library/nginx:1.29-alpine
     ports:
       - "8080:80"
     volumes:
-      # Our own circuits show up in the menu under "Circuits > Kinder-Projekte".
-      - ./circuits:/usr/share/nginx/html/circuitjs1/circuits/kids:ro
-    restart: unless-stopped
+      - ./dist:/usr/share/nginx/html:ro
+      - ./docker/web/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - builder

@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JohannesRabauer/electronic-playground/projects/project.schema.json",
+  "title": "Electronic Playground project",
+  "description": "Every projects/<id>/project.yaml must match this schema. Every text exists in German (de) and English (en). See docs/PROJECT-STRUCTURE.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "number", "status", "slug", "title", "tagline", "facts", "learn", "hero", "intro", "simulation", "parts", "board", "nets", "steps", "explanation", "variations", "troubleshooting", "safety"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "Must equal the folder name." },
+    "number": { "type": "integer", "minimum": 1, "description": "Order in the catalog; lower = easier." },
+    "status": { "enum": ["draft", "published"], "description": "Drafts are built but not listed on the home page." },
+    "slug": { "$ref": "#/$defs/i18nSlug" },
+    "title": { "$ref": "#/$defs/i18n" },
+    "tagline": { "$ref": "#/$defs/i18n", "description": "One sentence: what does it do?" },
+    "facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["age", "difficulty", "minutes", "cost_eur", "topics"],
+      "properties": {
+        "age": { "type": "integer", "minimum": 8, "maximum": 14, "description": "Minimum age when soldering with a parent nearby." },
+        "difficulty": { "enum": [1, 2, 3], "description": "1 = easy, 2 = medium, 3 = tricky" },
+        "minutes": { "type": "integer", "minimum": 10 },
+        "cost_eur": { "type": "number", "minimum": 0, "description": "Approximate cost of all parts and materials." },
+        "topics": { "type": "array", "minItems": 1, "items": { "enum": ["light", "sound", "sensor", "game", "energy"] } }
+      }
+    },
+    "learn": { "$ref": "#/$defs/i18nList", "description": "2-4 short bullet points: what the child learns." },
+    "hero": { "type": "string", "description": "Image file in the project folder (SVG/PNG/JPG), shown at the top." },
+    "intro": { "$ref": "#/$defs/i18n", "description": "Markdown. What we build and why it is fun." },
+    "simulation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["circuit", "try"],
+      "properties": {
+        "circuit": { "type": "string", "description": "CircuitJS file in the project folder. Text labels may use {{Deutsch|English}}." },
+        "try": { "$ref": "#/$defs/i18n", "description": "Markdown. What to click, what to predict." }
+      }
+    },
+    "parts": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Everything to buy or have at hand: components, the board, materials and tools.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["part", "qty"],
+        "properties": {
+          "ref": { "type": "string", "pattern": "^[A-Z]+[0-9]*$", "description": "Reference on the board, e.g. R1. Required for parts placed on the board." },
+          "part": { "type": "string", "description": "Id from parts/catalog.yaml" },
+          "qty": { "type": ["number", "string"] },
+          "value": { "type": "number", "description": "Resistance in ohms for resistors." },
+          "color": { "type": "string", "description": "Display colour for LEDs (CSS colour)." },
+          "note": { "$ref": "#/$defs/i18n" }
+        }
+      }
+    },
+    "board": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cols", "rows", "parts", "bridges"],
+      "properties": {
+        "cols": { "type": "integer", "minimum": 4, "maximum": 26 },
+        "rows": { "type": "integer", "minimum": 4, "maximum": 40 },
+        "parts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["ref", "pins"],
+            "properties": {
+              "ref": { "type": "string", "description": "Must match a ref in parts." },
+              "pins": { "type": "object", "additionalProperties": { "type": "string", "pattern": "^[A-Z][0-9]{1,2}$" } },
+              "opens": { "enum": ["left", "right", "up", "down"], "description": "Screw terminals: side where the wires go in." },
+              "label": { "enum": ["left", "right", "above", "below"], "description": "Where the ref/value label is drawn, if the default spot is covered." }
+            }
+          }
+        },
+        "bridges": {
+          "type": "array",
+          "description": "Solder bridges on the bottom side. Every listed point is soldered.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "points"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+              "points": { "type": "array", "minItems": 2, "items": { "type": "string", "pattern": "^[A-Z][0-9]{1,2}$" } }
+            }
+          }
+        }
+      }
+    },
+    "nets": {
+      "type": "object",
+      "description": "Which pins are connected, e.g. PLUS: [BAT.+, X1.1]. The build checks the board against this.",
+      "additionalProperties": { "type": "array", "minItems": 2, "items": { "type": "string", "pattern": "^[A-Z]+[0-9]*\\.[A-Za-z0-9+-]+$" } }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "view", "title", "text"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "view": { "enum": ["top", "bottom", "none"], "description": "Which board view the step picture shows." },
+          "adds": { "type": "array", "items": { "type": "string" }, "description": "Board parts (refs) and bridges (ids) built in this step." },
+          "image": { "type": "string", "description": "Optional picture from the project folder, for steps without a board view." },
+          "marks": { "type": "array", "items": { "type": "string", "pattern": "^[A-Z][0-9]{1,2}$" }, "description": "Extra holes to point out in the step picture." },
+          "title": { "$ref": "#/$defs/i18n" },
+          "text": { "$ref": "#/$defs/i18n", "description": "Markdown, addressed to the child." },
+          "tip": { "$ref": "#/$defs/i18n" },
+          "warning": { "$ref": "#/$defs/i18n" },
+          "parent": { "$ref": "#/$defs/i18n", "description": "Note for the adult helping." }
+        }
+      }
+    },
+    "explanation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kids", "parents"],
+      "properties": {
+        "kids": { "$ref": "#/$defs/i18n" },
+        "parents": { "$ref": "#/$defs/i18n" }
+      }
+    },
+    "variations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "text"],
+        "properties": {
+          "title": { "$ref": "#/$defs/i18n" },
+          "text": { "$ref": "#/$defs/i18n" },
+          "circuit": { "type": "string", "description": "Optional CircuitJS file to try the variation." }
+        }
+      }
+    },
+    "troubleshooting": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["problem", "solution"],
+        "properties": {
+          "problem": { "$ref": "#/$defs/i18n" },
+          "solution": { "$ref": "#/$defs/i18n" }
+        }
+      }
+    },
+    "safety": { "$ref": "#/$defs/i18nList", "description": "Project-specific points. The general soldering rules are always added." }
+  },
+  "$defs": {
+    "i18n": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["de", "en"],
+      "properties": { "de": { "type": "string", "minLength": 1 }, "en": { "type": "string", "minLength": 1 } }
+    },
+    "i18nSlug": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["de", "en"],
+      "properties": { "de": { "type": "string", "pattern": "^[a-z0-9-]+$" }, "en": { "type": "string", "pattern": "^[a-z0-9-]+$" } }
+    },
+    "i18nList": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["de", "en"],
+      "properties": {
+        "de": { "type": "array", "items": { "type": "string" } },
+        "en": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
