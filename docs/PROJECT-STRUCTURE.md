@@ -14,6 +14,16 @@ Every project is a folder in `projects/` and follows the same structure. The bui
 - Boards are **perfboard** (2.54 mm pitch, separate pads). Connections on the bottom are
   solder bridges made from cut-off component legs.
 
+## Categories
+
+Every project has a `category`. The home page groups projects by it:
+
+| `category` | de / en | What it means |
+|---|---|---|
+| `solder` | Löten / Soldering | Classic electronics on perfboard, battery-powered, no computer |
+| `microbit` | micro:bit | Programming the BBC micro:bit, no soldering (crocodile clips at most) |
+| `microbit-solder` | micro:bit + Löten / micro:bit + soldering | A soldered add-on board controlled by the micro:bit |
+
 ## Folder
 
 ```

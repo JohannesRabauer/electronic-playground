@@ -148,6 +148,8 @@ function restSections(p, t, lang, u) {
   return { explain, variations, trouble, safety };
 }
 
+const categoryBadge = (p, t) => `<span class="cat-badge cat-${p.category}">${t.categories[p.category].icon} ${esc(t.categories[p.category].name)}</span>`;
+
 const section = (id, title, html, extraClass = '') => `<section class="sec ${extraClass}" id="${id}"><h2>${esc(title)}</h2>${html}</section>`;
 
 // ------------------------------------------------------------------ pages
@@ -161,7 +163,7 @@ export function projectPage(ctx, p, lang) {
   const body = `<main class="project">
 <section class="hero">
   <div class="hero-text">
-    <p class="kicker"><a href="${u.home(lang)}">${esc(t.all_projects)}</a> · #${p.number}</p>
+    <p class="kicker"><a href="${u.home(lang)}">${esc(t.all_projects)}</a> · <a href="${u.home(lang)}#${p.category}">${categoryBadge(p, t)}</a> · #${p.number}</p>
     <h1>${esc(p.title[lang])}</h1>
     <p class="tagline">${esc(p.tagline[lang])}</p>
     ${facts(p, t, lang)}
@@ -200,7 +202,7 @@ export function printPage(ctx, p, lang, qrSvg) {
 <main class="sheet">
 <header class="sheet-head">
   <div>
-    <p class="kicker">⚡ ${esc(t.site_title)} · #${p.number}</p>
+    <p class="kicker">⚡ ${esc(t.site_title)} · ${categoryBadge(p, t)} · #${p.number}</p>
     <h1>${esc(p.title[lang])}</h1>
     <p class="tagline">${esc(p.tagline[lang])}</p>
     ${facts(p, t, lang)}
@@ -226,7 +228,8 @@ export function homePage(ctx, lang) {
   const { i18n, u, projects } = ctx;
   const t = i18n[lang];
   const other = lang === 'de' ? 'en' : 'de';
-  const cards = projects.filter((p) => p.status === 'published').map((p) => `<li class="card project-card">
+  const published = projects.filter((p) => p.status === 'published');
+  const card = (p) => `<li class="card project-card">
   <a href="${u.project(lang, p)}">
     <img src="${u.projectFile(p, p.hero)}" alt="">
     <span class="num">#${p.number}</span>
@@ -234,14 +237,25 @@ export function homePage(ctx, lang) {
     <p>${esc(p.tagline[lang])}</p>
     ${facts(p, t, lang)}
   </a>
-</li>`).join('');
+</li>`;
+  const cats = Object.entries(t.categories);
+  const nav = `<nav class="cat-nav">${cats.map(([id, c]) => `<a href="#${id}"><span aria-hidden="true">${c.icon}</span> ${esc(c.name)}</a>`).join('')}</nav>`;
+  const sections = cats.map(([id, c]) => {
+    const list = published.filter((p) => p.category === id);
+    return `<section class="sec category" id="${id}">
+  <h2><span aria-hidden="true">${c.icon}</span> ${esc(c.name)}</h2>
+  <p class="lead">${esc(c.text)}</p>
+  ${list.length ? `<ul class="cards project-grid">${list.map(card).join('')}</ul>` : `<p class="card coming-soon">${esc(t.coming_soon)}</p>`}
+</section>`;
+  }).join('');
   const body = `<main class="home">
 <section class="home-hero">
   <h1>${esc(t.site_title)}</h1>
   <p class="tagline">${esc(t.site_tagline)}</p>
   <div class="home-intro">${md(t.home_intro)}</div>
 </section>
-<section class="sec"><h2>${esc(t.projects_title)}</h2><ul class="cards project-grid">${cards}</ul></section>
+${nav}
+${sections}
 <section class="sec two-col">
   <div class="card"><h2>${esc(t.parents_title)}</h2>${md(t.parents_text)}</div>
   <div class="card"><h2>${esc(t.sandbox_title)}</h2><p>${esc(t.sandbox_text)}</p><p><a class="button" href="${u.sim(lang)}">${esc(t.open_sim)} ↗</a></p></div>

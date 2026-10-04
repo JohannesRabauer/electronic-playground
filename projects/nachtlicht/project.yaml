@@ -2,6 +2,7 @@
 id: nachtlicht
 number: 2
 status: published
+category: solder
 slug: { de: nachtlicht, en: night-light }
 
 title:

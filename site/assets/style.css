@@ -71,6 +71,13 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 16px 3rem; }
 .project-card:hover { border-color: var(--accent); box-shadow: 0 6px 18px rgba(0,0,0,.08); }
 .project-card .facts { grid-template-columns: 1fr 1fr; font-size: .85rem; }
 .two-col { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.cat-nav { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; margin-top: 1.5rem; }
+.cat-nav a { text-decoration: none; font-weight: 800; color: var(--ink); background: var(--card); border: 2px solid var(--line); border-radius: 999px; padding: .5em 1.1em; }
+.cat-nav a:hover { border-color: var(--accent); }
+.category h2 { margin-bottom: .2em; }
+.category { scroll-margin-top: 1rem; }
+.coming-soon { color: var(--muted); font-style: italic; }
+.cat-badge { white-space: nowrap; }
 .lang-choice { text-align: center; padding: 4rem 16px; }
 
 /* ---------------------------------------------------------------- project */

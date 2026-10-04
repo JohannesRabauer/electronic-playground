@@ -12,6 +12,20 @@ de:
     Alle Projekte laufen mit einer 9-V-Batterie und sind ungefährlich. Ab etwa 8 Jahren können Kinder mit
     einem Erwachsenen daneben löten. Jede Anleitung gibt es auch als **A4-Ausdruck** für die Werkbank.
   projects_title: Projekte
+  categories:
+    solder:
+      name: Löten
+      icon: "🔥"
+      text: Klassische Elektronik mit Lötkolben – Batterie, Bauteile, Lochrasterplatine. Kein Computer nötig.
+    microbit:
+      name: micro:bit
+      icon: "🧩"
+      text: Programmieren mit dem BBC micro:bit und Blöcken – ganz ohne Löten. Ideal für den Einstieg.
+    microbit-solder:
+      name: micro:bit + Löten
+      icon: "🛠️"
+      text: Du lötest eigene Bauteile und Platinen und steuerst sie mit dem micro:bit.
+  coming_soon: Hier kommen bald die ersten Projekte.
   sandbox_title: Freies Experimentieren
   sandbox_text: Öffne den Simulator und baue deine eigene Schaltung – oder probiere unsere Ideen im Menü „Schaltungen“.
   open_sim: Simulator öffnen
@@ -82,6 +96,20 @@ en:
     All projects run on a 9 V battery and are safe. From about age 8, children can solder with an adult
     next to them. Every guide is also available as an **A4 printout** for the workbench.
   projects_title: Projects
+  categories:
+    solder:
+      name: Soldering
+      icon: "🔥"
+      text: Classic electronics with a soldering iron – battery, parts, perfboard. No computer needed.
+    microbit:
+      name: micro:bit
+      icon: "🧩"
+      text: Programming the BBC micro:bit with blocks – no soldering at all. A great place to start.
+    microbit-solder:
+      name: micro:bit + soldering
+      icon: "🛠️"
+      text: You solder your own parts and boards and control them with the micro:bit.
+  coming_soon: The first projects are coming soon.
   sandbox_title: Free experimenting
   sandbox_text: Open the simulator and build your own circuit – or try our ideas in the "Circuits" menu.
   open_sim: Open the simulator

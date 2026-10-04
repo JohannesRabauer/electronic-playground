@@ -5,11 +5,12 @@
   "description": "Every projects/<id>/project.yaml must match this schema. Every text exists in German (de) and English (en). See docs/PROJECT-STRUCTURE.md.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "number", "status", "slug", "title", "tagline", "facts", "learn", "hero", "intro", "simulation", "parts", "board", "nets", "steps", "explanation", "variations", "troubleshooting", "safety"],
+  "required": ["id", "number", "status", "category", "slug", "title", "tagline", "facts", "learn", "hero", "intro", "simulation", "parts", "board", "nets", "steps", "explanation", "variations", "troubleshooting", "safety"],
   "properties": {
     "id": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "Must equal the folder name." },
     "number": { "type": "integer", "minimum": 1, "description": "Order in the catalog; lower = easier." },
     "status": { "enum": ["draft", "published"], "description": "Drafts are built but not listed on the home page." },
+    "category": { "enum": ["solder", "microbit", "microbit-solder"], "description": "solder = soldering only, microbit = micro:bit without soldering, microbit-solder = micro:bit with a soldered add-on." },
     "slug": { "$ref": "#/$defs/i18nSlug" },
     "title": { "$ref": "#/$defs/i18n" },
     "tagline": { "$ref": "#/$defs/i18n", "description": "One sentence: what does it do?" },

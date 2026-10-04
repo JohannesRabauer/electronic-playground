@@ -2,6 +2,7 @@
 id: batterie-vampir
 number: 6
 status: published
+category: solder
 slug: { de: batterie-vampir, en: joule-thief }
 
 title:

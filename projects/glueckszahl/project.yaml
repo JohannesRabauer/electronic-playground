@@ -2,6 +2,7 @@
 id: glueckszahl
 number: 7
 status: published
+category: solder
 slug: { de: glueckszahl-maschine, en: lucky-number-machine }
 
 title:

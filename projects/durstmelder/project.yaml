@@ -2,6 +2,7 @@
 id: durstmelder
 number: 3
 status: published
+category: solder
 slug: { de: blumen-durstmelder, en: thirsty-plant-alarm }
 
 title:

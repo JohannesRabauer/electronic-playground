@@ -20,7 +20,7 @@ You only need Docker:
 docker compose up --build
 ```
 
-Open <http://localhost:8080>. The first build compiles the simulator and takes a few minutes.
+Open <http://localhost:8080>. If port 8080 is taken, start with `WEB_PORT=8090 docker compose up --build` instead. The first build compiles the simulator and takes a few minutes.
 
 The `builder` container watches `projects/`, `parts/`, `site/` and `sandbox/` and rebuilds
 within a second or two of every save. Reload the page to see the change. Validation errors

@@ -2,6 +2,7 @@
 id: heisser-draht
 number: 1
 status: published
+category: solder
 slug: { de: heisser-draht, en: buzz-wire }
 
 title:

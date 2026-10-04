@@ -2,6 +2,7 @@
 id: polizeilicht
 number: 4
 status: published
+category: solder
 slug: { de: polizei-blinklicht, en: police-flasher }
 
 title:
