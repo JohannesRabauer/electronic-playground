@@ -129,7 +129,7 @@ function syncMakecodeManifest({ projects }) {
 
 async function buildSite(data) {
   for (const dir of [...LANGS, 'assets', 'projects']) fs.rmSync(path.join(DIST, dir), { recursive: true, force: true });
-  const u = urls(BASE, GITHUB_REPO);
+  const u = { ...urls(BASE, GITHUB_REPO), products: data.products };
   const ctx = { ...data, u };
 
   fs.cpSync(path.join(ROOT, 'site', 'assets'), path.join(DIST, 'assets'), { recursive: true });

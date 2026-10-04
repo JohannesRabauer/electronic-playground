@@ -17,6 +17,10 @@ export function loadAll(root) {
   const i18n = readYaml(path.join(root, 'site/i18n.yaml'));
   const sandbox = readYaml(path.join(root, 'sandbox/sandbox.yaml'));
   const shops = readYaml(path.join(root, 'site/shops.yaml'));
+  const products = readYaml(path.join(root, 'parts/products.yaml'));
+  for (const [id, prod] of Object.entries(products.products)) {
+    for (const c of prod.covers) if (!catalog[c]) errors.push(`parts/products.yaml: ${id} covers unknown part "${c}"`);
+  }
   for (const s of sandbox) {
     if (!fs.existsSync(path.join(root, 'sandbox', s.file))) errors.push(`sandbox.yaml: file ${s.file} not found`);
   }
@@ -55,7 +59,7 @@ export function loadAll(root) {
     }
   }
   projects.sort((a, b) => a.number - b.number);
-  return { catalog, i18n, sandbox, shops, projects, errors };
+  return { catalog, i18n, sandbox, shops, products, projects, errors };
 }
 
 function checkProject(p, id, dir, catalog, errors) {

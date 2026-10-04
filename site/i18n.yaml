@@ -40,6 +40,16 @@ de:
   shop_for_project: Einkaufsliste für dieses Projekt
   col_for: Für
   col_buy: Kaufen
+  cart_title_all: Alles mit einem Klick
+  cart_title_category: Mit einem Klick –
+  cart_this_project: Alles für dieses Projekt mit einem Klick
+  cart_parts: Bauteile in den Amazon-Warenkorb
+  cart_tools: Werkzeug
+  cart_microbit: micro:bit Go-Set
+  cart_contents: Was kommt in den Warenkorb?
+  cart_missing: "Nicht im Warenkorb (bitte einzeln besorgen):"
+  cart_elsewhere: "Außerdem brauchst du (Baumarkt oder zu Hause):"
+  cart_note: "Die Buttons legen günstige Sets bei Amazon in den Warenkorb – bezahlt wird erst, wenn du selbst bestellst. Mengen kannst du dort ändern, und wenn du schon Werkzeug hast, lass den Werkzeug-Button einfach weg. Keine Affiliate-Links. Ausgewählt am {date}; Angebote können sich ändern."
   sandbox_title: Freies Experimentieren
   sandbox_text: Öffne den Simulator und baue deine eigene Schaltung – oder probiere unsere Ideen im Menü „Schaltungen“.
   open_sim: Simulator öffnen
@@ -141,6 +151,16 @@ en:
   shop_for_project: Shopping list for this project
   col_for: For
   col_buy: Buy
+  cart_title_all: Everything in one click
+  cart_title_category: In one click –
+  cart_this_project: Everything for this project in one click
+  cart_parts: Parts to Amazon cart
+  cart_tools: Tools
+  cart_microbit: micro:bit Go kit
+  cart_contents: What goes into the cart?
+  cart_missing: "Not in the cart (please get separately):"
+  cart_elsewhere: "You also need (hardware store or at home):"
+  cart_note: "The buttons put cheap kits into your Amazon cart (amazon.com) – nothing is paid until you order yourself. You can change quantities there, and if you already have tools, just skip the tools button. No affiliate links. Selected on {date}; offers can change. In the UK, use the search links below."
   sandbox_title: Free experimenting
   sandbox_text: Open the simulator and build your own circuit – or try our ideas in the "Circuits" menu.
   open_sim: Open the simulator

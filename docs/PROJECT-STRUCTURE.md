@@ -161,6 +161,17 @@ buy: { where: { de: "Baumarkt", en: "hardware store" } }      # for things you d
 - `shops` lists the German shops that suit the part best; English pages use Amazon (US/UK) and AliExpress.
 - Use `tip` to point to the cheap option, e.g. an assortment or the micro:bit Go bundle.
 
+### One-click carts
+
+`parts/products.yaml` lists concrete Amazon products (amazon.de for German pages, amazon.com for English pages).
+Each product `covers` catalog parts. For any set of projects the build picks the covering products and creates plain
+"add to cart" links (`/gp/aws/cart/add.html?ASIN.1=…&Quantity.1=1…`), split into **parts**, **tools** and **micro:bit**.
+They appear for everything, per category and per project, and on every project page.
+
+- Prefer assortments that cover many projects; check the contents (e.g. resistor values) on the product page.
+- Every catalog part a project needs should be covered by a product, or have `buy.where` (hardware store, at home).
+- No affiliate tag, no prices. Update `checked` after re-checking the listings.
+
 ## Checklist for a new project
 
 1. Copy `projects/heisser-draht` to `projects/<new-id>`, set `id`, `number`, `slug`, `status: draft`.

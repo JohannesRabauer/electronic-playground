@@ -89,6 +89,14 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 16px 3rem; }
 .shop-project summary { cursor: pointer; font-size: 1.05rem; }
 .shop-project[open] summary { margin-bottom: .8rem; }
 .shop-notes { margin: 0; padding-left: 1.2rem; }
+.cart-box { background: linear-gradient(135deg, #fff8e1, #ffecb3); border: 2px solid #ffca28; border-radius: var(--radius); padding: 1rem 1.3rem; margin: 1rem 0; }
+.cart-box h3 { margin-top: 0; }
+.cart-box.compact { padding: .8rem 1.1rem; }
+.cart-buttons { display: flex; flex-wrap: wrap; gap: .6rem; margin: .4rem 0 .6rem; }
+.cart-buttons .count { display: inline-block; min-width: 1.5em; margin-left: .3em; padding: 0 .4em; border-radius: 999px; background: rgba(255,255,255,.3); font-size: .85em; }
+.button.secondary { background: #fff; color: var(--primary); border: 2px solid var(--primary); }
+.cart-contents { margin: .4rem 0; padding-left: 1.2rem; font-size: .9rem; }
+.cart-note { font-size: .8rem; margin-bottom: 0; }
 .lang-choice { text-align: center; padding: 4rem 16px; }
 
 /* ---------------------------------------------------------------- project */

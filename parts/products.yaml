@@ -1,0 +1,162 @@
+# Concrete products for the one-click Amazon carts on the shopping list.
+#
+# Each product covers one or more catalog parts (parts/catalog.yaml). The build collects the parts a set of
+# projects needs, picks the products that cover them and builds a plain Amazon "add to cart" link:
+#   https://www.amazon.de/gp/aws/cart/add.html?ASIN.1=...&Quantity.1=1&ASIN.2=...
+# No affiliate tag, no prices. Products were chosen for low price and good reviews and checked on the date below.
+# Listings change - re-check them now and then in a browser (Amazon blocks scripted checks) and update `checked`.
+#
+# group: parts | tools | microbit   (separate cart buttons)
+# amazon: de = amazon.de (German pages), com = amazon.com (English pages)
+
+checked: 2026-10-04
+
+products:
+  resistor-kit:
+    group: parts
+    covers: [resistor]
+    name: { de: "Widerstands-Sortiment, 130 Werte (E24), 1/4 W", en: "Resistor kit, 130 values (E24), 1/4 W" }
+    amazon: { de: B0BY9J69YH, com: B085NQZNTY }
+  led-kit:
+    group: parts
+    covers: [led-5mm]
+    name: { de: "LED-Sortiment 5 mm, 5 Farben", en: "5 mm LED assortment, 5 colours" }
+    amazon: { de: B08S37DLC1, com: B073QMYKDM }
+  ldr-pack:
+    group: parts
+    covers: [ldr]
+    name: { de: "Fotowiderstände GL5528", en: "GL5528 photoresistors" }
+    amazon: { de: B0F2FNK13V, com: B07M9P6357 }
+  transistor-kit:
+    group: parts
+    covers: [transistor-bc547, transistor-bc337]
+    name: { de: "Transistor-Sortiment mit BC547 und BC337", en: "Transistor kit with BC547 and BC337" }
+    amazon: { de: B0FGQ1515F, com: B093XSVSRV }
+  elko-kit:
+    group: parts
+    covers: [elko]
+    name: { de: "Elko-Sortiment, 24 Werte", en: "Electrolytic capacitor kit, 24 values" }
+    amazon: { de: B0C1VBXCQM, com: B07PBQXQNQ }
+  ceramic-kit:
+    group: parts
+    covers: [cap-ceramic]
+    name: { de: "Keramikkondensator-Sortiment, 24 Werte", en: "Ceramic capacitor kit, 24 values" }
+    amazon: { de: B0C1V8Q93P, com: B0D2GVNDHY }
+  buzzer-active:
+    group: parts
+    covers: [buzzer-active]
+    name: { de: "Aktive Summer 3–12 V, 12 mm", en: "Buzzer kit, active and passive, 12 mm" }
+    amazon: { de: B09RFH1T8J, com: B0FDB26RPM }
+  buzzer-passive:
+    group: parts
+    covers: [buzzer-passive]
+    name: { de: "Passive Summer 12 mm", en: "Passive buzzers 12 mm" }
+    amazon: { de: B0179I6LIK, com: B0F1KFHSNK }
+  button-kit:
+    group: parts
+    covers: [push-button]
+    name: { de: "Taster-Sortiment 6 × 6 mm", en: "6 × 6 mm push button assortment" }
+    amazon: { de: B0F1JXSD7Y, com: B07ZBHXBZ4 }
+  terminals:
+    group: parts
+    covers: [terminal-2, screwdriver]
+    name: { de: "Schraubklemmen 2-polig, 5,08 mm (mit Schraubendreher)", en: "2-pin screw terminals, 5.08 mm" }
+    amazon: { de: B0CBWVRWMV, com: B09ZP4FWXT }
+  ne555:
+    group: parts
+    covers: [ic-555]
+    name: { de: "Timer-IC NE555", en: "NE555 timer IC" }
+    amazon: { de: B08YP4Z6X8, com: B00K243MIQ }
+  cd4017:
+    group: parts
+    covers: [ic-4017]
+    name: { de: "Zähler-IC CD4017", en: "CD4017 counter IC" }
+    amazon: { de: B0B2RSCM9G, com: B08FRJJ98M }
+  ic-sockets:
+    group: parts
+    covers: [ic-555, ic-4017]
+    name: { de: "IC-Sockel-Sortiment (DIP-8, DIP-16 …)", en: "IC socket assortment (DIP-8, DIP-16 …)" }
+    amazon: { de: B01GOLSUAU, com: B01MRZZCQU }
+  toroids:
+    group: parts
+    covers: [toroid]
+    name: { de: "Ferrit-Ringkerne", en: "Ferrite toroid cores" }
+    amazon: { de: B0166G8N1O, com: B0178IA61Y }
+  enamelled-wire:
+    group: parts
+    covers: [enamelled-wire]
+    name: { de: "Kupferlackdraht 0,3 mm", en: "Enamelled copper wire 0.3 mm" }
+    amazon: { de: B0DYNP7H3P, com: B09TFHCSBQ }
+  battery-clips:
+    group: parts
+    covers: [battery-clip-9v]
+    name: { de: "9-V-Batterieclips", en: "9 V battery clips" }
+    amazon: { de: B078BMXBX2, com: B079HYPCZD }
+  aa-holder:
+    group: parts
+    covers: [battery-holder-aa]
+    name: { de: "Batteriehalter 1 × AA mit Kabel", en: "1 × AA battery holders with leads" }
+    amazon: { de: B000OH3VIM, com: B07BXX62JF }
+  batteries-9v:
+    group: parts
+    covers: [battery-9v]
+    name: { de: "9-V-Blockbatterien", en: "9 V batteries" }
+    amazon: { de: B0BTYPS4PW, com: B07RZ9PMQH }
+  perfboards:
+    group: parts
+    covers: [perfboard]
+    name: { de: "Lochrasterplatinen-Set (bis 7 × 9 cm)", en: "Perfboard set (up to 7 × 9 cm)" }
+    amazon: { de: B08TMMZPWT, com: B072Z7Y19F }
+  bridge-wire:
+    group: parts
+    covers: [perfboard]
+    markets: [de]
+    name: { de: "Dünner blanker Draht 0,6 mm für Lötbrücken", en: "Thin bare wire 0.6 mm for solder bridges" }
+    amazon: { de: B000VQYLA8 }
+  copper-wire:
+    group: parts
+    covers: [copper-wire-bare]
+    name: { de: "Blanker Kupferdraht 1,5 mm", en: "Bare copper wire 14 AWG" }
+    amazon: { de: B0CHJDBFX2, com: B0CD71V6JG }
+  hookup-wire:
+    group: parts
+    covers: [stranded-wire, jumper-wire]
+    name: { de: "Litzen-Set, 6 Farben", en: "Hook-up wire set, 6 colours" }
+    amazon: { de: B0C7TJG9YB, com: B089CQHRDT }
+  crocodile-leads:
+    group: parts
+    covers: [crocodile-clips, clip-leads-course, clip-leads-pads]
+    name: { de: "Krokodilklemmen-Kabel, 10 Stück", en: "Crocodile clip leads, 10 pieces" }
+    amazon: { de: B0DFY6Q6K3, com: B06XX25HFX }
+  tape:
+    group: parts
+    covers: [insulating-tape]
+    name: { de: "Isolierband, bunt", en: "Insulating tape, colours" }
+    amazon: { de: B07PSLRLW2, com: B000E9DM16 }
+
+  soldering-kit:
+    group: tools
+    covers: [soldering-iron, solder]
+    name: { de: "Lötkolben-Set mit Temperaturanzeige, Ablage und Lötzinn", en: "Soldering station with stand and solder" }
+    amazon: { de: B0D5M727WM, com: B0BX2N258S }
+  pliers:
+    group: tools
+    covers: [side-cutter, pliers]
+    name: { de: "Seitenschneider + Zange (Set)", en: "Flush cutter + pliers set" }
+    amazon: { de: B0FFYP8GKV, com: B0FFYP8GKV }
+  wire-stripper:
+    group: tools
+    covers: [wire-stripper]
+    name: { de: "Abisolierzange", en: "Wire stripper" }
+    amazon: { de: B002BDNL4Q, com: B0CV4NYJ1D }
+  safety-glasses:
+    group: tools
+    covers: [safety-glasses]
+    name: { de: "Kinder-Schutzbrille", en: "Kids' safety glasses" }
+    amazon: { de: B07D45J7C8, com: B0C3WTNRCK }
+
+  microbit-go:
+    group: microbit
+    covers: [microbit-v2, usb-cable-micro, battery-pack-aaa]
+    name: { de: "BBC micro:bit V2 Go-Set", en: "BBC micro:bit V2 Go kit" }
+    amazon: { de: B07YKT436X, com: B0BNKTGGB7 }

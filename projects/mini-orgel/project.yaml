@@ -56,13 +56,13 @@ simulation:
 
 parts:
   - { ref: IC1, part: ic-555, qty: 1 }
-  - { ref: R1, part: resistor, qty: 1, value: 1000, note: { de: "braun – schwarz – rot", en: "brown – black – red" } }
-  - { ref: R2, part: resistor, qty: 1, value: 27000, note: { de: "Ton C: rot – violett – orange", en: "note C: red – violet – orange" } }
-  - { ref: R3, part: resistor, qty: 1, value: 24000, note: { de: "Ton D: rot – gelb – orange", en: "note D: red – yellow – orange" } }
-  - { ref: R4, part: resistor, qty: 1, value: 22000, note: { de: "Ton E: rot – rot – orange", en: "note E: red – red – orange" } }
-  - { ref: R5, part: resistor, qty: 1, value: 20000, note: { de: "Ton F: rot – schwarz – orange", en: "note F: red – black – orange" } }
-  - { ref: R6, part: resistor, qty: 1, value: 18000, note: { de: "Ton G: braun – grau – orange", en: "note G: brown – grey – orange" } }
-  - { ref: R7, part: resistor, qty: 1, value: 16000, note: { de: "Ton A: braun – blau – orange", en: "note A: brown – blue – orange" } }
+  - { ref: R1, part: resistor, qty: 1, value: 10000, note: { de: "braun – schwarz – orange", en: "brown – black – orange" } }
+  - { ref: R2, part: resistor, qty: 1, value: 10000, note: { de: "Ton C: braun – schwarz – orange", en: "note C: brown – black – orange" } }
+  - { ref: R3, part: resistor, qty: 1, value: 8200, note: { de: "Ton D: grau – rot – rot", en: "note D: grey – red – red" } }
+  - { ref: R4, part: resistor, qty: 1, value: 6800, note: { de: "Ton E: blau – grau – rot", en: "note E: blue – grey – red" } }
+  - { ref: R5, part: resistor, qty: 1, value: 6200, note: { de: "Ton F: blau – rot – rot", en: "note F: blue – red – red" } }
+  - { ref: R6, part: resistor, qty: 1, value: 5100, note: { de: "Ton G: grün – braun – rot", en: "note G: green – brown – red" } }
+  - { ref: R7, part: resistor, qty: 1, value: 3900, note: { de: "Ton A: orange – weiß – rot", en: "note A: orange – white – red" } }
   - { ref: C1, part: cap-ceramic, qty: 1, value: 100e-9, note: { de: "Aufdruck 104", en: "marked 104" } }
   - { ref: S1, part: push-button, qty: 1 }
   - { ref: S2, part: push-button, qty: 1 }
@@ -173,8 +173,8 @@ steps:
     adds: [R1]
     title: { de: Widerstand R1, en: Resistor R1 }
     text:
-      de: R1 (braun – schwarz – rot, 1 kΩ) kommt senkrecht in **D2** und **D6**.
-      en: R1 (brown – black – red, 1 kΩ) goes upright into **D2** and **D6**.
+      de: R1 (braun – schwarz – orange, 10 kΩ) kommt senkrecht in **D2** und **D6**.
+      en: R1 (brown – black – orange, 10 kΩ) goes upright into **D2** and **D6**.
 
   - id: jumper
     view: top
@@ -198,10 +198,10 @@ steps:
     text:
       de: |
         Jetzt die sechs Widerstände für die Töne – **die Reihenfolge ist wichtig**! Alle stehen senkrecht von Reihe 6 bis Reihe 10:
-        **I**: 27 kΩ (C) · **L**: 24 kΩ (D) · **O**: 22 kΩ (E) · **R**: 20 kΩ (F) · **U**: 18 kΩ (G) · **X**: 16 kΩ (A).
+        **I**: 10 kΩ (C) · **L**: 8,2 kΩ (D) · **O**: 6,8 kΩ (E) · **R**: 6,2 kΩ (F) · **U**: 5,1 kΩ (G) · **X**: 3,9 kΩ (A).
       en: |
         Now the six resistors for the notes – **the order matters**! They all stand upright from row 6 to row 10:
-        **I**: 27 kΩ (C) · **L**: 24 kΩ (D) · **O**: 22 kΩ (E) · **R**: 20 kΩ (F) · **U**: 18 kΩ (G) · **X**: 16 kΩ (A).
+        **I**: 10 kΩ (C) · **L**: 8.2 kΩ (D) · **O**: 6.8 kΩ (E) · **R**: 6.2 kΩ (F) · **U**: 5.1 kΩ (G) · **X**: 3.9 kΩ (A).
     tip:
       de: Leg die Widerstände vorher in der richtigen Reihenfolge auf den Tisch und vergleiche die Farbringe mit der Teileliste.
       en: Lay the resistors out on the table in the right order first and compare the colour bands with the parts list.
@@ -316,14 +316,16 @@ explanation:
       charging = higher note.** With no key pressed, C1 cannot charge – and it stays silent.
   parents:
     de: |
-      Der NE555 arbeitet als **astabiler Multivibrator** mit R<sub>A</sub> = R1 = 1 kΩ und R<sub>B</sub> = Tastenwiderstand:
-      f ≈ 1,44 / ((R<sub>A</sub> + 2 R<sub>B</sub>) · C1). Mit C1 = 100 nF ergibt das C ≈ 262 Hz (27 kΩ), D ≈ 294 Hz (24 kΩ),
-      E ≈ 320 Hz (22 kΩ), F ≈ 351 Hz (20 kΩ), G ≈ 389 Hz (18 kΩ), A ≈ 436 Hz (16 kΩ) – eine C-Dur-Tonleiter mit E24-Widerständen.
+      Der NE555 arbeitet als **astabiler Multivibrator** mit R<sub>A</sub> = R1 = 10 kΩ und R<sub>B</sub> = Tastenwiderstand:
+      f ≈ 1,44 / ((R<sub>A</sub> + 2 R<sub>B</sub>) · C1). Mit C1 = 100 nF ergibt das C ≈ 480 Hz (10 kΩ), D ≈ 545 Hz (8,2 kΩ),
+      E ≈ 610 Hz (6,8 kΩ), F ≈ 643 Hz (6,2 kΩ), G ≈ 713 Hz (5,1 kΩ), A ≈ 809 Hz (3,9 kΩ). Die Abstände entsprechen einer
+      Dur-Tonleiter auf etwa ±20 Cent genau – mit Werten aus einem gängigen E24-Widerstandssortiment.
       Reset (Pin 4) liegt über die Drahtbrücke W1 an Plus, Pin 5 bleibt offen. Der Piezo hängt direkt am Ausgang (Pin 3).
     en: |
-      The NE555 runs as an **astable multivibrator** with R<sub>A</sub> = R1 = 1 kΩ and R<sub>B</sub> = the key resistor:
-      f ≈ 1.44 / ((R<sub>A</sub> + 2 R<sub>B</sub>) · C1). With C1 = 100 nF that gives C ≈ 262 Hz (27 kΩ), D ≈ 294 Hz (24 kΩ),
-      E ≈ 320 Hz (22 kΩ), F ≈ 351 Hz (20 kΩ), G ≈ 389 Hz (18 kΩ), A ≈ 436 Hz (16 kΩ) – a C major scale with E24 resistors.
+      The NE555 runs as an **astable multivibrator** with R<sub>A</sub> = R1 = 10 kΩ and R<sub>B</sub> = the key resistor:
+      f ≈ 1.44 / ((R<sub>A</sub> + 2 R<sub>B</sub>) · C1). With C1 = 100 nF that gives C ≈ 480 Hz (10 kΩ), D ≈ 545 Hz (8.2 kΩ),
+      E ≈ 610 Hz (6.8 kΩ), F ≈ 643 Hz (6.2 kΩ), G ≈ 713 Hz (5.1 kΩ), A ≈ 809 Hz (3.9 kΩ). The steps match a major scale
+      to about ±20 cents – using values from a common E24 resistor assortment.
       Reset (pin 4) is tied to plus via the jumper W1; pin 5 is left open. The piezo sits directly on the output (pin 3).
 
 variations:
@@ -333,8 +335,8 @@ variations:
       en: Swap C1 for **47 nF** (marked 473) – all notes become about twice as high. Try it in the simulator!
   - title: { de: Mehr Tasten, en: More keys }
     text:
-      de: Ein **H** bekommst du mit ca. 14 kΩ, das hohe **C** mit ca. 13 kΩ. Die Platine muss dafür breiter werden.
-      en: You get a **B** with about 14 kΩ and the high **C** with about 13 kΩ. The board has to get wider for that.
+      de: Ein **H** bekommst du mit 3 kΩ, das hohe **C** mit 2,4 kΩ. Die Platine muss dafür breiter werden.
+      en: You get a **B** with 3 kΩ and the high **C** with 2.4 kΩ. The board has to get wider for that.
   - title: { de: Sirene, en: Siren }
     text:
       de: Für Bastelprofis – ein Elko lässt den Ton langsam auf- und abschwellen. Bau es zuerst im Simulator.

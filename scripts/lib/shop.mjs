@@ -61,3 +61,57 @@ export function shopTable(rows, { shops, u, t, lang, esc, mdInline, showProjects
 </tr>`;
   }).join('')}</tbody></table>`;
 }
+
+// ------------------------------------------------------------------ one-click Amazon carts
+
+const MARKET = { de: { key: 'de', host: 'www.amazon.de' }, en: { key: 'com', host: 'www.amazon.com' } };
+const GROUPS = ['parts', 'tools', 'microbit'];
+
+/**
+ * Amazon carts for a set of projects: the products (parts/products.yaml) that cover the catalog parts
+ * the projects need, split into groups, each with a plain "add to cart" link (no affiliate tag).
+ */
+export function amazonCarts(projects, catalog, productsFile, lang) {
+  const market = MARKET[lang];
+  const needed = new Set(projects.flatMap((p) => p.parts.map((x) => x.part)));
+  const covered = new Set();
+  const groups = Object.fromEntries(GROUPS.map((g) => [g, []]));
+  for (const [id, prod] of Object.entries(productsFile.products)) {
+    const asin = prod.amazon[market.key];
+    if (!asin || (prod.markets && !prod.markets.includes(market.key))) continue;
+    if (!prod.covers.some((c) => needed.has(c))) continue;
+    prod.covers.forEach((c) => covered.add(c));
+    groups[prod.group].push({ id, asin, name: prod.name[lang], url: `https://${market.host}/dp/${asin}` });
+  }
+  const cartUrl = (items) => `https://${market.host}/gp/aws/cart/add.html?${items.map((it, i) => `ASIN.${i + 1}=${it.asin}&Quantity.${i + 1}=1`).join('&')}`;
+  const notCovered = [...needed].filter((c) => !covered.has(c)).map((c) => catalog[c]);
+  return {
+    groups: Object.fromEntries(GROUPS.filter((g) => groups[g].length).map((g) => [g, { items: groups[g], url: cartUrl(groups[g]) }])),
+    elsewhere: notCovered.filter((e) => e.buy.where),
+    missing: notCovered.filter((e) => !e.buy.where),
+    checked: productsFile.checked,
+  };
+}
+
+export function cartBox(projects, { catalog, products, t, lang, esc }, title, compact = false) {
+  const carts = amazonCarts(projects, catalog, products, lang);
+  const label = { parts: `🧩 ${t.cart_parts}`, tools: `🔧 ${t.cart_tools}`, microbit: `💻 ${t.cart_microbit}` };
+  const buttons = Object.entries(carts.groups).map(([g, c], i) =>
+    `<a class="button ${i ? 'secondary' : ''}" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer nofollow">${label[g]} <span class="count">${c.items.length}</span></a>`).join('');
+  if (!buttons) return '';
+  const contents = Object.entries(carts.groups).map(([g, c]) => `<li><strong>${label[g]}:</strong> ${c.items.map((it) =>
+    `<a href="${esc(it.url)}" target="_blank" rel="noopener noreferrer nofollow">${esc(it.name)}</a>`).join(' · ')}</li>`).join('');
+  const names = (list) => [...new Set(list.map((e) => e.name[lang]))].map(esc).join(', ');
+  const extra = [
+    carts.missing.length ? `${esc(t.cart_missing)} ${names(carts.missing)}` : '',
+    carts.elsewhere.length ? `${esc(t.cart_elsewhere)} ${names(carts.elsewhere)}` : '',
+  ].filter(Boolean).map((s) => `<p class="hint">${s}</p>`).join('');
+  const date = new Date(carts.checked).toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  return `<div class="cart-box${compact ? ' compact' : ''}">
+  <h3>🛒 ${esc(title)}</h3>
+  <div class="cart-buttons">${buttons}</div>
+  <details><summary>${esc(t.cart_contents)}</summary><ul class="cart-contents">${contents}</ul></details>
+  ${extra}
+  <p class="hint cart-note">${esc(t.cart_note.replace('{date}', date))}</p>
+</div>`;
+}

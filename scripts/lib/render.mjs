@@ -2,7 +2,7 @@
 // both on the website and in the A4 print version (see docs/PROJECT-STRUCTURE.md).
 import { marked } from 'marked';
 import { renderBoard, renderPartIcon, formatValue } from './board.mjs';
-import { aggregateParts, shopTable, SHOP_DIR } from './shop.mjs';
+import { aggregateParts, shopTable, cartBox, SHOP_DIR } from './shop.mjs';
 
 export const LANGS = ['de', 'en'];
 export const PRINT_DIR = { de: 'drucken', en: 'print' };
@@ -100,7 +100,7 @@ function partsSection(p, catalog, t, lang, u) {
   <td class="note">${x.note ? `<span class="pnote">${mdInline(x.note[lang])}</span> ` : ''}<span class="hint">${mdInline(catalog[x.part].hint?.[lang] || '')}</span></td>
 </tr>`).join('')}</tbody></table>`;
   const tools = rows(['tool']);
-  const shopLink = u ? `<p class="screen-only"><a class="button small" href="${u.shop(lang)}#p-${p.id}">🛒 ${esc(t.shop_for_project)}</a></p>` : '';
+  const shopLink = u ? `<div class="screen-only">${cartBox([p], { catalog, products: u.products, t, lang, esc }, t.cart_this_project, true)}<p><a class="button small secondary" href="${u.shop(lang)}#p-${p.id}">${esc(t.shop_for_project)}</a></p></div>` : '';
   return `${shopLink}<h3>${esc(t.components)}</h3>${table(rows(['component', 'board']))}
 <h3>${esc(t.materials)}</h3>${table(rows(['material']))}
 <h3>${esc(t.tools)}</h3>
@@ -328,16 +328,19 @@ export function shopPage(ctx, lang) {
   const published = projects.filter((p) => p.status === 'published');
   const cats = Object.entries(t.categories);
   const opts = (showProjects) => ({ shops, u, t, lang, esc, mdInline, showProjects });
+  const cart = (list, title) => cartBox(list, { catalog, products: ctx.products, t, lang, esc }, title);
   const notes = Object.values(shops).filter((s) => s.links[lang])
     .map((s) => `<li><strong>${esc(s.name)}</strong> – ${esc(s.note[lang])}</li>`).join('');
   const byCategory = cats.map(([id, c]) => {
     const list = published.filter((p) => p.category === id);
     if (!list.length) return '';
     return `<section class="sec" id="shop-${id}"><h2><span aria-hidden="true">${c.icon}</span> ${esc(c.name)}</h2>
+${cart(list, `${t.cart_title_category} ${c.name}`)}
 ${shopTable(aggregateParts(list, catalog), opts(true))}</section>`;
   }).join('\n');
   const byProject = published.map((p) => `<details class="card shop-project" id="p-${p.id}">
   <summary><strong>#${p.number} ${esc(p.title[lang])}</strong> <span class="hint">· ${esc(t.categories[p.category].name)}</span></summary>
+  ${cart([p], t.cart_this_project)}
   ${shopTable(aggregateParts([p], catalog), opts(false))}
 </details>`).join('\n');
   const body = `<main class="shop">
@@ -350,6 +353,7 @@ ${shopTable(aggregateParts(list, catalog), opts(true))}</section>`;
   ${cats.filter(([id]) => published.some((p) => p.category === id)).map(([id, c]) => `<a href="#shop-${id}"><span aria-hidden="true">${c.icon}</span> ${esc(c.name)}</a>`).join('')}
   <a href="#by-project">${esc(t.shop_by_project)}</a>
 </nav>
+<section class="sec" id="one-click">${cart(published, t.cart_title_all)}</section>
 <section class="sec card"><h2>${esc(t.shop_where_title)}</h2><ul class="shop-notes">${notes}</ul></section>
 <section class="sec" id="all"><h2>${esc(t.shop_all)}</h2><p class="lead">${esc(t.shop_all_text)}</p>
 ${shopTable(aggregateParts(published, catalog), opts(true))}</section>
