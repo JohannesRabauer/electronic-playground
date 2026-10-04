@@ -2,6 +2,7 @@
 // both on the website and in the A4 print version (see docs/PROJECT-STRUCTURE.md).
 import { marked } from 'marked';
 import { renderBoard, renderPartIcon, formatValue } from './board.mjs';
+import { aggregateParts, shopTable, SHOP_DIR } from './shop.mjs';
 
 export const LANGS = ['de', 'en'];
 export const PRINT_DIR = { de: 'drucken', en: 'print' };
@@ -20,6 +21,7 @@ export function urls(base, repo) {
     project: (lang, p) => `${base}${lang}/${p.slug[lang]}/`,
     print: (lang, p) => `${base}${lang}/${p.slug[lang]}/${PRINT_DIR[lang]}/`,
     asset: (file) => `${base}assets/${file}`,
+    shop: (lang) => `${base}${lang}/${SHOP_DIR[lang]}/`,
     projectFile: (p, file) => `${base}projects/${p.id}/${file}`,
     // MakeCode renders the program as blocks (in the page language) with a Run button for its simulator.
     makecodeBlocks: (lang, program) => `${MAKECODE}/--docs?lang=${lang}&md=${encodeURIComponent(`${FENCE}blocks\n${program}\n${FENCE}\n`)}`,
@@ -52,6 +54,7 @@ function layout({ lang, t, u, title, description, altHref, body, bodyClass = '',
 ${withHeader ? `<header class="topbar">
   <a class="brand" href="${u.home(lang)}"><span class="bolt">⚡</span> ${esc(t.site_title)}</a>
   <nav>
+    <a href="${u.shop(lang)}">🛒 ${esc(t.shop_title)}</a>
     <a href="${u.sim(lang)}">${esc(t.open_sim)}</a>
     <a href="${altHref}" hreflang="${other}" lang="${other}">${esc(t.other_lang)}</a>
   </nav>
@@ -78,7 +81,7 @@ function facts(p, t, lang) {
 <ul class="topics">${p.facts.topics.map((x) => `<li class="topic topic-${x}">${esc(t.topics[x])}</li>`).join('')}</ul>`;
 }
 
-function partsSection(p, catalog, t, lang) {
+function partsSection(p, catalog, t, lang, u) {
   const rows = (cats) => p.parts.filter((x) => cats.includes(catalog[x.part].category));
   const name = (x) => {
     const c = catalog[x.part];
@@ -97,7 +100,8 @@ function partsSection(p, catalog, t, lang) {
   <td class="note">${x.note ? `<span class="pnote">${mdInline(x.note[lang])}</span> ` : ''}<span class="hint">${mdInline(catalog[x.part].hint?.[lang] || '')}</span></td>
 </tr>`).join('')}</tbody></table>`;
   const tools = rows(['tool']);
-  return `<h3>${esc(t.components)}</h3>${table(rows(['component', 'board']))}
+  const shopLink = u ? `<p class="screen-only"><a class="button small" href="${u.shop(lang)}#p-${p.id}">🛒 ${esc(t.shop_for_project)}</a></p>` : '';
+  return `${shopLink}<h3>${esc(t.components)}</h3>${table(rows(['component', 'board']))}
 <h3>${esc(t.materials)}</h3>${table(rows(['material']))}
 <h3>${esc(t.tools)}</h3>
 <ul class="tools">${tools.map((x) => `<li><span class="emoji" aria-hidden="true">${catalog[x.part].icon || '•'}</span> ${esc(catalog[x.part].name[lang])}</li>`).join('')}</ul>`;
@@ -200,7 +204,7 @@ export function projectPage(ctx, p, lang) {
 </section>
 <nav class="toc">${Object.entries(t.sections).filter(([k]) => k !== 'board' || p.board).map(([k, v]) => `<a href="#${k}">${esc(v)}</a>`).join('')}</nav>
 ${section('try', t.sections.try, trySection(p, t, lang, u))}
-${section('parts', t.sections.parts, partsSection(p, catalog, t, lang))}
+${section('parts', t.sections.parts, partsSection(p, catalog, t, lang, u))}
 ${p.board ? section('board', t.sections.board, boardSection(p, catalog, t, lang)) : ''}
 ${section('steps', t.sections.steps, stepsSection(p, catalog, t, lang, u, false))}
 ${section('explain', t.sections.explain, rest.explain)}
@@ -313,4 +317,50 @@ export function rootPage(ctx) {
 </body>
 </html>
 `;
+}
+
+// ------------------------------------------------------------------ shopping list
+
+export function shopPage(ctx, lang) {
+  const { i18n, u, projects, catalog, shops } = ctx;
+  const t = i18n[lang];
+  const other = lang === 'de' ? 'en' : 'de';
+  const published = projects.filter((p) => p.status === 'published');
+  const cats = Object.entries(t.categories);
+  const opts = (showProjects) => ({ shops, u, t, lang, esc, mdInline, showProjects });
+  const notes = Object.values(shops).filter((s) => s.links[lang])
+    .map((s) => `<li><strong>${esc(s.name)}</strong> – ${esc(s.note[lang])}</li>`).join('');
+  const byCategory = cats.map(([id, c]) => {
+    const list = published.filter((p) => p.category === id);
+    if (!list.length) return '';
+    return `<section class="sec" id="shop-${id}"><h2><span aria-hidden="true">${c.icon}</span> ${esc(c.name)}</h2>
+${shopTable(aggregateParts(list, catalog), opts(true))}</section>`;
+  }).join('\n');
+  const byProject = published.map((p) => `<details class="card shop-project" id="p-${p.id}">
+  <summary><strong>#${p.number} ${esc(p.title[lang])}</strong> <span class="hint">· ${esc(t.categories[p.category].name)}</span></summary>
+  ${shopTable(aggregateParts([p], catalog), opts(false))}
+</details>`).join('\n');
+  const body = `<main class="shop">
+<section class="home-hero">
+  <h1>🛒 ${esc(t.shop_title)}</h1>
+  <div class="home-intro">${md(t.shop_intro)}</div>
+</section>
+<nav class="cat-nav">
+  <a href="#all">${esc(t.shop_all)}</a>
+  ${cats.filter(([id]) => published.some((p) => p.category === id)).map(([id, c]) => `<a href="#shop-${id}"><span aria-hidden="true">${c.icon}</span> ${esc(c.name)}</a>`).join('')}
+  <a href="#by-project">${esc(t.shop_by_project)}</a>
+</nav>
+<section class="sec card"><h2>${esc(t.shop_where_title)}</h2><ul class="shop-notes">${notes}</ul></section>
+<section class="sec" id="all"><h2>${esc(t.shop_all)}</h2><p class="lead">${esc(t.shop_all_text)}</p>
+${shopTable(aggregateParts(published, catalog), opts(true))}</section>
+${byCategory}
+<section class="sec" id="by-project"><h2>${esc(t.shop_by_project)}</h2>
+${byProject}
+</section>
+</main>
+<script>
+  // Open the project's list when the page is opened with #p-<id>.
+  (function () { var d = location.hash && document.getElementById(location.hash.slice(1)); if (d && d.tagName === 'DETAILS') d.open = true; })();
+</script>`;
+  return layout({ lang, t, u, title: `${t.shop_title} – ${t.site_title}`, description: t.shop_title, altHref: u.shop(other), body });
 }

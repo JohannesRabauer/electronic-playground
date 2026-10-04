@@ -16,6 +16,7 @@ export function loadAll(root) {
   const catalog = readYaml(path.join(root, 'parts/catalog.yaml'));
   const i18n = readYaml(path.join(root, 'site/i18n.yaml'));
   const sandbox = readYaml(path.join(root, 'sandbox/sandbox.yaml'));
+  const shops = readYaml(path.join(root, 'site/shops.yaml'));
   for (const s of sandbox) {
     if (!fs.existsSync(path.join(root, 'sandbox', s.file))) errors.push(`sandbox.yaml: file ${s.file} not found`);
   }
@@ -54,7 +55,7 @@ export function loadAll(root) {
     }
   }
   projects.sort((a, b) => a.number - b.number);
-  return { catalog, i18n, sandbox, projects, errors };
+  return { catalog, i18n, sandbox, shops, projects, errors };
 }
 
 function checkProject(p, id, dir, catalog, errors) {

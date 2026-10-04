@@ -7,7 +7,7 @@
   "additionalProperties": {
     "type": "object",
     "additionalProperties": false,
-    "required": ["category", "name"],
+    "required": ["category", "name", "buy"],
     "properties": {
       "category": { "enum": ["component", "board", "material", "tool"] },
       "kind": { "enum": ["resistor", "led", "buzzer", "terminal", "transistor", "ldr", "elko", "cap", "button", "jumper", "toroid", "leads", "dip8", "dip16"], "description": "How it is drawn on the perfboard." },
@@ -25,7 +25,19 @@
       },
       "icon": { "type": "string", "description": "Emoji for parts that are not drawn." },
       "name": { "$ref": "#/$defs/i18n" },
-      "hint": { "$ref": "#/$defs/i18n" }
+      "hint": { "$ref": "#/$defs/i18n" },
+      "buy": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Shopping list: search words for shops, or where to get it otherwise. No prices, no affiliate links.",
+        "properties": {
+          "search": { "$ref": "#/$defs/i18n" },
+          "shops": { "type": "array", "items": { "enum": ["reichelt", "pollin", "aliexpress", "amazon"] } },
+          "tip": { "$ref": "#/$defs/i18n" },
+          "where": { "$ref": "#/$defs/i18n" }
+        },
+        "oneOf": [{ "required": ["search", "shops"] }, { "required": ["where"] }]
+      }
     },
     "oneOf": [{ "required": ["kind"] }, { "required": ["icon"] }]
   },

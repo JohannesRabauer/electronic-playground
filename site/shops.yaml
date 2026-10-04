@@ -1,0 +1,32 @@
+# Shops for the shopping list. Plain search links - no affiliate links, no prices.
+# {q} = search words (URL-encoded), {q-} = search words joined with dashes (AliExpress).
+reichelt:
+  name: Reichelt
+  links:
+    de: ["https://www.reichelt.de/de/de/shop/suche/{q}"]
+  note:
+    de: Einzelteile oft für wenige Cent, schnelle Lieferung. Lohnt sich für eine größere Bestellung auf einmal.
+    en: Single parts often cost cents, fast delivery. Worth it for one bigger order.
+pollin:
+  name: Pollin
+  links:
+    de: ["https://www.pollin.de/search?search={q}"]
+  note:
+    de: Sehr günstige Restposten und Sortimente – der Inhalt wechselt aber.
+    en: Very cheap surplus and assortments – but the content changes.
+aliexpress:
+  name: AliExpress
+  links:
+    de: ["https://de.aliexpress.com/w/wholesale-{q-}.html"]
+    en: ["https://www.aliexpress.com/w/wholesale-{q-}.html"]
+  note:
+    de: Meist am billigsten, besonders für Sortimente – aber oft 2–4 Wochen Lieferzeit.
+    en: Usually the cheapest, especially for assortments – but often 2–4 weeks delivery.
+amazon:
+  name: Amazon
+  links:
+    de: ["https://www.amazon.de/s?k={q}"]
+    en: ["https://www.amazon.com/s?k={q}", "https://www.amazon.co.uk/s?k={q}"]
+  note:
+    de: Praktisch für Werkzeug-Sets und Sortimente mit schneller Lieferung. Preise vergleichen lohnt sich.
+    en: Handy for tool kits and assortments with fast delivery. Comparing prices is worth it.

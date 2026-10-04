@@ -41,7 +41,7 @@ Changes to `scripts/` need a restart: `docker compose restart builder`.
 | `docs/PROJECT-STRUCTURE.md` | **How to write a project**, start here |
 | `parts/catalog.yaml` | All parts, materials and tools (DE/EN names, buying hints) |
 | `sandbox/` | Loose circuits for the simulator menu (ideas, not projects yet) |
-| `site/` | UI texts (`i18n.yaml`), stylesheet, small script |
+| `site/` | UI texts (`i18n.yaml`), shops for the shopping list (`shops.yaml`), stylesheet, small script |
 | `scripts/` | The static site generator (Node, no framework) |
 | `pxt.json` | Generated list of MakeCode tutorials – MakeCode reads it from GitHub, so commit it |
 | `docker/` | Dockerfile (simulator build + site build) and nginx config |

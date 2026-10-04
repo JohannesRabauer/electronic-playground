@@ -13,66 +13,77 @@ resistor:
   kind: resistor
   name: { de: Widerstand, en: Resistor }
   hint: { de: "Kohleschicht, 1/4 Watt. Die Farbringe zeigen den Wert.", en: "Carbon film, 1/4 watt. The colour bands show the value." }
+  buy: { search: { de: "Widerstand Sortiment 1/4W", en: "resistor assortment 1/4W" }, shops: [reichelt, aliexpress, amazon], tip: { de: "Am günstigsten als Sortiment (E12, ca. 600 Stück). Die E24-Werte der Mini-Orgel (24k, 20k, 16k) gibt es einzeln bei Reichelt für wenige Cent.", en: "Cheapest as an assortment (E12, about 600 pieces). The E24 values of the Mini Organ (24k, 20k, 16k) cost a few cents each at single-part shops." } }
 
 led-5mm:
   category: component
   kind: led
   name: { de: LED 5 mm, en: LED 5 mm }
   hint: { de: "Das lange Bein ist Plus (+).", en: "The long leg is plus (+)." }
+  buy: { search: { de: "LED 5mm Sortiment", en: "5mm LED assortment" }, shops: [aliexpress, amazon, reichelt], tip: { de: "Ein gemischtes Sortiment (rot, gelb, grün, blau, weiß) reicht für alle Projekte.", en: "A mixed assortment (red, yellow, green, blue, white) covers all projects." } }
 
 ldr:
   category: component
   kind: ldr
   name: { de: Fotowiderstand (LDR), en: Light-dependent resistor (LDR) }
   hint: { de: "Z. B. GL5528 (5 mm). Die Richtung ist egal.", en: "E.g. GL5528 (5 mm). Direction does not matter." }
+  buy: { search: { de: "Fotowiderstand GL5528", en: "GL5528 photoresistor" }, shops: [aliexpress, reichelt], tip: { de: "Im 10er- oder 20er-Pack kosten sie fast nichts.", en: "In packs of 10 or 20 they cost almost nothing." } }
 
 transistor-bc547:
   category: component
   kind: transistor
   name: { de: Transistor BC547, en: Transistor BC547 }
   hint: { de: "NPN. Flache Seite zu dir, Beinchen nach unten: C – B – E.", en: "NPN. Flat side towards you, legs down: C – B – E." }
+  buy: { search: { de: "BC547", en: "BC547 transistor" }, shops: [reichelt, aliexpress], tip: { de: "Einzeln kosten sie nur Cent – kauf gleich 10 Stück.", en: "They cost cents each – buy 10 at once." } }
 
 transistor-bc337:
   category: component
   kind: transistor
   name: { de: Transistor BC337, en: Transistor BC337 }
   hint: { de: "NPN, verträgt mehr Strom. Flache Seite zu dir, Beinchen nach unten: C – B – E.", en: "NPN, handles more current. Flat side towards you, legs down: C – B – E." }
+  buy: { search: { de: "BC337", en: "BC337 transistor" }, shops: [reichelt, aliexpress] }
 
 elko:
   category: component
   kind: elko
   name: { de: Elektrolytkondensator (Elko), en: Electrolytic capacitor }
   hint: { de: "Mindestens 16 V. Der helle Streifen mit „−“ zeigt das Minus-Bein (das kürzere).", en: "At least 16 V. The light stripe with \"−\" marks the minus leg (the shorter one)." }
+  buy: { search: { de: "Elko Sortiment", en: "electrolytic capacitor assortment" }, shops: [aliexpress, amazon, reichelt], tip: { de: "Ein Sortiment (1–470 µF, mind. 16 V) enthält alle benötigten Werte.", en: "An assortment (1–470 µF, at least 16 V) contains all values needed." } }
 
 cap-ceramic:
   category: component
   kind: cap
   name: { de: Keramikkondensator, en: Ceramic capacitor }
   hint: { de: "Aufdruck 104 = 100 nF. Die Richtung ist egal.", en: "Marked 104 = 100 nF. Direction does not matter." }
+  buy: { search: { de: "Keramikkondensator Sortiment", en: "ceramic capacitor assortment" }, shops: [aliexpress, amazon, reichelt] }
 
 buzzer-active:
   category: component
   kind: buzzer
   name: { de: Aktiver Summer, en: Active buzzer }
   hint: { de: "\"Aktiv\" für 3–24 V kaufen, 12 mm Durchmesser, Rastermaß 7,6 mm. Ein passiver Summer bleibt stumm!", en: "Buy an \"active\" one for 3–24 V, 12 mm diameter, 7.6 mm pin spacing. A passive buzzer stays silent!" }
+  buy: { search: { de: "aktiver Summer 5V 12mm", en: "active buzzer 5V 12mm" }, shops: [aliexpress, reichelt], tip: { de: "Gibt es oft als Set „aktiv + passiv“ – dann hast du beide Sorten.", en: "Often sold as an \"active + passive\" set – then you have both kinds." } }
 
 buzzer-passive:
   category: component
   kind: buzzer
   name: { de: Passiver Summer (Piezo), en: Passive buzzer (piezo) }
   hint: { de: "\"Passiv\" kaufen, 12 mm, Rastermaß 7,6 mm – er spielt jeden Ton, den die Schaltung vorgibt.", en: "Buy a \"passive\" one, 12 mm, 7.6 mm pin spacing – it plays whatever tone the circuit makes." }
+  buy: { search: { de: "passiver Summer 12mm", en: "passive buzzer 12mm" }, shops: [aliexpress, reichelt] }
 
 push-button:
   category: component
   kind: button
   name: { de: Taster 6 × 6 mm, en: Push button 6 × 6 mm }
   hint: { de: "Hat 4 Beinchen – wir brauchen nur zwei schräg gegenüberliegende.", en: "Has 4 legs – we only need two diagonally opposite ones." }
+  buy: { search: { de: "Taster 6x6mm Sortiment", en: "6x6mm tactile push button" }, shops: [aliexpress, reichelt] }
 
 terminal-2:
   category: component
   kind: terminal
   name: { de: Schraubklemme 2-polig, en: 2-pin screw terminal }
   hint: { de: "Rastermaß 5,08 mm (passt auf Lochraster).", en: "5.08 mm pitch (fits perfboard)." }
+  buy: { search: { de: "Schraubklemme 2-polig 5,08", en: "2 pin screw terminal 5.08mm" }, shops: [reichelt, aliexpress] }
 
 ic-555:
   category: component
@@ -80,6 +91,7 @@ ic-555:
   chip: NE555
   name: { de: Timer-IC NE555 + 8-poliger IC-Sockel, en: NE555 timer IC + 8-pin IC socket }
   hint: { de: "Gelötet wird nur der Sockel – der Chip wird am Ende eingesteckt.", en: "Only the socket is soldered – the chip is plugged in at the end." }
+  buy: { search: { de: "NE555", en: "NE555 timer IC" }, shops: [reichelt, aliexpress], tip: { de: "Den passenden 8-poligen IC-Sockel gleich mitbestellen.", en: "Order the matching 8-pin IC socket at the same time." } }
 
 ic-4017:
   category: component
@@ -87,18 +99,21 @@ ic-4017:
   chip: CD4017
   name: { de: Zähler-IC CD4017 + 16-poliger IC-Sockel, en: CD4017 counter IC + 16-pin IC socket }
   hint: { de: "Gelötet wird nur der Sockel – der Chip wird am Ende eingesteckt.", en: "Only the socket is soldered – the chip is plugged in at the end." }
+  buy: { search: { de: "CD4017", en: "CD4017 decade counter" }, shops: [reichelt, aliexpress], tip: { de: "Den passenden 16-poligen IC-Sockel gleich mitbestellen.", en: "Order the matching 16-pin IC socket at the same time." } }
 
 toroid:
   category: component
   kind: toroid
   name: { de: Ferrit-Ringkern, en: Ferrite toroid }
   hint: { de: "Ca. 10 mm Außendurchmesser. Alte Energiesparlampen und Netzteile haben oft einen.", en: "About 10 mm outer diameter. Old energy-saving bulbs and power supplies often contain one." }
+  buy: { search: { de: "Ferrit Ringkern 10mm", en: "ferrite toroid core 10mm" }, shops: [aliexpress, reichelt] }
 
 jumper-wire:
   category: component
   kind: jumper
   name: { de: Drahtbrücke (isolierter Draht), en: Jumper wire (insulated) }
   hint: { de: "Starrer Klingeldraht ist ideal.", en: "Solid-core hook-up wire is ideal." }
+  buy: { search: { de: "Schaltdraht isoliert", en: "solid core hookup wire" }, shops: [reichelt, amazon] }
 
 battery-clip-9v:
   category: component
@@ -106,6 +121,7 @@ battery-clip-9v:
   leads: { pins: ["+", "-"], colors: ["#d32f2f", "#222"], tag: "9V", labels: { de: ["+ rot", "− schwarz"], en: ["+ red", "− black"] } }
   name: { de: 9-V-Batterieclip, en: 9 V battery clip }
   hint: { de: "Mit roter und schwarzer Litze.", en: "With red and black leads." }
+  buy: { search: { de: "9V Batterieclip", en: "9V battery clip" }, shops: [reichelt, aliexpress] }
 
 battery-holder-aa:
   category: component
@@ -113,6 +129,7 @@ battery-holder-aa:
   leads: { pins: ["+", "-"], colors: ["#d32f2f", "#222"], tag: "AA", labels: { de: ["+ rot", "− schwarz"], en: ["+ red", "− black"] } }
   name: { de: Batteriehalter für 1 × AA, en: Battery holder for 1 × AA }
   hint: { de: "Mit Kabeln.", en: "With wires." }
+  buy: { search: { de: "Batteriehalter 1x AA Kabel", en: "1 x AA battery holder with leads" }, shops: [reichelt, aliexpress] }
 
 probe-wires:
   category: component
@@ -120,24 +137,28 @@ probe-wires:
   leads: { pins: ["1", "2"], colors: ["#1e88e5", "#43a047"], tag: "🌱", labels: { de: ["Fühler 1", "Fühler 2"], en: ["Probe 1", "Probe 2"] } }
   name: { de: Zwei Fühler (Litze + Nagel), en: Two probes (wire + nail) }
   hint: { de: "Je 30 cm Litze, am Ende an einen verzinkten Nagel gelötet oder gewickelt.", en: "30 cm of wire each, soldered or wrapped to a galvanised nail at the end." }
+  buy: { where: { de: "Selbst gemacht aus Litze und Nägeln (siehe unten)", en: "Made yourself from wire and nails (see below)" } }
 
 battery-9v:
   category: component
   icon: "🔋"
   name: { de: 9-V-Blockbatterie, en: 9 V battery }
   hint: { de: "Oder ein 9-V-Akku.", en: "Or a rechargeable 9 V battery." }
+  buy: { search: { de: "9V Block Batterie", en: "9V battery" }, shops: [amazon], tip: { de: "Gibt es auch im Supermarkt oder in der Drogerie.", en: "Also available at any supermarket." } }
 
 battery-aa-empty:
   category: component
   icon: "🪫"
   name: { de: „Leere“ AA-Batterie, en: '"Empty" AA battery' }
   hint: { de: "Eine, die im Spielzeug nicht mehr geht – noch ca. 1 V.", en: "One that no longer works in a toy – still about 1 V." }
+  buy: { where: { de: "Aus einem Spielzeug oder der Fernbedienung", en: "From a toy or remote control" } }
 
 perfboard:
   category: board
   icon: "🟫"
   name: { de: Lochrasterplatine, en: Perfboard }
   hint: { de: "Rastermaß 2,54 mm, mit einzelnen Lötpunkten (keine Streifen). Große Platinen kann man mit dem Cutter anritzen und brechen.", en: "2.54 mm pitch, with separate pads (not stripboard). Score big boards with a craft knife and snap them." }
+  buy: { search: { de: "Lochrasterplatine 2,54 Lötpunkte", en: "perfboard 2.54mm" }, shops: [reichelt, aliexpress, pollin], tip: { de: "Eine große Platine (z. B. 100 × 160 mm) reicht, zugeschnitten, für mehrere Projekte.", en: "One big board (e.g. 100 × 160 mm), cut to size, is enough for several projects." } }
 
 # ---------------------------------------------------------------- micro:bit
 
@@ -146,24 +167,28 @@ microbit-v2:
   icon: "🧩"
   name: { de: BBC micro:bit V2, en: BBC micro:bit V2 }
   hint: { de: "Auf der Rückseite steht „V2“ – nur V2 hat Lautsprecher, Mikrofon und Touch-Logo. Am günstigsten im „Go“-Set mit Kabel und Batteriehalter.", en: "It says \"V2\" on the back – only V2 has the speaker, microphone and touch logo. Cheapest in the \"Go\" bundle with cable and battery holder." }
+  buy: { search: { de: "micro:bit V2 Go", en: "micro:bit V2 Go bundle" }, shops: [reichelt, amazon], tip: { de: "Kauf das „Go“-Set: Kabel, Batteriehalter und Batterien sind dabei.", en: "Buy the \"Go\" bundle: cable, battery holder and batteries are included." } }
 
 usb-cable-micro:
   category: component
   icon: "🔌"
   name: { de: USB-Kabel (Micro-USB), en: USB cable (micro USB) }
   hint: { de: "Ein Datenkabel – reine Ladekabel funktionieren nicht.", en: "A data cable – charge-only cables do not work." }
+  buy: { search: { de: "Micro USB Datenkabel", en: "micro USB data cable" }, shops: [amazon, reichelt], tip: { de: "Im micro:bit-Go-Set enthalten.", en: "Included in the micro:bit Go bundle." } }
 
 battery-pack-aaa:
   category: component
   icon: "🔋"
   name: { de: "Batteriehalter 2 × AAA mit Stecker", en: "Battery holder 2 × AAA with plug" }
   hint: { de: "Mit JST-Stecker für den micro:bit, plus zwei AAA-Batterien.", en: "With a JST plug for the micro:bit, plus two AAA batteries." }
+  buy: { search: { de: "micro:bit Batteriehalter 2xAAA JST", en: "micro:bit battery holder 2xAAA JST" }, shops: [amazon, reichelt], tip: { de: "Im micro:bit-Go-Set enthalten.", en: "Included in the micro:bit Go bundle." } }
 
 crocodile-clips:
   category: component
   icon: "🐊"
   name: { de: Krokodilklemmen-Kabel, en: Crocodile clip leads }
   hint: { de: "Kurze Kabel mit Klemmen an beiden Enden – passen an die großen Ringe des micro:bit.", en: "Short leads with clips at both ends – they fit the big rings of the micro:bit." }
+  buy: { search: { de: "Krokodilklemmen Kabel", en: "crocodile clip leads" }, shops: [aliexpress, amazon, reichelt], tip: { de: "Ein 10er-Set in bunten Farben reicht für alle micro:bit-Projekte.", en: "A set of 10 in bright colours covers all micro:bit projects." } }
 
 clip-leads-course:
   category: component
@@ -171,6 +196,7 @@ clip-leads-course:
   leads: { pins: ["P1", "GND"], colors: ["#fbc02d", "#222"], tag: "µ:bit", labels: { de: ["→ P1 gelb", "→ GND schwarz"], en: ["→ P1 yellow", "→ GND black"] } }
   name: { de: "2 Krokodilklemmen-Kabel (gelb, schwarz)", en: "2 crocodile clip leads (yellow, black)" }
   hint: { de: "Eine Klemme abschneiden, abisolieren und einlöten – die andere kommt an den micro:bit.", en: "Cut off one clip, strip the wire and solder it in – the other clip goes on the micro:bit." }
+  buy: { search: { de: "Krokodilklemmen Kabel", en: "crocodile clip leads" }, shops: [aliexpress, amazon, reichelt] }
 
 clip-leads-pads:
   category: component
@@ -178,6 +204,7 @@ clip-leads-pads:
   leads: { pins: ["P0", "P2"], colors: ["#43a047", "#1e88e5"], tag: "µ:bit", labels: { de: ["→ P0 grün", "→ P2 blau"], en: ["→ P0 green", "→ P2 blue"] } }
   name: { de: "2 Krokodilklemmen-Kabel (grün, blau)", en: "2 crocodile clip leads (green, blue)" }
   hint: { de: "Eine Klemme abschneiden, abisolieren und einlöten – die andere kommt an den micro:bit.", en: "Cut off one clip, strip the wire and solder it in – the other clip goes on the micro:bit." }
+  buy: { search: { de: "Krokodilklemmen Kabel", en: "crocodile clip leads" }, shops: [aliexpress, amazon, reichelt] }
 
 # ---------------------------------------------------------------- materials
 
@@ -186,60 +213,70 @@ copper-wire-bare:
   icon: "〰️"
   name: { de: "Blanker Kupferdraht 1,5 mm", en: Bare copper wire 1.5 mm }
   hint: { de: "Z. B. aus einem Stück NYM-Installationskabel 1,5 mm² (Mantel und Isolierung entfernen). Kein Lackdraht!", en: "E.g. from a piece of solid house wiring, 1.5 mm² / 14 AWG (strip all insulation). No enamelled wire!" }
+  buy: { where: { de: "Baumarkt: 1 m NYM-Kabel 3 × 1,5 mm²", en: "hardware store: 1 m of solid house wiring" } }
 
 enamelled-wire:
   category: material
   icon: "🧶"
   name: { de: "Kupferlackdraht 0,3 mm, zwei Farben", en: "Enamelled copper wire 0.3 mm, two colours" }
   hint: { de: "Je ca. 50 cm. Die Enden mit Schleifpapier blank machen.", en: "About 50 cm each. Sand the ends bare." }
+  buy: { search: { de: "Kupferlackdraht 0,3mm", en: "enamelled copper wire 0.3mm" }, shops: [aliexpress, reichelt] }
 
 stranded-wire:
   category: material
   icon: "🧵"
   name: { de: Flexible Litze, en: Stranded wire }
   hint: { de: "Isoliert, ca. 0,25 mm².", en: "Insulated, about 0.25 mm² / 24 AWG." }
+  buy: { search: { de: "Litze 0,25mm² Set", en: "stranded hookup wire set" }, shops: [reichelt, amazon, aliexpress] }
 
 nails:
   category: material
   icon: "📌"
   name: { de: Verzinkte Nägel, en: Galvanised nails }
   hint: { de: "Ca. 5 cm lang – sie rosten nicht so schnell in feuchter Erde.", en: "About 5 cm long – they rust less in damp soil." }
+  buy: { where: { de: "Baumarkt oder Werkzeugkiste", en: "hardware store or toolbox" } }
 
 wood-board:
   category: material
   icon: "🪵"
   name: { de: Holzbrett, en: Wooden board }
   hint: { de: "Ein Reststück reicht.", en: "Any offcut will do." }
+  buy: { where: { de: "Baumarkt (Reste) oder Bastelkiste", en: "hardware store (offcuts) or craft box" } }
 
 insulating-tape:
   category: material
   icon: "🩹"
   name: { de: Isolierband, en: Insulating tape }
   hint: { de: "Bunt macht mehr Spaß.", en: "Colourful is more fun." }
+  buy: { where: { de: "Baumarkt oder Werkzeugkiste", en: "hardware store or toolbox" } }
 
 wooden-dowel:
   category: material
   icon: "🥢"
   name: { de: Rundholz oder leerer Stift, en: Wooden dowel or empty pen }
   hint: { de: "Als Griff, ca. 10 cm lang.", en: "For the handle, about 10 cm long." }
+  buy: { where: { de: "Bastelkiste oder Baumarkt", en: "craft box or hardware store" } }
 
 sandpaper:
   category: material
   icon: "🟨"
   name: { de: Schleifpapier, en: Sandpaper }
   hint: { de: "Fein (Körnung 240 oder feiner).", en: "Fine (240 grit or finer)." }
+  buy: { where: { de: "Baumarkt oder Werkzeugkiste", en: "hardware store or toolbox" } }
 
 lanyard:
   category: material
   icon: "🪢"
   name: { de: Schnur oder Schlüsselband, en: String or lanyard }
   hint: { de: "Zum Umhängen – durch die Löcher am Rand des micro:bit fädeln.", en: "To wear it – thread it through the holes on the edge of the micro:bit." }
+  buy: { where: { de: "Zu Hause", en: "At home" } }
 
 craft-box:
   category: material
   icon: "📦"
   name: { de: Bastelmaterial für ein Gehäuse, en: Craft material for a case }
   hint: { de: "Karton, Marmeladenglas, Joghurtbecher – was da ist.", en: "Cardboard, a jam jar, a yoghurt pot – whatever you have." }
+  buy: { where: { de: "Zu Hause", en: "At home" } }
 
 # ---------------------------------------------------------------- tools
 
@@ -248,45 +285,54 @@ computer:
   icon: "💻"
   name: { de: Computer oder Tablet mit Internet, en: Computer or tablet with internet }
   hint: { de: "Für den Editor MakeCode im Browser – nichts zu installieren.", en: "For the MakeCode editor in the browser – nothing to install." }
+  buy: { where: { de: "Zu Hause", en: "At home" } }
 
 soldering-iron:
   category: tool
   icon: "🔥"
   name: { de: Lötkolben mit Ablage, en: Soldering iron with stand }
   hint: { de: "Mit Temperaturregelung, ca. 350 °C.", en: "Temperature controlled, about 350 °C." }
+  buy: { search: { de: "Lötkolben Set Temperaturregelung", en: "soldering iron kit temperature control" }, shops: [amazon, aliexpress], tip: { de: "Ein Set mit Temperaturregelung, Ablage und Lötzinn ist am günstigsten – oft sind Seitenschneider und Pinzette dabei.", en: "A kit with temperature control, stand and solder is cheapest – side cutters and tweezers are often included." } }
 
 solder:
   category: tool
   icon: "🧪"
   name: { de: Lötzinn bleifrei, en: Lead-free solder }
   hint: { de: "Mit Flussmittelseele, 0,8–1 mm.", en: "Flux core, 0.8–1 mm." }
+  buy: { search: { de: "Lötzinn bleifrei 0,8mm", en: "lead free solder 0.8mm" }, shops: [reichelt, amazon], tip: { de: "Oft im Lötkolben-Set enthalten.", en: "Often included in the soldering iron kit." } }
 
 side-cutter:
   category: tool
   icon: "✂️"
   name: { de: Seitenschneider, en: Side cutters }
+  buy: { search: { de: "Seitenschneider Elektronik", en: "flush cutters electronics" }, shops: [amazon, reichelt] }
 
 pliers:
   category: tool
   icon: "🔧"
   name: { de: Flachzange, en: Flat-nose pliers }
+  buy: { search: { de: "Flachzange Elektronik", en: "flat nose pliers electronics" }, shops: [amazon, reichelt] }
 
 wire-stripper:
   category: tool
   icon: "🪢"
   name: { de: Abisolierzange, en: Wire stripper }
+  buy: { search: { de: "Abisolierzange", en: "wire stripper" }, shops: [amazon, reichelt] }
 
 screwdriver:
   category: tool
   icon: "🪛"
   name: { de: Kleiner Schlitzschraubendreher, en: Small flat screwdriver }
+  buy: { where: { de: "Werkzeugkiste", en: "Toolbox" } }
 
 safety-glasses:
   category: tool
   icon: "🥽"
   name: { de: Schutzbrille, en: Safety glasses }
+  buy: { search: { de: "Schutzbrille Kinder", en: "safety glasses kids" }, shops: [amazon] }
 
 drill:
   category: tool
   icon: "🛠️"
   name: { de: Bohrmaschine (für Eltern), en: Drill (for parents) }
+  buy: { where: { de: "Werkzeugkiste der Eltern", en: "Parents' toolbox" } }

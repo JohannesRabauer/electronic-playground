@@ -147,6 +147,20 @@ Put such texts in quotes: `{ de: "Kurz an, lang aus", en: "Short on, long off" }
   should be a switch, push button or slider in the simulation.
 - **Check it works** before publishing: `docker compose up`, open the project page, try it.
 
+## Shopping list
+
+The page `/de/einkaufsliste/` · `/en/shopping-list/` is generated from the `parts` of all published projects:
+everything, per category and per project, with quantities added up. Every catalog entry needs a `buy` block:
+
+```yaml
+buy: { search: { de: "BC547", en: "BC547 transistor" }, shops: [reichelt, aliexpress], tip: { de: "…", en: "…" } }
+buy: { where: { de: "Baumarkt", en: "hardware store" } }      # for things you do not order online
+```
+
+- Links are **plain shop searches** (`site/shops.yaml`), never affiliate links, and the site shows **no prices**.
+- `shops` lists the German shops that suit the part best; English pages use Amazon (US/UK) and AliExpress.
+- Use `tip` to point to the cheap option, e.g. an assortment or the micro:bit Go bundle.
+
 ## Checklist for a new project
 
 1. Copy `projects/heisser-draht` to `projects/<new-id>`, set `id`, `number`, `slug`, `status: draft`.
