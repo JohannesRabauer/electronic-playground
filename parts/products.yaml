@@ -3,13 +3,20 @@
 # Each product covers one or more catalog parts (parts/catalog.yaml). The build collects the parts a set of
 # projects needs, picks the products that cover them and builds a plain Amazon "add to cart" link:
 #   https://www.amazon.de/gp/aws/cart/add.html?ASIN.1=...&Quantity.1=1&ASIN.2=...
-# No affiliate tag, no prices. Products were chosen for low price and good reviews and checked on the date below.
+# No prices on the site. Products were chosen for low price and good reviews and checked on the date below.
 # Listings change - re-check them now and then in a browser (Amazon blocks scripted checks) and update `checked`.
 #
 # group: parts | tools | microbit   (separate cart buttons)
 # amazon: de = amazon.de (German pages), com = amazon.com (English pages)
 
 checked: 2026-10-04
+
+# Amazon only puts several products into the basket from one link if the link carries a partner tag
+# (Amazon PartnerNet for amazon.de, Amazon Associates for amazon.com). Without a tag the site shows direct
+# product links instead. With a tag, the buttons are marked as advertising and carry the partner disclosure.
+associate_tags:
+  de:     # e.g. "yourname-21"
+  com:    # e.g. "yourname-20"
 
 products:
   resistor-kit:

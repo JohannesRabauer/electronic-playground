@@ -164,13 +164,17 @@ buy: { where: { de: "Baumarkt", en: "hardware store" } }      # for things you d
 ### One-click carts
 
 `parts/products.yaml` lists concrete Amazon products (amazon.de for German pages, amazon.com for English pages).
-Each product `covers` catalog parts. For any set of projects the build picks the covering products and creates plain
-"add to cart" links (`/gp/aws/cart/add.html?ASIN.1=…&Quantity.1=1…`), split into **parts**, **tools** and **micro:bit**.
-They appear for everything, per category and per project, and on every project page.
+Each product `covers` catalog parts. For any set of projects the build picks the covering products, split into
+**parts**, **tools** and **micro:bit**. They appear for everything, per category and per project, and on every project page.
+
+- **Without a partner tag** (`associate_tags` in `products.yaml` empty): a list of direct product links.
+- **With a partner tag** for a market: one-click "add to cart" buttons (`/gp/aws/cart/add.html?AssociateTag=…&ASIN.1=…`).
+  Amazon only fills the basket from such a link if it carries a partner tag. These buttons are partner links, so they are
+  labelled **Werbung / Ad**, carry the Amazon partner disclosure and `rel="sponsored"`. The search links stay ad-free.
 
 - Prefer assortments that cover many projects; check the contents (e.g. resistor values) on the product page.
 - Every catalog part a project needs should be covered by a product, or have `buy.where` (hardware store, at home).
-- No affiliate tag, no prices. Update `checked` after re-checking the listings.
+- No prices on the site. Update `checked` after re-checking the listings.
 
 ## Checklist for a new project
 
