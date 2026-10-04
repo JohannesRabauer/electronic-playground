@@ -49,6 +49,9 @@ de:
     troubleshooting: Funktioniert nicht?
     safety: Sicherheit
   sim_open_full: Simulator groß öffnen
+  program_title: Das Programm
+  makecode_tutorial: Schritt für Schritt in MakeCode
+  makecode_hint: Mit „Run“ bzw. „Ausführen“ startest du das Programm im micro:bit-Simulator.
   sim_variation: Im Simulator ausprobieren
   components: Bauteile
   materials: Material
@@ -133,6 +136,9 @@ en:
     troubleshooting: Not working?
     safety: Safety
   sim_open_full: Open the full simulator
+  program_title: The program
+  makecode_tutorial: Step by step in MakeCode
+  makecode_hint: Click "Run" to start the program in the micro:bit simulator.
   sim_variation: Try it in the simulator
   components: Components
   materials: Materials

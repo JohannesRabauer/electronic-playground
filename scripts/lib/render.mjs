@@ -11,13 +11,20 @@ const md = (s) => marked.parse(s || '');
 const mdInline = (s) => marked.parseInline(s || '');
 const fill = (tpl, n) => tpl.replace('{n}', n);
 
-export function urls(base) {
+const MAKECODE = 'https://makecode.microbit.org';
+const FENCE = '`'.repeat(3); // markdown code fence
+
+export function urls(base, repo) {
   return {
     home: (lang) => `${base}${lang}/`,
     project: (lang, p) => `${base}${lang}/${p.slug[lang]}/`,
     print: (lang, p) => `${base}${lang}/${p.slug[lang]}/${PRINT_DIR[lang]}/`,
     asset: (file) => `${base}assets/${file}`,
     projectFile: (p, file) => `${base}projects/${p.id}/${file}`,
+    // MakeCode renders the program as blocks (in the page language) with a Run button for its simulator.
+    makecodeBlocks: (lang, program) => `${MAKECODE}/--docs?lang=${lang}&md=${encodeURIComponent(`${FENCE}blocks\n${program}\n${FENCE}\n`)}`,
+    // Step-by-step tutorial, loaded by MakeCode straight from the public GitHub repo (needs pxt.json in the repo root).
+    tutorial: (lang, p) => `${MAKECODE}/?lang=${lang}#tutorial:github:${repo}/projects/${p.id}/${p.code.tutorial[lang]}`,
     sim: (lang, circuit) =>
       `${base}sim/circuitjs.html?lang=${lang}${lang === 'de' ? '&euroResistors=true' : ''}${circuit ? `&startCircuit=${circuit}` : ''}`,
   };
@@ -148,6 +155,24 @@ function restSections(p, t, lang, u) {
   return { explain, variations, trouble, safety };
 }
 
+// "Try it": the MakeCode program for micro:bit projects, the CircuitJS circuit for the others (or both).
+function trySection(p, t, lang, u) {
+  let html = '';
+  if (p.code) {
+    html += `<div class="try">${md(p.code.try[lang])}</div>
+<div class="makecode-frame"><iframe src="${u.makecodeBlocks(lang, p.programs[lang])}" title="${esc(t.program_title)}" loading="lazy"></iframe></div>
+<p class="makecode-actions"><a class="button" href="${u.tutorial(lang, p)}" target="_blank" rel="noopener">🧩 ${esc(t.makecode_tutorial)} ↗</a>
+<span class="hint">${esc(t.makecode_hint)}</span></p>`;
+  }
+  if (p.simulation) {
+    const simSrc = u.sim(lang, circuitPath(p, p.simulation.circuit, lang));
+    html += `<div class="try">${md(p.simulation.try[lang])}</div>
+<div class="sim-frame"><iframe src="${simSrc}&hideMenu=true" title="${esc(t.sections.try)}" loading="lazy"></iframe></div>
+<p><a class="button small" href="${simSrc}" target="_blank" rel="noopener">${esc(t.sim_open_full)} ↗</a></p>`;
+  }
+  return html;
+}
+
 const categoryBadge = (p, t) => `<span class="cat-badge cat-${p.category}">${t.categories[p.category].icon} ${esc(t.categories[p.category].name)}</span>`;
 
 const section = (id, title, html, extraClass = '') => `<section class="sec ${extraClass}" id="${id}"><h2>${esc(title)}</h2>${html}</section>`;
@@ -159,7 +184,6 @@ export function projectPage(ctx, p, lang) {
   const t = i18n[lang];
   const other = lang === 'de' ? 'en' : 'de';
   const rest = restSections(p, t, lang, u);
-  const simSrc = u.sim(lang, circuitPath(p, p.simulation.circuit, lang));
   const body = `<main class="project">
 <section class="hero">
   <div class="hero-text">
@@ -174,12 +198,10 @@ export function projectPage(ctx, p, lang) {
 <section class="sec intro"><div class="intro-text">${md(p.intro[lang])}</div>
   <div class="learn"><h3>${esc(t.learn)}</h3><ul>${p.learn[lang].map((x) => `<li>${mdInline(x)}</li>`).join('')}</ul></div>
 </section>
-<nav class="toc">${Object.entries(t.sections).map(([k, v]) => `<a href="#${k}">${esc(v)}</a>`).join('')}</nav>
-${section('try', t.sections.try, `<div class="try">${md(p.simulation.try[lang])}</div>
-<div class="sim-frame"><iframe src="${simSrc}&hideMenu=true" title="${esc(t.sections.try)}" loading="lazy"></iframe></div>
-<p><a class="button small" href="${simSrc}" target="_blank" rel="noopener">${esc(t.sim_open_full)} ↗</a></p>`)}
+<nav class="toc">${Object.entries(t.sections).filter(([k]) => k !== 'board' || p.board).map(([k, v]) => `<a href="#${k}">${esc(v)}</a>`).join('')}</nav>
+${section('try', t.sections.try, trySection(p, t, lang, u))}
 ${section('parts', t.sections.parts, partsSection(p, catalog, t, lang))}
-${section('board', t.sections.board, boardSection(p, catalog, t, lang))}
+${p.board ? section('board', t.sections.board, boardSection(p, catalog, t, lang)) : ''}
 ${section('steps', t.sections.steps, stepsSection(p, catalog, t, lang, u, false))}
 ${section('explain', t.sections.explain, rest.explain)}
 ${section('variations', t.sections.variations, rest.variations)}
@@ -213,8 +235,9 @@ export function printPage(ctx, p, lang, qrSvg) {
   <img class="hero-img" src="${u.projectFile(p, p.hero)}" alt="">
   <div>${md(p.intro[lang])}<h3>${esc(t.learn)}</h3><ul>${p.learn[lang].map((x) => `<li>${mdInline(x)}</li>`).join('')}</ul></div>
 </div>
+${p.code ? section('program', t.program_title, `<div class="makecode-frame print-frame"><iframe src="${u.makecodeBlocks(lang, p.programs[lang])}" title="${esc(t.program_title)}"></iframe></div>`, 'avoid-break') : ''}
 ${section('parts', t.sections.parts, partsSection(p, catalog, t, lang))}
-${section('board', t.sections.board, boardSection(p, catalog, t, lang), 'avoid-break')}
+${p.board ? section('board', t.sections.board, boardSection(p, catalog, t, lang), 'avoid-break') : ''}
 ${section('steps', t.sections.steps, stepsSection(p, catalog, t, lang, u, true))}
 ${section('explain', t.sections.explain, rest.explain, 'avoid-break')}
 ${section('variations', t.sections.variations, rest.variations, 'avoid-break')}

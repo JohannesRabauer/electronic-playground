@@ -1,0 +1,203 @@
+# yaml-language-server: $schema=../project.schema.json
+id: namensschild
+number: 8
+status: published
+category: microbit
+slug: { de: namensschild, en: name-badge }
+
+title:
+  de: Namensschild
+  en: Name Badge
+
+tagline:
+  de: Dein micro:bit zeigt deinen Namen, lässt ein Herz schlagen – und kichert, wenn man ihn kitzelt.
+  en: Your micro:bit shows your name, makes a heart beat – and giggles when someone tickles it.
+
+facts:
+  age: 8
+  difficulty: 1
+  minutes: 45
+  cost_eur: 20
+  topics: [light, sound]
+
+learn:
+  de:
+    - Wie man mit Blöcken programmiert
+    - Was ein Ereignis ist („wenn Knopf A geklickt“)
+    - Wie eine Schleife etwas wiederholt
+  en:
+    - How to program with blocks
+    - What an event is ("on button A pressed")
+    - How a loop repeats something
+
+hero: images/badge.svg
+
+intro:
+  de: |
+    Dein erstes micro:bit-Programm: ein **Namensschild zum Umhängen**. Drück Knopf A, und dein Name läuft über die
+    25 LEDs. Knopf B lässt ein Herz schlagen. Und wenn jemand das goldene Logo berührt, kichert der micro:bit!
+
+    Du brauchst nur den micro:bit, ein USB-Kabel und einen Computer – **ganz ohne Löten**.
+  en: |
+    Your first micro:bit program: a **name badge to wear**. Press button A and your name scrolls across the 25 LEDs.
+    Button B makes a heart beat. And when someone touches the golden logo, the micro:bit giggles!
+
+    All you need is the micro:bit, a USB cable and a computer – **no soldering at all**.
+
+code:
+  program: makecode/main.ts
+  tutorial: { de: makecode/tutorial-de, en: makecode/tutorial-en }
+  try:
+    de: |
+      Hier siehst du das fertige Programm. Klick auf **„Run“**, dann im Simulator auf **A**, **B** und auf das Logo oben.
+      Noch besser: Bau es selbst mit **„Schritt für Schritt in MakeCode“** nach!
+    en: |
+      Here you see the finished program. Click **"Run"**, then press **A**, **B** and the logo at the top in the simulator.
+      Even better: build it yourself with **"Step by step in MakeCode"**!
+
+parts:
+  - { part: microbit-v2, qty: 1 }
+  - { part: usb-cable-micro, qty: 1 }
+  - { part: battery-pack-aaa, qty: 1 }
+  - { part: lanyard, qty: 1 }
+  - { part: computer, qty: 1 }
+
+steps:
+  - id: open
+    view: none
+    title: { de: MakeCode öffnen, en: Open MakeCode }
+    text:
+      de: |
+        Öffne **makecode.microbit.org** im Browser und klick auf **Neues Projekt**. Nenn es „Namensschild“.
+        Oder klick oben auf **„Schritt für Schritt in MakeCode“** – dann führt dich MakeCode selbst durch alle Schritte.
+      en: |
+        Open **makecode.microbit.org** in the browser and click **New Project**. Call it "Name badge".
+        Or click **"Step by step in MakeCode"** above – then MakeCode itself guides you through all the steps.
+
+  - id: name
+    view: none
+    title: { de: Dein Name auf Knopf A, en: Your name on button A }
+    text:
+      de: |
+        Zieh aus **Eingabe** den Block **„wenn Knopf A geklickt“** auf die Arbeitsfläche.
+        Leg aus **Grundlagen** **„zeige Text“** hinein und schreib deinen Namen hinein.
+      en: |
+        Drag **"on button A pressed"** from **Input** onto the workspace.
+        Put **"show string"** from **Basic** inside it and type your name.
+    tip:
+      de: Kurze Texte sind besser zu lesen. „Hi, ich bin Kim!“ passt prima.
+      en: Short texts are easier to read. "Hi, I am Kim!" works well.
+
+  - id: heart
+    view: none
+    title: { de: Ein schlagendes Herz auf Knopf B, en: A beating heart on button B }
+    text:
+      de: |
+        Ein zweiter **„wenn Knopf … geklickt“**-Block, diesmal mit **B**. Darin: **„4-mal wiederholen“** aus **Schleifen**,
+        und darin **„zeige Symbol“** mit großem Herz und noch einmal mit kleinem Herz. Zum Schluss **„Bildschirminhalt löschen“**.
+      en: |
+        A second **"on button … pressed"** block, this time with **B**. Inside it: **"repeat 4 times"** from **Loops**,
+        and in there **"show icon"** with a big heart and once more with a small heart. Finally **"clear screen"**.
+
+  - id: tickle
+    view: none
+    title: { de: Kitzel-Logo, en: Tickle logo }
+    text:
+      de: |
+        Das goldene Logo oben ist ein **Berührungssensor**. Nimm **„wenn Logo gedrückt“** aus **Eingabe**,
+        leg **„zeige Symbol“** (Smiley) hinein und aus **Musik** **„spiele Soundeffekt kichern“**.
+      en: |
+        The golden logo at the top is a **touch sensor**. Take **"on logo pressed"** from **Input**,
+        put **"show icon"** (smiley) inside it and **"play sound giggle"** from **Music**.
+    parent:
+      de: Logo und Lautsprecher gibt es nur beim micro:bit V2. Beim V1 diesen Schritt weglassen.
+      en: The logo and speaker only exist on the micro:bit V2. Skip this step on a V1.
+
+  - id: simulate
+    view: none
+    title: { de: Im Simulator testen, en: Test in the simulator }
+    text:
+      de: Links siehst du einen micro:bit am Bildschirm. Klick auf **A**, **B** und das Logo. Klappt alles?
+      en: On the left you see a micro:bit on screen. Click **A**, **B** and the logo. Does everything work?
+
+  - id: download
+    view: none
+    title: { de: Auf den micro:bit laden, en: Put it on the micro:bit }
+    text:
+      de: |
+        Schließ den micro:bit mit dem USB-Kabel an und klick auf **Herunterladen**.
+        Beim ersten Mal fragt MakeCode, ob es den micro:bit **koppeln** soll – sag ja. Danach geht es mit einem Klick.
+      en: |
+        Connect the micro:bit with the USB cable and click **Download**.
+        The first time, MakeCode asks whether to **pair** the micro:bit – say yes. After that it takes one click.
+    parent:
+      de: Ohne Koppeln (z. B. in Firefox) landet eine .hex-Datei im Download-Ordner. Diese einfach auf das Laufwerk „MICROBIT“ ziehen.
+      en: Without pairing (e.g. in Firefox) a .hex file lands in the downloads folder. Just drag it onto the "MICROBIT" drive.
+
+  - id: wear
+    view: none
+    image: images/badge.svg
+    title: { de: Umhängen!, en: Wear it! }
+    text:
+      de: |
+        Steck den Batteriehalter an, fädel eine Schnur durch die zwei Löcher oben am Rand – fertig ist dein Namensschild.
+        Zeig es deiner Familie und lass sie das Logo kitzeln!
+      en: |
+        Plug in the battery holder and thread a string through the two holes at the top edge – your name badge is ready.
+        Show it to your family and let them tickle the logo!
+
+explanation:
+  kids:
+    de: |
+      Ein Programm ist eine Liste von Befehlen. Die lila Blöcke wie **„wenn Knopf A geklickt“** sind **Ereignisse**:
+      Der micro:bit wartet, bis etwas passiert, und führt dann die Blöcke darin aus. **„4-mal wiederholen“** ist eine
+      **Schleife** – sie spart dir, achtmal das Gleiche hinzuschreiben.
+    en: |
+      A program is a list of instructions. The purple blocks like **"on button A pressed"** are **events**: the micro:bit
+      waits until something happens and then runs the blocks inside. **"repeat 4 times"** is a **loop** – it saves you from
+      writing the same thing eight times.
+  parents:
+    de: |
+      MakeCode übersetzt die Blöcke in JavaScript bzw. Python (Umschalter oben) und von dort in Maschinencode für den
+      Prozessor des micro:bit. Die .hex-Datei enthält das komplette Programm; der micro:bit führt es nach dem Kopieren
+      sofort und bei jedem Einschalten wieder aus. Das Touch-Logo des V2 arbeitet kapazitiv, wie ein Handy-Bildschirm.
+    en: |
+      MakeCode translates the blocks into JavaScript or Python (switch at the top) and from there into machine code for the
+      micro:bit's processor. The .hex file contains the complete program; the micro:bit runs it straight after copying and
+      every time it is switched on. The V2 touch logo is capacitive, like a phone screen.
+
+variations:
+  - title: { de: Laufschrift im Kreis, en: Endless name }
+    text:
+      de: Leg „zeige Text“ zusätzlich in **„dauerhaft“** – dann läuft dein Name immer wieder.
+      en: Also put "show string" into **"forever"** – then your name scrolls again and again.
+  - title: { de: Schüttel-Laune, en: Shake mood }
+    text:
+      de: Mit **„wenn geschüttelt“** und **„wähle eine zufällige Zahl“** zeigt das Schild bei jedem Schütteln eine andere Laune.
+      en: With **"on shake"** and **"pick random"** the badge shows a different mood every time you shake it.
+  - title: { de: Eigenes Bild, en: Your own picture }
+    text:
+      de: Mit **„zeige LEDs“** malst du dein eigenes 5×5-Bild – vielleicht dein Lieblingstier?
+      en: With **"show leds"** you draw your own 5×5 picture – maybe your favourite animal?
+
+troubleshooting:
+  - problem: { de: Beim Herunterladen passiert nichts., en: Nothing happens when downloading. }
+    solution:
+      de: Ist es ein Datenkabel? Reine Ladekabel funktionieren nicht. Erscheint das Laufwerk „MICROBIT“ im Explorer bzw. Finder?
+      en: Is it a data cable? Charge-only cables do not work. Does the "MICROBIT" drive show up in Explorer or Finder?
+  - problem: { de: Das Kichern ist nicht zu hören., en: The giggle cannot be heard. }
+    solution:
+      de: Nur der micro:bit **V2** hat einen Lautsprecher (auf der Rückseite steht „V2“). Prüfe auch, ob der Batteriehalter steckt.
+      en: Only the micro:bit **V2** has a speaker (it says "V2" on the back). Also check that the battery holder is plugged in.
+  - problem: { de: Der Name läuft zu schnell., en: The name scrolls too fast. }
+    solution:
+      de: Im Block „zeige Text“ kannst du über das Plus die Geschwindigkeit einstellen – oder nimm einen kürzeren Text.
+      en: In the "show string" block you can set the speed via the plus sign – or use a shorter text.
+
+safety:
+  de:
+    - Den micro:bit nur am Rand anfassen und nicht auf Metall legen – sonst können Kontakte auf der Rückseite kurzschließen.
+    - Nur den passenden Batteriehalter (2 × AAA, 3 V) verwenden.
+  en:
+    - Only hold the micro:bit by its edges and do not put it on metal – contacts on the back could short.
+    - Only use the matching battery holder (2 × AAA, 3 V).

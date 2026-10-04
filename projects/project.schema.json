@@ -5,7 +5,12 @@
   "description": "Every projects/<id>/project.yaml must match this schema. Every text exists in German (de) and English (en). See docs/PROJECT-STRUCTURE.md.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "number", "status", "category", "slug", "title", "tagline", "facts", "learn", "hero", "intro", "simulation", "parts", "board", "nets", "steps", "explanation", "variations", "troubleshooting", "safety"],
+  "required": ["id", "number", "status", "category", "slug", "title", "tagline", "facts", "learn", "hero", "intro", "parts", "steps", "explanation", "variations", "troubleshooting", "safety"],
+  "allOf": [
+    { "if": { "properties": { "category": { "const": "solder" } } }, "then": { "required": ["simulation", "board", "nets"] } },
+    { "if": { "properties": { "category": { "const": "microbit" } } }, "then": { "required": ["code"] } },
+    { "if": { "properties": { "category": { "const": "microbit-solder" } } }, "then": { "required": ["code", "board", "nets"] } }
+  ],
   "properties": {
     "id": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "Must equal the folder name." },
     "number": { "type": "integer", "minimum": 1, "description": "Order in the catalog; lower = easier." },
@@ -36,6 +41,17 @@
       "properties": {
         "circuit": { "type": "string", "description": "CircuitJS file in the project folder. Text labels may use {{Deutsch|English}}." },
         "try": { "$ref": "#/$defs/i18n", "description": "Markdown. What to click, what to predict." }
+      }
+    },
+    "code": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["program", "tutorial", "try"],
+      "description": "micro:bit projects: the MakeCode program and a step-by-step MakeCode tutorial.",
+      "properties": {
+        "program": { "type": "string", "description": "MakeCode JavaScript file in the project folder, e.g. makecode/main.ts. Texts may use {{Deutsch|English}}." },
+        "tutorial": { "$ref": "#/$defs/i18nPath", "description": "Tutorial markdown files (without .md) in the project folder, e.g. { de: makecode/tutorial-de, en: makecode/tutorial-en }." },
+        "try": { "$ref": "#/$defs/i18n", "description": "Markdown. What to click in the simulator." }
       }
     },
     "parts": {
@@ -174,6 +190,12 @@
       "additionalProperties": false,
       "required": ["de", "en"],
       "properties": { "de": { "type": "string", "pattern": "^[a-z0-9-]+$" }, "en": { "type": "string", "pattern": "^[a-z0-9-]+$" } }
+    },
+    "i18nPath": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["de", "en"],
+      "properties": { "de": { "type": "string", "pattern": "^[a-z0-9/_-]+$" }, "en": { "type": "string", "pattern": "^[a-z0-9/_-]+$" } }
     },
     "i18nList": {
       "type": "object",

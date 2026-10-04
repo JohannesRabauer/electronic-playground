@@ -1,0 +1,262 @@
+# yaml-language-server: $schema=../project.schema.json
+id: heisser-draht-2
+number: 9
+status: published
+category: microbit-solder
+slug: { de: heisser-draht-2, en: buzz-wire-2 }
+
+title:
+  de: Heißer Draht 2.0
+  en: Buzz Wire 2.0
+
+tagline:
+  de: Der micro:bit zählt deine Fehler und stoppt die Zeit – wer schafft den Rekord?
+  en: The micro:bit counts your mistakes and times your run – who sets the record?
+
+facts:
+  age: 9
+  difficulty: 1
+  minutes: 90
+  cost_eur: 6
+  topics: [game, sound]
+
+learn:
+  de:
+    - Wie der micro:bit merkt, dass zwei Metallteile sich berühren
+    - Variablen zum Zählen und Merken
+    - Schraubklemmen und Kabel anlöten
+  en:
+    - How the micro:bit notices that two metal parts touch
+    - Variables for counting and remembering
+    - Soldering screw terminals and wires
+
+hero: images/game2.svg
+
+intro:
+  de: |
+    Erinnerst du dich an den **heißen Draht**? Jetzt bekommt er ein Gehirn! Der micro:bit erkennt, wann die Öse den
+    Start verlässt, **zählt jede Berührung** mit einem Piepton und zeigt am Ziel deine **Zeit und deine Fehler** an.
+
+    Du lötest eine kleine **Anschlussplatine**: Hier kommen Spieldraht, Öse, Start und Ziel dran, und vier
+    Krokodilklemmen führen zum micro:bit. Hast du den ersten heißen Draht schon gebaut, kannst du sein Spielfeld weiterverwenden.
+  en: |
+    Remember the **buzz wire game**? Now it gets a brain! The micro:bit notices when the loop leaves the start,
+    **counts every touch** with a beep and shows your **time and mistakes** at the finish.
+
+    You solder a small **connection board**: the game wire, the loop, start and finish connect here, and four
+    crocodile clips lead to the micro:bit. If you already built the first buzz wire game, you can reuse its course.
+
+code:
+  program: makecode/main.ts
+  tutorial: { de: makecode/tutorial-de, en: makecode/tutorial-en }
+  try:
+    de: |
+      Klick auf **„Run“**. Im Simulator sind die Pins die goldenen Felder unten: Klick auf **P0** (Öse am Start),
+      dann ein paarmal auf **P1** (Fehler!) und zum Schluss auf **P2** (Ziel). Was zeigt der micro:bit an?
+    en: |
+      Click **"Run"**. In the simulator the pins are the golden pads at the bottom: click **P0** (loop at the start),
+      then **P1** a few times (mistakes!) and finally **P2** (finish). What does the micro:bit show?
+
+parts:
+  - { ref: X1, part: terminal-2, qty: 1, note: { de: "Spieldraht und Öse", en: "game wire and loop" } }
+  - { ref: X2, part: terminal-2, qty: 1, note: { de: "Start- und Ziel-Feld", en: "start and finish pad" } }
+  - { ref: MB1, part: clip-leads-course, qty: 1 }
+  - { ref: MB2, part: clip-leads-pads, qty: 1 }
+  - { part: microbit-v2, qty: 1 }
+  - { part: usb-cable-micro, qty: 1 }
+  - { part: battery-pack-aaa, qty: 1 }
+  - { part: perfboard, qty: "10 × 9", note: { de: "Löcher (ca. 2,5 × 2,5 cm)", en: "holes (about 2.5 × 2.5 cm)" } }
+  - { part: copper-wire-bare, qty: "70 cm", note: { de: "60 cm Spieldraht + 2 × 5 cm für Start und Ziel", en: "60 cm game wire + 2 × 5 cm for start and finish" } }
+  - { part: stranded-wire, qty: "1 m" }
+  - { part: wood-board, qty: "40 × 10 cm" }
+  - { part: wooden-dowel, qty: 1 }
+  - { part: insulating-tape, qty: 1 }
+  - { part: computer, qty: 1 }
+  - { part: soldering-iron, qty: 1 }
+  - { part: solder, qty: 1 }
+  - { part: side-cutter, qty: 1 }
+  - { part: wire-stripper, qty: 1 }
+  - { part: screwdriver, qty: 1 }
+  - { part: safety-glasses, qty: 1 }
+  - { part: drill, qty: 1 }
+
+board:
+  cols: 10
+  rows: 9
+  parts:
+    - { ref: X1, pins: { "1": B2, "2": B4 }, opens: left }
+    - { ref: X2, pins: { "1": B6, "2": B8 }, opens: left }
+    - { ref: MB1, pins: { P1: I2, GND: I4 } }
+    - { ref: MB2, pins: { P0: I6, P2: I8 } }
+  bridges:
+    - { id: course, points: [B2, I2] }
+    - { id: handle, points: [B4, I4] }
+    - { id: start, points: [B6, I6] }
+    - { id: finish, points: [B8, I8] }
+
+nets:
+  COURSE: [X1.1, MB1.P1]
+  HANDLE: [X1.2, MB1.GND]
+  START: [X2.1, MB2.P0]
+  FINISH: [X2.2, MB2.P2]
+
+steps:
+  - id: prepare
+    view: top
+    marks: [A1]
+    title: { de: Platine vorbereiten, en: Prepare the board }
+    text:
+      de: Leg die kleine Platine mit den **Kupferpunkten nach unten** vor dich und markiere **A1** oben links.
+      en: Place the small board with the **copper pads facing down** and mark **A1** at the top left.
+
+  - id: terminals
+    view: top
+    adds: [X1, X2]
+    title: { de: Zwei Schraubklemmen, en: Two screw terminals }
+    text:
+      de: |
+        **X1** kommt in **B2** und **B4**, **X2** in **B6** und **B8**. Bei beiden zeigen die Öffnungen **nach links**.
+        Löte zuerst ein Bein, prüfe ob die Klemme gerade sitzt, dann das zweite.
+      en: |
+        **X1** goes into **B2** and **B4**, **X2** into **B6** and **B8**. On both, the openings face **to the left**.
+        Solder one leg first, check that the terminal sits straight, then the second one.
+
+  - id: bridges
+    view: bottom
+    adds: [course, handle, start, finish]
+    title: { de: Vier gerade Lötbrücken, en: Four straight solder bridges }
+    text:
+      de: |
+        Dreh die Platine um – **spiegelverkehrt!** Vier Brücken, alle schön gerade:
+        **B2–I2**, **B4–I4**, **B6–I6** und **B8–I8**. Dafür brauchst du blanken Draht, ein Bauteilbein ist zu kurz.
+      en: |
+        Turn the board over – **mirrored!** Four bridges, all nice and straight:
+        **B2–I2**, **B4–I4**, **B6–I6** and **B8–I8**. You need bare wire for these, a component leg is too short.
+    tip:
+      de: Löte den Draht erst an einem Ende, zieh ihn mit der Zange straff, dann das andere Ende.
+      en: Solder the wire at one end first, pull it tight with the pliers, then the other end.
+
+  - id: clip-leads
+    view: top
+    adds: [MB1, MB2]
+    title: { de: Die Krokodilkabel, en: The crocodile leads }
+    text:
+      de: |
+        Schneide bei vier Krokodilkabeln **eine** Klemme ab und isoliere die Enden ab.
+        **Gelb** kommt in **I2**, **schwarz** in **I4**, **grün** in **I6** und **blau** in **I8**.
+      en: |
+        Cut **one** clip off each of four crocodile leads and strip the ends.
+        **Yellow** goes into **I2**, **black** into **I4**, **green** into **I6** and **blue** into **I8**.
+    tip:
+      de: Fädel die Kabel vorher einmal durch ein freies Loch am Rand – dann reißen sie nicht so leicht ab.
+      en: Thread the leads through a free hole at the edge first – then they do not tear off so easily.
+
+  - id: course
+    view: none
+    image: images/game2.svg
+    title: { de: Spielfeld mit Start und Ziel, en: Course with start and finish }
+    text:
+      de: |
+        Bau das Spielfeld wie beim **ersten heißen Draht** (oder nimm dein altes). Neu sind **Start- und Ziel-Feld**:
+        1. Wickle an beiden Enden des Spieldrahts **Isolierband** um den Draht.
+        2. Wickle über das Isolierband je **5 cm blanken Draht** in ein paar Windungen. Er darf den Spieldraht **nicht berühren**!
+        3. Löte an jedes Feld eine Litze.
+      en: |
+        Build the course like the **first buzz wire game** (or use your old one). New are the **start and finish pads**:
+        1. Wrap **insulating tape** around both ends of the game wire.
+        2. Wind **5 cm of bare wire** in a few turns over the tape at each end. It must **not touch** the game wire!
+        3. Solder a wire to each pad.
+    parent:
+      de: Die Öse muss in Ruhe das Start-Feld berühren. Probiert die Position aus, bevor ihr festlötet.
+      en: When resting, the loop has to touch the start pad. Try out the position before soldering.
+
+  - id: connect
+    view: none
+    title: { de: Alles anschließen, en: Connect everything }
+    text:
+      de: |
+        **X1 oben (B2)**: Spieldraht · **X1 unten (B4)**: Öse · **X2 oben (B6)**: Start-Feld · **X2 unten (B8)**: Ziel-Feld.
+        Dann die Krokodilklemmen an den micro:bit: **gelb → P1**, **schwarz → GND**, **grün → P0**, **blau → P2**.
+      en: |
+        **X1 top (B2)**: game wire · **X1 bottom (B4)**: loop · **X2 top (B6)**: start pad · **X2 bottom (B8)**: finish pad.
+        Then clip the crocodile clips onto the micro:bit: **yellow → P1**, **black → GND**, **green → P0**, **blue → P2**.
+
+  - id: program
+    view: none
+    title: { de: Programmieren, en: Program it }
+    text:
+      de: |
+        Klick oben auf **„Schritt für Schritt in MakeCode“** und bau das Programm nach. Teste es im Simulator
+        (P0, P1, P2 anklicken) und lade es dann auf den micro:bit.
+      en: |
+        Click **"Step by step in MakeCode"** above and build the program. Test it in the simulator
+        (click P0, P1, P2) and then put it on the micro:bit.
+
+  - id: play
+    view: none
+    title: { de: Spielen!, en: Play! }
+    text:
+      de: |
+        Leg die Öse aufs Start-Feld: Ein **Pfeil** erscheint. Los geht's – jede Berührung piept und zählt.
+        Im Ziel läuft deine **Zeit und deine Fehlerzahl** über die LEDs. Wer schafft die beste Runde?
+      en: |
+        Rest the loop on the start pad: an **arrow** appears. Off you go – every touch beeps and counts.
+        At the finish your **time and number of mistakes** scroll across the LEDs. Who gets the best round?
+
+explanation:
+  kids:
+    de: |
+      Die Pins P0, P1 und P2 des micro:bit merken, ob sie mit **GND** verbunden werden – dann sind sie „gedrückt“.
+      Die Öse ist mit GND verbunden. Berührt sie also den Spieldraht, ist P1 gedrückt, berührt sie das Ziel-Feld, ist P2 gedrückt.
+      Das Programm merkt sich in **Variablen**, ob das Spiel läuft, wann es gestartet ist und wie viele Fehler du hattest.
+    en: |
+      The micro:bit's pins P0, P1 and P2 notice when they are connected to **GND** – then they are "pressed".
+      The loop is connected to GND. So when it touches the game wire, P1 is pressed; when it touches the finish pad, P2 is pressed.
+      The program uses **variables** to remember whether the game is running, when it started and how many mistakes you made.
+  parents:
+    de: |
+      Die Pins P0–P2 arbeiten beim V2 standardmäßig **resistiv**: Ein schwacher Strom fließt zur Masse, wenn der Pin über
+      Haut oder Metall mit GND verbunden wird. Bei direktem Metallkontakt ist das sehr zuverlässig, und es sind keine
+      zusätzlichen Widerstände nötig. Alles läuft mit den 3 V des micro:bit. Die Zeit misst `Laufzeit (ms)` – die Millisekunden
+      seit dem Einschalten; die Differenz zwischen Start und Ziel ergibt die Rundenzeit.
+    en: |
+      On the V2, pins P0–P2 are **resistive** by default: a weak current flows to ground when the pin is connected to GND
+      through skin or metal. With direct metal contact this is very reliable, and no extra resistors are needed. Everything
+      runs on the micro:bit's 3 V. Time is measured with `running time (ms)` – the milliseconds since power-on; the difference
+      between start and finish is the lap time.
+
+variations:
+  - title: { de: Rekord merken, en: Remember the record }
+    text:
+      de: Mit einer vierten Variable **rekord** merkt sich der micro:bit die beste Zeit und zeigt bei einem neuen Rekord einen Pokal.
+      en: With a fourth variable **record** the micro:bit remembers the best time and shows a trophy for a new record.
+  - title: { de: Drei Leben, en: Three lives }
+    text:
+      de: Nach drei Fehlern ist das Spiel vorbei – zeig ein trauriges Gesicht und spiel einen traurigen Sound.
+      en: After three mistakes the game is over – show a sad face and play a sad sound.
+  - title: { de: Zweikampf, en: Head to head }
+    text:
+      de: Spielt abwechselnd und schreibt Zeit und Fehler auf. Für jeden Fehler gibt es zwei Strafsekunden – wer gewinnt?
+      en: Take turns and write down time and mistakes. Each mistake costs two penalty seconds – who wins?
+
+troubleshooting:
+  - problem: { de: Es zählt Fehler ohne Berührung., en: It counts mistakes without touching. }
+    solution:
+      de: Berührt der blanke Draht des Start- oder Ziel-Felds den Spieldraht? Mehr Isolierband darunter. Prüfe auch, dass sich unten keine Lötbrücken berühren.
+      en: Is the bare wire of the start or finish pad touching the game wire? Add more tape underneath. Also check that no solder bridges touch underneath.
+  - problem: { de: Der Pfeil erscheint nicht am Start., en: The arrow does not appear at the start. }
+    solution:
+      de: Die Öse berührt das Start-Feld nicht. Wickle das Feld etwas breiter. Prüfe die grüne Klemme an P0 und die schwarze an GND.
+      en: The loop does not touch the start pad. Wind the pad a little wider. Check the green clip on P0 and the black one on GND.
+  - problem: { de: Kein Piepton bei Fehlern., en: No beep on mistakes. }
+    solution:
+      de: Nur der micro:bit V2 hat einen Lautsprecher. Die Zahl sollte trotzdem hochzählen – sonst gelbe Klemme an P1 prüfen.
+      en: Only the micro:bit V2 has a speaker. The number should still count up – otherwise check the yellow clip on P1.
+
+safety:
+  de:
+    - Die Krokodilklemmen dürfen sich am micro:bit nicht gegenseitig berühren.
+    - Die Drahtenden am Spielfeld sind spitz – umbiegen oder abkleben.
+  en:
+    - The crocodile clips must not touch each other on the micro:bit.
+    - The wire ends on the course are sharp – bend them over or tape them.

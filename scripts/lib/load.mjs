@@ -8,6 +8,9 @@ import { checkBoard, pinsOf, dipPins } from './board.mjs';
 
 const readYaml = (file) => YAML.parse(fs.readFileSync(file, 'utf8'));
 
+/** Picks one language in "{{Deutsch|English}}" placeholders. */
+export const pickLang = (text, lang) => text.replace(/\{\{([^|}]*)\|([^}]*)\}\}/g, (_, de, en) => (lang === 'de' ? de : en));
+
 export function loadAll(root) {
   const errors = [];
   const catalog = readYaml(path.join(root, 'parts/catalog.yaml'));
@@ -58,8 +61,17 @@ function checkProject(p, id, dir, catalog, errors) {
   const err = (msg) => errors.push(`${id}: ${msg}`);
   if (p.id !== id) err(`id "${p.id}" must equal the folder name`);
 
-  const files = [p.hero, p.simulation.circuit, ...p.variations.map((v) => v.circuit), ...p.steps.map((s) => s.image)].filter(Boolean);
+  const files = [p.hero, p.simulation?.circuit, ...p.variations.map((v) => v.circuit), ...p.steps.map((s) => s.image),
+    p.code?.program, ...(p.code ? [`${p.code.tutorial.de}.md`, `${p.code.tutorial.en}.md`] : [])].filter(Boolean);
   for (const f of files) if (!fs.existsSync(path.join(dir, f))) err(`file ${f} not found`);
+  if (p.code && fs.existsSync(path.join(dir, p.code.program))) {
+    const src = fs.readFileSync(path.join(dir, p.code.program), 'utf8').replace(/\r/g, '').trim();
+    p.programs = { de: pickLang(src, 'de'), en: pickLang(src, 'en') };
+  }
+  if (!p.board) {
+    if (p.steps.some((s) => s.view !== 'none')) err('projects without a board can only have steps with view "none"');
+    return;
+  }
 
   // Parts: known ids, unique refs, resistors have a value.
   const byRef = new Map();

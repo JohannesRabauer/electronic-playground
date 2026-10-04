@@ -139,6 +139,46 @@ perfboard:
   name: { de: Lochrasterplatine, en: Perfboard }
   hint: { de: "Rastermaß 2,54 mm, mit einzelnen Lötpunkten (keine Streifen). Große Platinen kann man mit dem Cutter anritzen und brechen.", en: "2.54 mm pitch, with separate pads (not stripboard). Score big boards with a craft knife and snap them." }
 
+# ---------------------------------------------------------------- micro:bit
+
+microbit-v2:
+  category: component
+  icon: "🧩"
+  name: { de: BBC micro:bit V2, en: BBC micro:bit V2 }
+  hint: { de: "Auf der Rückseite steht „V2“ – nur V2 hat Lautsprecher, Mikrofon und Touch-Logo. Am günstigsten im „Go“-Set mit Kabel und Batteriehalter.", en: "It says \"V2\" on the back – only V2 has the speaker, microphone and touch logo. Cheapest in the \"Go\" bundle with cable and battery holder." }
+
+usb-cable-micro:
+  category: component
+  icon: "🔌"
+  name: { de: USB-Kabel (Micro-USB), en: USB cable (micro USB) }
+  hint: { de: "Ein Datenkabel – reine Ladekabel funktionieren nicht.", en: "A data cable – charge-only cables do not work." }
+
+battery-pack-aaa:
+  category: component
+  icon: "🔋"
+  name: { de: "Batteriehalter 2 × AAA mit Stecker", en: "Battery holder 2 × AAA with plug" }
+  hint: { de: "Mit JST-Stecker für den micro:bit, plus zwei AAA-Batterien.", en: "With a JST plug for the micro:bit, plus two AAA batteries." }
+
+crocodile-clips:
+  category: component
+  icon: "🐊"
+  name: { de: Krokodilklemmen-Kabel, en: Crocodile clip leads }
+  hint: { de: "Kurze Kabel mit Klemmen an beiden Enden – passen an die großen Ringe des micro:bit.", en: "Short leads with clips at both ends – they fit the big rings of the micro:bit." }
+
+clip-leads-course:
+  category: component
+  kind: leads
+  leads: { pins: ["P1", "GND"], colors: ["#fbc02d", "#222"], tag: "µ:bit", labels: { de: ["→ P1 gelb", "→ GND schwarz"], en: ["→ P1 yellow", "→ GND black"] } }
+  name: { de: "2 Krokodilklemmen-Kabel (gelb, schwarz)", en: "2 crocodile clip leads (yellow, black)" }
+  hint: { de: "Eine Klemme abschneiden, abisolieren und einlöten – die andere kommt an den micro:bit.", en: "Cut off one clip, strip the wire and solder it in – the other clip goes on the micro:bit." }
+
+clip-leads-pads:
+  category: component
+  kind: leads
+  leads: { pins: ["P0", "P2"], colors: ["#43a047", "#1e88e5"], tag: "µ:bit", labels: { de: ["→ P0 grün", "→ P2 blau"], en: ["→ P0 green", "→ P2 blue"] } }
+  name: { de: "2 Krokodilklemmen-Kabel (grün, blau)", en: "2 crocodile clip leads (green, blue)" }
+  hint: { de: "Eine Klemme abschneiden, abisolieren und einlöten – die andere kommt an den micro:bit.", en: "Cut off one clip, strip the wire and solder it in – the other clip goes on the micro:bit." }
+
 # ---------------------------------------------------------------- materials
 
 copper-wire-bare:
@@ -189,6 +229,12 @@ sandpaper:
   name: { de: Schleifpapier, en: Sandpaper }
   hint: { de: "Fein (Körnung 240 oder feiner).", en: "Fine (240 grit or finer)." }
 
+lanyard:
+  category: material
+  icon: "🪢"
+  name: { de: Schnur oder Schlüsselband, en: String or lanyard }
+  hint: { de: "Zum Umhängen – durch die Löcher am Rand des micro:bit fädeln.", en: "To wear it – thread it through the holes on the edge of the micro:bit." }
+
 craft-box:
   category: material
   icon: "📦"
@@ -196,6 +242,12 @@ craft-box:
   hint: { de: "Karton, Marmeladenglas, Joghurtbecher – was da ist.", en: "Cardboard, a jam jar, a yoghurt pot – whatever you have." }
 
 # ---------------------------------------------------------------- tools
+
+computer:
+  category: tool
+  icon: "💻"
+  name: { de: Computer oder Tablet mit Internet, en: Computer or tablet with internet }
+  hint: { de: "Für den Editor MakeCode im Browser – nichts zu installieren.", en: "For the MakeCode editor in the browser – nothing to install." }
 
 soldering-iron:
   category: tool

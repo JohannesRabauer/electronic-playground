@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 290" role="img" aria-label="micro:bit name badge">
+  <rect x="10" y="10" width="620" height="270" rx="22" fill="#e8eaf6"/>
+  <!-- lanyard -->
+  <path d="M250 10 L 285 92 M390 10 L 355 92" stroke="#e53935" stroke-width="12" stroke-linecap="round"/>
+  <!-- micro:bit -->
+  <rect x="220" y="80" width="200" height="170" rx="18" fill="#1a1a2e"/>
+  <circle cx="285" cy="96" r="6" fill="#e8eaf6"/><circle cx="355" cy="96" r="6" fill="#e8eaf6"/>
+  <!-- logo -->
+  <rect x="304" y="96" width="32" height="14" rx="7" fill="none" stroke="#d4af37" stroke-width="3"/>
+  <circle cx="313" cy="103" r="2.5" fill="#d4af37"/><circle cx="327" cy="103" r="2.5" fill="#d4af37"/>
+  <!-- buttons -->
+  <circle cx="248" cy="170" r="12" fill="#3a3a4e"/><circle cx="248" cy="170" r="7" fill="#111"/>
+  <text x="248" y="197" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">A</text>
+  <circle cx="392" cy="170" r="12" fill="#3a3a4e"/><circle cx="392" cy="170" r="7" fill="#111"/>
+  <text x="392" y="197" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">B</text>
+  <!-- 5x5 LEDs showing a heart -->
+  <g>
+    <!-- row 0: . # . # . -->
+    <rect x="284" y="124" width="8" height="10" rx="2" fill="#3a1a1a"/><rect x="300" y="124" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="316" y="124" width="8" height="10" rx="2" fill="#3a1a1a"/><rect x="332" y="124" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="348" y="124" width="8" height="10" rx="2" fill="#3a1a1a"/>
+    <!-- row 1: # # # # # -->
+    <rect x="284" y="142" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="300" y="142" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="316" y="142" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="332" y="142" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="348" y="142" width="8" height="10" rx="2" fill="#ff3b30"/>
+    <!-- row 2: # # # # # -->
+    <rect x="284" y="160" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="300" y="160" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="316" y="160" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="332" y="160" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="348" y="160" width="8" height="10" rx="2" fill="#ff3b30"/>
+    <!-- row 3: . # # # . -->
+    <rect x="284" y="178" width="8" height="10" rx="2" fill="#3a1a1a"/><rect x="300" y="178" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="316" y="178" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="332" y="178" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="348" y="178" width="8" height="10" rx="2" fill="#3a1a1a"/>
+    <!-- row 4: . . # . . -->
+    <rect x="284" y="196" width="8" height="10" rx="2" fill="#3a1a1a"/><rect x="300" y="196" width="8" height="10" rx="2" fill="#3a1a1a"/><rect x="316" y="196" width="8" height="10" rx="2" fill="#ff3b30"/><rect x="332" y="196" width="8" height="10" rx="2" fill="#3a1a1a"/><rect x="348" y="196" width="8" height="10" rx="2" fill="#3a1a1a"/>
+  </g>
+  <!-- edge connector -->
+  <rect x="220" y="226" width="200" height="24" fill="#d4af37"/>
+  <g fill="#1a1a2e"><circle cx="240" cy="236" r="7"/><circle cx="280" cy="236" r="7"/><circle cx="320" cy="236" r="7"/><circle cx="360" cy="236" r="7"/><circle cx="400" cy="236" r="7"/></g>
+  <!-- speech bubble -->
+  <path d="M440 70 h150 a14 14 0 0 1 14 14 v36 a14 14 0 0 1 -14 14 h-120 l-24 18 l4 -18 h-10 a14 14 0 0 1 -14 -14 v-36 a14 14 0 0 1 14 -14 z" fill="#fff" stroke="#5e35b1" stroke-width="3"/>
+  <text x="515" y="110" font-family="system-ui, sans-serif" font-size="22" font-weight="900" fill="#5e35b1" text-anchor="middle">Hi! ♥</text>
+  <text x="120" y="150" font-family="system-ui, sans-serif" font-size="26" font-weight="900" fill="#ff7043" text-anchor="middle">hihi!</text>
+</svg>

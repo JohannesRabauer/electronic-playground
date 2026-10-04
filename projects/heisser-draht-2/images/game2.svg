@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 290" role="img" aria-label="Buzz wire game with micro:bit">
+  <defs>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9a066"/><stop offset="1" stop-color="#b57a3e"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="620" height="270" rx="22" fill="#e8f5e9"/>
+  <rect x="20" y="214" width="600" height="56" rx="10" fill="url(#wood)" stroke="#8a5a2b" stroke-width="2"/>
+  <!-- game wire -->
+  <path d="M70 216 L70 150 C 100 70, 150 60, 190 130 S 260 205, 300 115 S 380 40, 420 120 S 470 160, 490 140 L520 150 L520 216"
+        fill="none" stroke="#c87533" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- start / finish pads over tape -->
+  <line x1="70" y1="208" x2="70" y2="166" stroke="#1e88e5" stroke-width="13" stroke-linecap="round"/>
+  <g stroke="#e0b25a" stroke-width="3"><path d="M62 176 h16 M62 184 h16 M62 192 h16"/></g>
+  <line x1="520" y1="208" x2="520" y2="164" stroke="#43a047" stroke-width="13" stroke-linecap="round"/>
+  <g stroke="#e0b25a" stroke-width="3"><path d="M512 174 h16 M512 182 h16 M512 190 h16"/></g>
+  <!-- handle -->
+  <line x1="318" y1="132" x2="372" y2="196" stroke="#8d6e63" stroke-width="14" stroke-linecap="round"/>
+  <line x1="306" y1="120" x2="320" y2="134" stroke="#c87533" stroke-width="4"/>
+  <ellipse cx="298" cy="112" rx="13" ry="19" transform="rotate(-25 298 112)" fill="none" stroke="#c87533" stroke-width="4"/>
+  <!-- wires to the micro:bit -->
+  <path d="M372 196 C 400 240, 520 250, 560 200" fill="none" stroke="#222" stroke-width="3"/>
+  <path d="M110 214 C 200 250, 480 250, 548 200" fill="none" stroke="#fbc02d" stroke-width="3"/>
+  <path d="M78 200 C 200 270, 480 260, 572 200" fill="none" stroke="#43a047" stroke-width="3"/>
+  <path d="M528 200 C 540 205, 575 210, 584 200" fill="none" stroke="#1e88e5" stroke-width="3"/>
+  <!-- micro:bit -->
+  <rect x="520" y="70" width="96" height="130" rx="10" fill="#1a1a2e"/>
+  <rect x="520" y="180" width="96" height="20" fill="#d4af37"/>
+  <rect x="551" y="80" width="34" height="12" rx="6" fill="none" stroke="#d4af37" stroke-width="2"/>
+  <text x="568" y="135" font-family="ui-monospace, monospace" font-size="20" font-weight="900" fill="#ff3b30" text-anchor="middle">12s</text>
+  <text x="568" y="160" font-family="ui-monospace, monospace" font-size="16" font-weight="900" fill="#ff3b30" text-anchor="middle">2F</text>
+  <text x="300" y="50" font-family="system-ui, sans-serif" font-size="22" font-weight="900" fill="#2e7d32" text-anchor="middle">START → ZIEL · FINISH</text>
+</svg>

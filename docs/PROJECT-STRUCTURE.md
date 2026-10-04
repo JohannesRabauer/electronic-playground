@@ -24,6 +24,33 @@ Every project has a `category`. The home page groups projects by it:
 | `microbit` | micro:bit | Programming the BBC micro:bit, no soldering (crocodile clips at most) |
 | `microbit-solder` | micro:bit + Löten / micro:bit + soldering | A soldered add-on board controlled by the micro:bit |
 
+### What each category requires
+
+| | `solder` | `microbit` | `microbit-solder` |
+|---|---|---|---|
+| `simulation` (CircuitJS) | required | – | optional |
+| `code` (MakeCode) | – | required | required |
+| `board` + `nets` | required | – | required |
+
+## micro:bit projects
+
+```yaml
+code:
+  program: makecode/main.ts                       # the finished program (MakeCode JavaScript)
+  tutorial: { de: makecode/tutorial-de, en: makecode/tutorial-en }   # without .md
+  try: { de: "…", en: "…" }
+```
+
+- **`main.ts`** is the finished program. Texts and variable names can be bilingual with `{{Deutsch|English}}`.
+  The page shows it as MakeCode blocks in the page language, with a **Run** button for the micro:bit simulator
+  (`makecode.microbit.org/--docs`). Nothing has to be published on makecode.com.
+- **Tutorials** are MakeCode tutorial markdown (`# Title`, `## Step`, a `blocks` code fence per step, `@showdialog`).
+  MakeCode loads them straight from GitHub (`#tutorial:github:<repo>/projects/<id>/makecode/tutorial-de`),
+  so they only work once pushed. The build keeps the root **`pxt.json`** (which lists all tutorials) in sync – commit it.
+- Use the **exact block names** MakeCode shows in each language (e.g. „wenn Knopf A geklickt“ / "on button A pressed").
+  Check them by opening the program on the project page.
+- micro:bit projects target the **V2** (speaker, microphone, touch logo).
+
 ## Folder
 
 ```

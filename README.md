@@ -43,6 +43,7 @@ Changes to `scripts/` need a restart: `docker compose restart builder`.
 | `sandbox/` | Loose circuits for the simulator menu (ideas, not projects yet) |
 | `site/` | UI texts (`i18n.yaml`), stylesheet, small script |
 | `scripts/` | The static site generator (Node, no framework) |
+| `pxt.json` | Generated list of MakeCode tutorials – MakeCode reads it from GitHub, so commit it |
 | `docker/` | Dockerfile (simulator build + site build) and nginx config |
 
 ## Publishing
