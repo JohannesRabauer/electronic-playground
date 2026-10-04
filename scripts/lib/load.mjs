@@ -28,6 +28,12 @@ export function loadAll(root) {
   for (const [id, prod] of Object.entries(products.products)) {
     for (const c of prod.covers) if (!catalog[c]) errors.push(`parts/products.yaml: ${id} covers unknown part "${c}"`);
   }
+  const pollin = readYaml(path.join(root, 'parts/pollin.yaml'));
+  for (const it of pollin.items) {
+    if (!/^[0-9a-f]{32}$/.test(it.id)) errors.push(`parts/pollin.yaml: "${it.name}" has no valid id`);
+    if (!['parts', 'tools'].includes(it.group)) errors.push(`parts/pollin.yaml: "${it.name}" has unknown group "${it.group}"`);
+    for (const c of it.covers) if (!catalog[c]) errors.push(`parts/pollin.yaml: "${it.name}" covers unknown part "${c}"`);
+  }
   for (const s of sandbox) {
     if (!fs.existsSync(path.join(root, 'sandbox', s.file))) errors.push(`sandbox.yaml: file ${s.file} not found`);
   }
@@ -66,7 +72,7 @@ export function loadAll(root) {
     }
   }
   projects.sort((a, b) => a.number - b.number);
-  return { catalog, i18n, sandbox, shops, products, imprint, projects, errors };
+  return { catalog, i18n, sandbox, shops, products, pollin, imprint, projects, errors };
 }
 
 function checkProject(p, id, dir, catalog, errors) {

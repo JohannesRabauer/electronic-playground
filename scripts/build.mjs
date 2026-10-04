@@ -129,7 +129,7 @@ function syncMakecodeManifest({ projects }) {
 
 async function buildSite(data) {
   for (const dir of [...LANGS, 'assets', 'projects']) fs.rmSync(path.join(DIST, dir), { recursive: true, force: true });
-  const u = { ...urls(BASE, GITHUB_REPO), products: data.products };
+  const u = { ...urls(BASE, GITHUB_REPO), products: data.products, pollin: data.pollin };
   // The legal notice is only published (and linked) once it is filled in.
   if (data.imprint.complete) {
     u.imprint = (lang) => `${BASE}${lang}/${IMPRINT_DIR[lang]}/`;

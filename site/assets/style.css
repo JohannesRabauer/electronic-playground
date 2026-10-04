@@ -272,3 +272,8 @@ svg.board .hole-tag rect { fill: #ff6d00; }
   .check input { appearance: none; -webkit-appearance: none; border: 1.5px solid #555; border-radius: 3px; width: 4mm; height: 4mm; }
   a { color: inherit; text-decoration: none; }
 }
+.pollin-box { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-color: #66bb6a; }
+.pollin-form { display: inline; margin: 0; }
+.shop-label { display: inline-block; vertical-align: middle; font-size: .7rem; font-weight: 800; letter-spacing: .05em; color: #1b5e20; background: #fff; border: 1px solid #66bb6a; border-radius: 4px; padding: .05em .45em; margin-left: .4rem; }
+.pollin-group { border: 0; margin: 0; padding: 0; display: contents; }
+.pollin-tools { display: inline-flex; align-items: center; gap: .35rem; margin-left: .8rem; font-weight: 600; cursor: pointer; }

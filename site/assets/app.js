@@ -38,6 +38,34 @@
     });
   });
 
+  // Pollin carts: the form posts the articles into a new tab. Pollin answers with an empty response (the tab keeps
+  // showing our waiting note) and sets its cart cookie. Only after that has arrived may the tab move on to the cart,
+  // so the wait grows with the number of articles (Pollin needs about 0.1 s per article).
+  document.querySelectorAll('form[data-pollin-cart]').forEach(function (form) {
+    // "Order tools too": a disabled fieldset is left out of the post.
+    var toggle = form.querySelector('[data-pollin-toggle]');
+    var tools = form.querySelector('[data-pollin-group=tools]');
+    var count = form.querySelector('[data-pollin-count]');
+    function sync() {
+      tools.disabled = !toggle.checked;
+      count.textContent = form.querySelectorAll('fieldset:not([disabled]) input[name$="[type]"]').length;
+    }
+    // Browsers restore a ticked/unticked box after reload or "back", so sync once at the start too.
+    if (toggle && tools) { toggle.addEventListener('change', sync); sync(); window.addEventListener('pageshow', sync); }
+    form.addEventListener('submit', function () {
+      var tab = window.open('', form.target);
+      if (!tab) return;
+      var cart = form.dataset.pollinCart;
+      var items = form.querySelectorAll('fieldset:not([disabled]) input[name$="[type]"]').length;
+      try {
+        tab.document.title = 'Pollin';
+        tab.document.body.innerHTML = '<p style="font:1.2rem sans-serif;margin:3rem;text-align:center">'
+          + form.dataset.waitText + '<br><br><a href="' + cart + '">' + form.dataset.cartText + '</a></p>';
+      } catch (e) {}
+      setTimeout(function () { tab.location.href = cart; }, 2500 + 200 * items);
+    });
+  });
+
   document.querySelectorAll('[data-print]').forEach(function (btn) {
     btn.addEventListener('click', function () { window.print(); });
   });

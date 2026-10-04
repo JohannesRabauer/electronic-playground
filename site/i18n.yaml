@@ -51,6 +51,12 @@ de:
   cart_elsewhere: "Außerdem brauchst du (Baumarkt oder zu Hause):"
   cart_note: "Die Buttons legen günstige Sets bei Amazon in den Warenkorb – bezahlt wird erst, wenn du selbst bestellst. Mengen kannst du dort ändern, und wenn du schon Werkzeug hast, lass den Werkzeug-Button einfach weg. Ausgewählt am {date}; Angebote können sich ändern."
   ad_label: Werbung
+  pollin_button: Alles in den Pollin-Warenkorb
+  pollin_button_tools: Werkzeug in den Pollin-Warenkorb
+  pollin_with_tools: "Werkzeug mitbestellen ({n} Teile)"
+  pollin_wait: 🛒 Pollin packt deinen Warenkorb … gleich geht es weiter.
+  pollin_open_cart: Zum Pollin-Warenkorb
+  pollin_note: "Ein Klick legt alles in einen Pollin-Warenkorb und öffnet ihn in einem neuen Tab – ohne Anmeldung, bezahlt wird erst, wenn du dort bestellst. Mengen kannst du im Warenkorb ändern. Jeder Klick startet einen neuen Gast-Warenkorb – ein vorher gefüllter Pollin-Warenkorb wird dabei ersetzt, auch wenn du angemeldet bist. Das ist keine offizielle Pollin-Funktion und kein Partnerlink – falls der Warenkorb leer bleibt, nutze die Suchlinks unten. Ausgewählt am {date}; Angebote können sich ändern."
   imprint_title: Impressum
   consent_title: Programm in MakeCode anzeigen
   consent_text: "Das Programm wird mit Microsoft MakeCode angezeigt. Erst wenn du klickst, lädt dein Browser Inhalte von makecode.microbit.org – dabei wird deine IP-Adresse an Microsoft übertragen."
@@ -101,6 +107,10 @@ de:
     werden Daten an den jeweiligen Shop übertragen; dort gelten dessen Datenschutzbestimmungen. Als **„Werbung“** gekennzeichnete
     Links sind Amazon-Partnerlinks: Sie enthalten eine Partnerkennung, damit Amazon einen Kauf dieser Website zuordnen kann.
     Amazon kann dafür auf der Amazon-Website Cookies setzen. Als Amazon-Partner verdiene ich an qualifizierten Verkäufen.
+
+    Die Pollin-Warenkorb-Buttons schicken beim Klick die Artikelnummern direkt an Pollin (Pollin Electronic GmbH), damit
+    Pollin sie in einen Warenkorb legt; dabei setzt Pollin auf seiner Website ein Cookie für den Warenkorb. Es ist kein
+    Partnerlink, und diese Website erfährt nichts davon.
 
     ## Deine Rechte
 
@@ -255,6 +265,12 @@ en:
   cart_elsewhere: "You also need (hardware store or at home):"
   cart_note: "The buttons put cheap kits into your Amazon cart (amazon.com) – nothing is paid until you order yourself. You can change quantities there, and if you already have tools, just skip the tools button. Selected on {date}; offers can change. In the UK, use the search links below."
   ad_label: Ad
+  pollin_button: Everything to the Pollin cart
+  pollin_button_tools: Tools to the Pollin cart
+  pollin_with_tools: "Order tools too ({n} items)"
+  pollin_wait: 🛒 Pollin is filling your cart … one moment.
+  pollin_open_cart: Open the Pollin cart
+  pollin_note: "Pollin (pollin.de) ships within Europe. Selected on {date}."
   imprint_title: Legal notice
   consent_title: Show the program in MakeCode
   consent_text: "The program is shown with Microsoft MakeCode. Only when you click does your browser load content from makecode.microbit.org – which sends your IP address to Microsoft."

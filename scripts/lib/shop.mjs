@@ -136,3 +136,90 @@ export function cartBox(projects, { catalog, products, t, lang, esc }, title, co
   <p class="hint cart-note">${esc(t.cart_note.replace('{date}', date))} <strong>${esc(t.partner_disclosure)}</strong></p>
 </div>`;
 }
+
+// ------------------------------------------------------------------ Pollin carts (German pages)
+
+const POLLIN_ADD = 'https://www.pollin.de/checkout/line-item/add';
+const POLLIN_CART = 'https://www.pollin.de/checkout/cart';
+const E12 = [10, 12, 15, 18, 22, 27, 33, 39, 47, 56, 68, 82];
+const inE12 = (v) => {
+  if (!(v >= 10 && v <= 1e6)) return false;
+  const m = v / 10 ** Math.floor(Math.log10(v / 10));
+  return E12.some((x) => Math.abs(x - m) < 1e-6 * x);
+};
+const hasValue = (item, v) => (item.values === 'E12' ? inE12(v) : item.values.some((x) => Math.abs(x - v) <= 1e-9 * Math.abs(x)));
+
+/**
+ * Pollin articles (parts/pollin.yaml) for a set of projects, with quantities, split into parts and tools.
+ * Values (e.g. resistances) that no article covers are listed in `missing` with the part name.
+ */
+export function pollinCarts(projects, catalog, pollinFile, lang) {
+  const rows = new Map(aggregateParts(projects, catalog).map((r) => [r.id, r]));
+  const pieces = (id) => rows.get(id).qtys.reduce((n, q) => n + (typeof q === 'number' ? q : 1), 0);
+  const groups = { parts: [], tools: [] };
+  const covered = new Set();
+  const valueGaps = [];
+  for (const item of pollinFile.items) {
+    const parts = item.covers.filter((c) => rows.has(c));
+    if (!parts.length) continue;
+    let need = 0;
+    for (const c of parts) {
+      const values = [...rows.get(c).values];
+      if (item.values && values.length) need += values.filter(([v]) => hasValue(item, v)).reduce((n, [, q]) => n + q, 0);
+      else need += pieces(c);
+    }
+    if (!need) continue;
+    parts.forEach((c) => covered.add(c));
+    groups[item.group].push({ ...item, name: item.name, quantity: item.pack ? Math.ceil(need / item.pack) : 1 });
+  }
+  // Values of covered parts that no article has, e.g. a 5.1 kΩ resistor.
+  for (const c of covered) {
+    const row = rows.get(c);
+    const withValues = pollinFile.items.filter((it) => it.values && it.covers.includes(c));
+    if (!withValues.length) continue;
+    const gaps = [...row.values.keys()].filter((v) => !withValues.some((it) => hasValue(it, v)));
+    if (gaps.length) valueGaps.push(`${row.entry.name[lang]} ${gaps.sort((a, b) => a - b).map((v) => formatValue(row.entry.kind, v).replace('.', lang === 'de' ? ',' : '.')).join(', ')}`);
+  }
+  const notCovered = [...rows.keys()].filter((c) => !covered.has(c)).map((c) => catalog[c]);
+  return {
+    groups: Object.fromEntries(Object.entries(groups).filter(([, items]) => items.length)),
+    elsewhere: notCovered.filter((e) => e.buy.where),
+    missing: [...notCovered.filter((e) => !e.buy.where).map((e) => e.name[lang]), ...valueGaps],
+    checked: pollinFile.checked,
+  };
+}
+
+/** One-click Pollin cart: a form per group that posts all articles to Pollin, then app.js opens the cart. */
+export function pollinBox(projects, { catalog, pollin, t, lang, esc }, title, compact = false) {
+  if (lang !== 'de' || !pollin) return '';
+  const carts = pollinCarts(projects, catalog, pollin, lang);
+  if (!Object.keys(carts.groups).length) return '';
+  // One form for everything: a second post would start a new Pollin cart and drop the first one.
+  const label = { parts: `🧩 ${t.group_parts}`, tools: `🔧 ${t.cart_tools}` };
+  const inputs = (items) => items.map((it) => ['id', 'referencedId'].map((f) => `<input type="hidden" name="lineItems[${it.id}][${f}]" value="${it.id}">`).join('')
+    + `<input type="hidden" name="lineItems[${it.id}][type]" value="product"><input type="hidden" name="lineItems[${it.id}][quantity]" value="${it.quantity}">`
+    + `<input type="hidden" name="lineItems[${it.id}][stackable]" value="1"><input type="hidden" name="lineItems[${it.id}][removable]" value="1">`).join('');
+  const { parts = [], tools = [] } = carts.groups;
+  const toolsBox = tools.length ? `<label class="pollin-tools"><input type="checkbox" checked data-pollin-toggle> ${esc(t.pollin_with_tools.replace('{n}', tools.length))}</label>
+<fieldset class="pollin-group" data-pollin-group="tools">${inputs(tools)}</fieldset>` : '';
+  const forms = `<form class="pollin-form" action="${POLLIN_ADD}" method="post" target="pollinCart" data-pollin-cart="${POLLIN_CART}" data-wait-text="${esc(t.pollin_wait)}" data-cart-text="${esc(t.pollin_open_cart)}">
+<fieldset class="pollin-group">${inputs(parts)}</fieldset>
+<button type="submit" class="button">🛒 ${esc(parts.length ? t.pollin_button : t.pollin_button_tools)} <span class="count" data-pollin-count>${parts.length + tools.length}</span></button>
+${toolsBox}
+</form>`;
+  const contents = Object.entries(carts.groups).map(([g, items]) => `<li><strong>${label[g]}:</strong> ${items.map((it) =>
+    `${it.quantity > 1 ? `${it.quantity} × ` : ''}${esc(it.name)}${it.note ? ` <span class="hint">(${esc(it.note)})</span>` : ''}`).join(' · ')}</li>`).join('');
+  const names = (list) => [...new Set(list)].map(esc).join(', ');
+  const extra = [
+    carts.missing.length ? `${esc(t.cart_missing)} ${names(carts.missing)}` : '',
+    carts.elsewhere.length ? `${esc(t.cart_elsewhere)} ${names(carts.elsewhere.map((e) => e.name[lang]))}` : '',
+  ].filter(Boolean).map((s) => `<p class="hint">${s}</p>`).join('');
+  const date = new Date(carts.checked).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+  return `<div class="cart-box pollin-box${compact ? ' compact' : ''}">
+  <h3>🛒 ${esc(title)} <span class="shop-label">Pollin</span></h3>
+  <div class="cart-buttons">${forms}</div>
+  <details><summary>${esc(t.cart_contents)}</summary><ul class="cart-contents">${contents}</ul></details>
+  ${extra}
+  <p class="hint cart-note">${esc(t.pollin_note.replace('{date}', date))}</p>
+</div>`;
+}

@@ -1,0 +1,52 @@
+# Concrete Pollin articles for the one-click Pollin carts on the German pages (pollin.de ships to DE/AT/…).
+#
+# One click posts all articles of a cart to Pollin's own "add to cart" endpoint
+# (https://www.pollin.de/checkout/line-item/add) and then opens the Pollin cart. No account and no partner programme.
+# This is not an official Pollin interface - if Pollin changes its shop, the buttons stop working. Re-check now and then.
+#
+# id:     the article's cart id: the 32-character hex code in "lineItems[<id>]" of the buy form on the product page
+#         (or run the scratchpad helper: search pollin.de and read the form)
+# covers: catalog parts (parts/catalog.yaml) this article is for
+# pack:   pieces per article. The cart quantity is "needed pieces ÷ pack", rounded up.
+#         Without pack the article goes into the cart once (assortments, wire, tools).
+#         For parts with a length or size instead of a number (perfboard, wire), each project counts as one piece.
+# values: only for these values (e.g. resistances); E12 = the whole E12 series. Missing values are listed below the button.
+# note:   short hint shown in the list of cart contents
+# group:  parts | tools
+
+checked: 2026-10-04
+
+items:
+  - { group: parts, id: 9c47988a1b4d4edca17d4adecd274a34, covers: [resistor], values: E12, name: "Widerstands-Sortiment 610 Stück, E12, 0,25 W" }
+  - { group: parts, id: 7141a5ea20a24662aca851d4d3b341f5, covers: [resistor], values: [6200], name: "Metallfilm-Widerstände 6,2 kΩ, 100 Stück" }
+  - { group: parts, id: d98b2a6b207f420889aec7c8a7ad48be, covers: [led-5mm], name: "LED-Set 5 mm, 130 Teile" }
+  - { group: parts, id: cc073f3cf1544b77a6bf864819513761, covers: [ldr], name: "Fotowiderstand PFW551M, 5 Stück" }
+  - { group: parts, id: d615aadebd7d405e8861be982cf2efc8, covers: [transistor-bc547], pack: 1, name: "Transistor BC547C" }
+  - { group: parts, id: d26fc3eac80c4e4d8b0cbeef70030167, covers: [transistor-bc337], pack: 1, name: "Transistor BC337-25" }
+  - { group: parts, id: d72e346bf5e34b0583a05e3a056f7a4b, covers: [elko], values: [0.00001], pack: 1, name: "Elko 10 µF, 50 V" }
+  - { group: parts, id: 3b6f9b8be6d04bcb99b25c0b178d6efb, covers: [cap-ceramic], values: [1e-7], pack: 1, name: "Keramikkondensator 100 nF" }
+  - { group: parts, id: 926402e96213459db0f311787803de39, covers: [buzzer-active], pack: 1, name: "Piezo-Summer 3–24 V, Dauerton", note: "mit Kabeln statt Beinchen – die Kabelenden kommen in die Löcher" }
+  - { group: parts, id: 69ce944465eb412fbc5716d04f9c156d, covers: [push-button], pack: 1, name: "Taster 6 × 6 mm" }
+  - { group: parts, id: e17c0abda2a14af4a12d97ac782ee867, covers: [terminal-2], pack: 1, name: "Schraubklemme 2-polig, RM 5,08" }
+  - { group: parts, id: d10f43ba933a4168a47167dd161a2c9d, covers: [ic-555], pack: 1, name: "Timer-IC NE555" }
+  - { group: parts, id: 53c2ff5be3c243b9b98a78451da8c76c, covers: [ic-555], pack: 1, name: "IC-Fassung 8-polig" }
+  - { group: parts, id: 258edc4bc7004711be70d967211c0ad4, covers: [ic-4017], pack: 1, name: "Zähler-IC CD4017" }
+  - { group: parts, id: 04546406b8d0428d86ece904c774b73b, covers: [ic-4017], pack: 1, name: "IC-Fassung 16-polig" }
+  - { group: parts, id: 29a5c11714c34ee79b8a2f0e9a121634, covers: [battery-clip-9v], pack: 1, name: "9-V-Batterieclip" }
+  - { group: parts, id: a733e28c749849e7a15a121d9ed8aab5, covers: [battery-9v], pack: 6, name: "9-V-Blockbatterien, 6 Stück" }
+  - { group: parts, id: 52d43a9bb84f4680b13e065ec1d52a02, covers: [battery-holder-aa], pack: 1, name: "Batteriehalter 1 × AA", note: "mit Lötfahnen – zwei Stücke Litze anlöten" }
+  - { group: parts, id: a01116502062455d9937da2c016ac19a, covers: [perfboard], pack: 4, name: "Lochrasterplatine 160 × 100 mm", note: "reicht für etwa vier Projekte" }
+  - { group: parts, id: 94032e88070d4b83bb6ada854662848b, covers: [perfboard], name: "Verzinnter Kupferdraht 0,6 mm, 10 m", note: "für Lötbrücken" }
+  - { group: parts, id: 16aba6bcd62954bf8bad5824bb5afeec, covers: [copper-wire-bare], name: "Verzinnter Kupferdraht 1,0 mm, 10 m" }
+  - { group: parts, id: 1ce16dfe948c4a76b4b6ead227fe0067, covers: [stranded-wire, battery-holder-aa], name: "Schaltlitze 0,25 mm², 25 m, rot" }
+  - { group: parts, id: 749d3ec4841c4a788ebb20cf1d00c6be, covers: [stranded-wire, battery-holder-aa], name: "Schaltlitze 0,25 mm², 25 m, schwarz" }
+  - { group: parts, id: 7bbf6666c34c461b9837bbc8dd55eaaa, covers: [jumper-wire], name: "Schaltdraht 0,8 mm, 25 m" }
+  - { group: parts, id: 9124a9999bbd4d0bae975942a6aa3356, covers: [crocodile-clips, clip-leads-course, clip-leads-pads], name: "Krokodilklemmen-Kabel, 10 Stück" }
+  - { group: parts, id: 0bbd085a8d51458ea48801b8d694cea4, covers: [insulating-tape], name: "Isolierband, schwarz" }
+
+  - { group: tools, id: 87333578fa57434e941fac4c1f770531, covers: [soldering-iron, solder], name: "Löt-Starterset (Lötkolben 30 W, Ablage, Lötzinn)" }
+  - { group: tools, id: ca3de5566ada5e3dac58483afbdd1b5a, covers: [side-cutter], name: "Seitenschneider" }
+  - { group: tools, id: e95c56c2056c49cc9391475ef46b9f34, covers: [pliers], name: "Flachzange, 150 mm" }
+  - { group: tools, id: 37c43a1c846f5a5dba7a75f1b0b7380a, covers: [wire-stripper], name: "Automatik-Abisolierzange" }
+  - { group: tools, id: fb106ed96f6b5feb81e568865a230f40, covers: [screwdriver], name: "Feinmechaniker-Schraubendreher, 11 Teile" }
+  - { group: tools, id: f7f27f18c8b742ff89daa344399eda50, covers: [safety-glasses], name: "Schutzbrille EN 166" }

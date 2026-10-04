@@ -175,6 +175,19 @@ Each product `covers` catalog parts. For any set of projects the build picks the
 - Partner buttons also require a complete legal notice in `site/imprint.yaml` (published as `/de/impressum/`,
   `/en/legal-notice/`). Without it, the build keeps them off and prints a warning.
 
+### Pollin carts (German pages)
+
+`parts/pollin.yaml` lists Pollin articles by their cart id. On German pages, next to the Amazon box, one button posts
+all articles of a set of projects to Pollin's own "add to cart" form and then opens the Pollin cart in a new tab –
+no account, no partner link. A checkbox leaves out the tools.
+
+- `pack` turns needed pieces into a cart quantity (e.g. `pack: 6` for a 6-pack of batteries); without it the article goes in once.
+- `values` limits an article to certain values (`E12` or a list). Values no article has (e.g. 5.1 kΩ) are listed under the button.
+- It is **one** form on purpose: Pollin's cart cookie is not sent along with a post from another site, so every click starts
+  a new guest cart and replaces the previous one.
+- It is not an official Pollin interface. If the cart stays empty after a click, Pollin changed its shop: check an id on the
+  product page (`lineItems[<id>]` in the buy form) and update `checked`.
+
 - Prefer assortments that cover many projects; check the contents (e.g. resistor values) on the product page.
 - Every catalog part a project needs should be covered by a product, or have `buy.where` (hardware store, at home).
 - No prices on the site. Update `checked` after re-checking the listings.

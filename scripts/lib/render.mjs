@@ -2,7 +2,7 @@
 // both on the website and in the A4 print version (see docs/PROJECT-STRUCTURE.md).
 import { marked } from 'marked';
 import { renderBoard, renderPartIcon, formatValue } from './board.mjs';
-import { aggregateParts, shopTable, cartBox, SHOP_DIR } from './shop.mjs';
+import { aggregateParts, shopTable, cartBox, pollinBox, SHOP_DIR } from './shop.mjs';
 
 export const LANGS = ['de', 'en'];
 export const PRINT_DIR = { de: 'drucken', en: 'print' };
@@ -100,7 +100,7 @@ function partsSection(p, catalog, t, lang, u) {
   <td class="note">${x.note ? `<span class="pnote">${mdInline(x.note[lang])}</span> ` : ''}<span class="hint">${mdInline(catalog[x.part].hint?.[lang] || '')}</span></td>
 </tr>`).join('')}</tbody></table>`;
   const tools = rows(['tool']);
-  const shopLink = u ? `<div class="screen-only">${cartBox([p], { catalog, products: u.products, t, lang, esc }, t.cart_this_project, true)}<p><a class="button small secondary" href="${u.shop(lang)}#p-${p.id}">${esc(t.shop_for_project)}</a></p></div>` : '';
+  const shopLink = u ? `<div class="screen-only">${cartBox([p], { catalog, products: u.products, t, lang, esc }, t.cart_this_project, true)}${pollinBox([p], { catalog, pollin: u.pollin, t, lang, esc }, t.cart_this_project, true)}<p><a class="button small secondary" href="${u.shop(lang)}#p-${p.id}">${esc(t.shop_for_project)}</a></p></div>` : '';
   return `${shopLink}<h3>${esc(t.components)}</h3>${table(rows(['component', 'board']))}
 <h3>${esc(t.materials)}</h3>${table(rows(['material']))}
 <h3>${esc(t.tools)}</h3>
@@ -341,7 +341,8 @@ export function shopPage(ctx, lang) {
   const published = projects.filter((p) => p.status === 'published');
   const cats = Object.entries(t.categories);
   const opts = (showProjects) => ({ shops, u, t, lang, esc, mdInline, showProjects });
-  const cart = (list, title) => cartBox(list, { catalog, products: ctx.products, t, lang, esc }, title);
+  const cart = (list, title) => cartBox(list, { catalog, products: ctx.products, t, lang, esc }, title)
+    + pollinBox(list, { catalog, pollin: u.pollin, t, lang, esc }, title);
   const notes = Object.values(shops).filter((s) => s.links[lang])
     .map((s) => `<li><strong>${esc(s.name)}</strong> – ${esc(s.note[lang])}</li>`).join('');
   const byCategory = cats.map(([id, c]) => {
