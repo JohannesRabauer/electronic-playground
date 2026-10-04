@@ -15,7 +15,7 @@ checked: 2026-10-04
 # (Amazon PartnerNet for amazon.de, Amazon Associates for amazon.com). Without a tag the site shows direct
 # product links instead. With a tag, the buttons are marked as advertising and carry the partner disclosure.
 associate_tags:
-  de:     # e.g. "yourname-21"
+  de: rabauer-21
   com:    # e.g. "yourname-20"
 
 products:

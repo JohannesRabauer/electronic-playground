@@ -18,6 +18,13 @@ export function loadAll(root) {
   const sandbox = readYaml(path.join(root, 'sandbox/sandbox.yaml'));
   const shops = readYaml(path.join(root, 'site/shops.yaml'));
   const products = readYaml(path.join(root, 'parts/products.yaml'));
+  // Partner links need a legal notice (Impressum). Without a complete one, they stay switched off.
+  const imprint = readYaml(path.join(root, 'site/imprint.yaml')) || {};
+  imprint.complete = ['name', 'street', 'postcode_city', 'email'].every((k) => String(imprint[k] || '').trim());
+  if (!imprint.complete && Object.values(products.associate_tags || {}).some(Boolean)) {
+    console.warn('! site/imprint.yaml is not filled in - Amazon partner buttons stay switched off');
+    products.associate_tags = {};
+  }
   for (const [id, prod] of Object.entries(products.products)) {
     for (const c of prod.covers) if (!catalog[c]) errors.push(`parts/products.yaml: ${id} covers unknown part "${c}"`);
   }
@@ -59,7 +66,7 @@ export function loadAll(root) {
     }
   }
   projects.sort((a, b) => a.number - b.number);
-  return { catalog, i18n, sandbox, shops, products, projects, errors };
+  return { catalog, i18n, sandbox, shops, products, imprint, projects, errors };
 }
 
 function checkProject(p, id, dir, catalog, errors) {

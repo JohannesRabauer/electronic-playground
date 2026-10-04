@@ -51,6 +51,34 @@ de:
   cart_elsewhere: "Außerdem brauchst du (Baumarkt oder zu Hause):"
   cart_note: "Die Buttons legen günstige Sets bei Amazon in den Warenkorb – bezahlt wird erst, wenn du selbst bestellst. Mengen kannst du dort ändern, und wenn du schon Werkzeug hast, lass den Werkzeug-Button einfach weg. Ausgewählt am {date}; Angebote können sich ändern."
   ad_label: Werbung
+  imprint_title: Impressum
+  imprint_provider: Angaben gemäß § 5 DDG
+  imprint_contact: Kontakt
+  imprint_email: E-Mail
+  imprint_phone: Telefon
+  imprint_responsible: Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV
+  imprint_en_note: ""
+  imprint_text: |
+    ## Partnerlinks
+
+    Als Amazon-Partner verdiene ich an qualifizierten Verkäufen. Partnerlinks sind auf dieser Website als **„Werbung“**
+    gekennzeichnet. Für dich ändert sich der Preis dadurch nicht. Die Such-Links in den Einkaufslisten sind keine Partnerlinks.
+
+    ## Haftung für Links
+
+    Diese Website enthält Links zu externen Websites, auf deren Inhalte ich keinen Einfluss habe. Für die Inhalte der
+    verlinkten Seiten ist stets der jeweilige Anbieter verantwortlich. Bei Bekanntwerden von Rechtsverletzungen entferne ich
+    solche Links umgehend.
+
+    ## Sicherheit
+
+    Die Anleitungen sind für Kinder gedacht, die mit einem Erwachsenen zusammen löten. Bitte beachtet die Sicherheitshinweise
+    in jedem Projekt.
+
+    ## Simulator
+
+    Der Schaltungs-Simulator ist [CircuitJS1](https://github.com/pfalstad/circuitjs1) von Paul Falstad und Iain Sharp (GPL).
+    Die micro:bit-Programme werden mit [Microsoft MakeCode](https://makecode.microbit.org) angezeigt.
   partner_disclosure: "Als Amazon-Partner verdiene ich an qualifizierten Verkäufen. Für dich ändert sich der Preis nicht."
   products_title: Die passenden Sets bei Amazon
   products_title_project: Die passenden Sets für dieses Projekt
@@ -171,6 +199,32 @@ en:
   cart_elsewhere: "You also need (hardware store or at home):"
   cart_note: "The buttons put cheap kits into your Amazon cart (amazon.com) – nothing is paid until you order yourself. You can change quantities there, and if you already have tools, just skip the tools button. Selected on {date}; offers can change. In the UK, use the search links below."
   ad_label: Ad
+  imprint_title: Legal notice
+  imprint_provider: Information according to § 5 DDG (German Digital Services Act)
+  imprint_contact: Contact
+  imprint_email: Email
+  imprint_phone: Phone
+  imprint_responsible: Responsible for the content according to § 18 (2) MStV
+  imprint_en_note: This website is run from Germany. The German Impressum is the legally binding version.
+  imprint_text: |
+    ## Partner links
+
+    As an Amazon Associate I earn from qualifying purchases. Partner links on this website are labelled **"Ad"**.
+    The price stays the same for you. The search links in the shopping lists are not partner links.
+
+    ## Links to other websites
+
+    This website links to external websites whose content I have no influence on. The respective provider is always
+    responsible for the content of linked pages. If I become aware of any legal violations, I will remove such links immediately.
+
+    ## Safety
+
+    The guides are meant for children soldering together with an adult. Please follow the safety notes in each project.
+
+    ## Simulator
+
+    The circuit simulator is [CircuitJS1](https://github.com/pfalstad/circuitjs1) by Paul Falstad and Iain Sharp (GPL).
+    The micro:bit programs are shown with [Microsoft MakeCode](https://makecode.microbit.org).
   partner_disclosure: "As an Amazon Associate I earn from qualifying purchases. The price stays the same for you."
   products_title: The matching kits on Amazon
   products_title_project: The matching kits for this project

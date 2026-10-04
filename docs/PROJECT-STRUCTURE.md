@@ -171,6 +171,8 @@ Each product `covers` catalog parts. For any set of projects the build picks the
 - **With a partner tag** for a market: one-click "add to cart" buttons (`/gp/aws/cart/add.html?AssociateTag=…&ASIN.1=…`).
   Amazon only fills the basket from such a link if it carries a partner tag. These buttons are partner links, so they are
   labelled **Werbung / Ad**, carry the Amazon partner disclosure and `rel="sponsored"`. The search links stay ad-free.
+- Partner buttons also require a complete legal notice in `site/imprint.yaml` (published as `/de/impressum/`,
+  `/en/legal-notice/`). Without it, the build keeps them off and prints a warning.
 
 - Prefer assortments that cover many projects; check the contents (e.g. resistor values) on the product page.
 - Every catalog part a project needs should be covered by a product, or have `buy.where` (hardware store, at home).

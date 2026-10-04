@@ -60,7 +60,7 @@ ${withHeader ? `<header class="topbar">
   </nav>
 </header>` : ''}
 ${body}
-<footer class="footer">${esc(t.footer)}</footer>
+<footer class="footer">${esc(t.footer)}${u.imprint ? ` · <a href="${u.imprint(lang)}">${esc(t.imprint_title)}</a>` : ''}</footer>
 <script src="${u.asset('app.js')}" defer></script>
 </body>
 </html>
@@ -367,4 +367,29 @@ ${byProject}
   (function () { var d = location.hash && document.getElementById(location.hash.slice(1)); if (d && d.tagName === 'DETAILS') d.open = true; })();
 </script>`;
   return layout({ lang, t, u, title: `${t.shop_title} – ${t.site_title}`, description: t.shop_title, altHref: u.shop(other), body });
+}
+
+// ------------------------------------------------------------------ legal notice
+
+export const IMPRINT_DIR = { de: 'impressum', en: 'legal-notice' };
+
+export function imprintPage(ctx, lang) {
+  const { i18n, u, imprint } = ctx;
+  const t = i18n[lang];
+  const other = lang === 'de' ? 'en' : 'de';
+  const address = [imprint.name, imprint.street, imprint.postcode_city, imprint.country].filter(Boolean).map(esc).join('<br>');
+  const contact = [`${esc(t.imprint_email)}: <a href="mailto:${esc(imprint.email)}">${esc(imprint.email)}</a>`,
+    imprint.phone ? `${esc(t.imprint_phone)}: ${esc(imprint.phone)}` : ''].filter(Boolean).join('<br>');
+  const body = `<main class="legal">
+<h1>${esc(t.imprint_title)}</h1>
+${lang === 'en' ? `<p class="lead">${esc(t.imprint_en_note)}</p>` : ''}
+<h2>${esc(t.imprint_provider)}</h2>
+<p>${address}</p>
+<h2>${esc(t.imprint_contact)}</h2>
+<p>${contact}</p>
+<h2>${esc(t.imprint_responsible)}</h2>
+<p>${[imprint.name, imprint.street, imprint.postcode_city].filter(Boolean).map(esc).join('<br>')}</p>
+${md(t.imprint_text)}
+</main>`;
+  return layout({ lang, t, u, title: `${t.imprint_title} – ${t.site_title}`, description: t.imprint_title, altHref: u.imprint(other), body });
 }

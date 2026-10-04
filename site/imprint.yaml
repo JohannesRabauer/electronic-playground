@@ -1,0 +1,12 @@
+# Impressum / legal notice - fill in and commit.
+#
+# Required in Germany as soon as the site carries Amazon partner links (§ 5 DDG).
+# Until name, street, postcode_city and email are filled in, the build keeps the partner
+# buttons switched off and does not publish the Impressum page.
+
+name: ""            # Vorname Nachname
+street: ""          # Straße Hausnummer
+postcode_city: ""   # PLZ Ort
+country: Deutschland
+email: ""
+phone: ""           # optional
