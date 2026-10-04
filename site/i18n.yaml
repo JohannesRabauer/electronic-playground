@@ -52,6 +52,62 @@ de:
   cart_note: "Die Buttons legen günstige Sets bei Amazon in den Warenkorb – bezahlt wird erst, wenn du selbst bestellst. Mengen kannst du dort ändern, und wenn du schon Werkzeug hast, lass den Werkzeug-Button einfach weg. Ausgewählt am {date}; Angebote können sich ändern."
   ad_label: Werbung
   imprint_title: Impressum
+  consent_title: Programm in MakeCode anzeigen
+  consent_text: "Das Programm wird mit Microsoft MakeCode angezeigt. Erst wenn du klickst, lädt dein Browser Inhalte von makecode.microbit.org – dabei wird deine IP-Adresse an Microsoft übertragen."
+  consent_button: Programm laden
+  consent_remember: Für diese Website merken
+  consent_revoke: Gespeicherte Einwilligung für MakeCode löschen
+  consent_revoked: Erledigt – MakeCode wird wieder erst nach einem Klick geladen.
+  program_print_hint: Das fertige Programm als Blöcke findest du auf der Projektseite (QR-Code oben) – oder baue es mit „Schritt für Schritt in MakeCode“ nach.
+  privacy_title: Datenschutz
+  privacy_en_note: ""
+  privacy_controller: Verantwortlich
+  privacy_updated: "Stand: Oktober 2026"
+  privacy_text: |
+    ## Kurz gesagt
+
+    Diese Website setzt **keine Cookies**, nutzt **kein Tracking** und **keine Analyse-Werkzeuge**. Es gibt keine Konten,
+    keine Formulare und keine Kommentare. Schriften, Bilder und der Schaltungs-Simulator kommen direkt von dieser Website.
+
+    ## Hosting (GitHub Pages)
+
+    Die Website liegt bei GitHub Pages, einem Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. St., San Francisco, CA 94107, USA.
+    Beim Aufruf einer Seite verarbeitet GitHub technisch notwendige Daten, insbesondere deine **IP-Adresse**, Datum und Uhrzeit,
+    die aufgerufene Seite und Informationen über den Browser. Das dient der sicheren und stabilen Auslieferung der Website
+    (Art. 6 Abs. 1 lit. f DSGVO). GitHub kann diese Daten in den USA verarbeiten; GitHub ist nach dem EU-US Data Privacy
+    Framework zertifiziert. Weitere Informationen: [GitHub-Datenschutzerklärung](https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement).
+
+    ## Speicherung in deinem Browser
+
+    Wenn du in einer Anleitung Schritte als „geschafft“ abhakst oder wählst, MakeCode immer zu laden, speichert die Website das
+    im **lokalen Speicher deines Browsers** (localStorage). Diese Daten verlassen dein Gerät nicht und werden nicht an uns
+    übertragen. Du kannst sie jederzeit in den Browser-Einstellungen löschen.
+
+    <a id="makecode"></a>
+
+    ## Microsoft MakeCode
+
+    Auf den micro:bit-Projektseiten kann das Programm mit Microsoft MakeCode angezeigt werden (Microsoft Corporation, One Microsoft
+    Way, Redmond, WA 98052, USA). Die Inhalte werden **erst geladen, wenn du auf „Programm laden“ klickst**. Dann überträgt dein
+    Browser deine IP-Adresse und technische Daten an Microsoft (Art. 6 Abs. 1 lit. a DSGVO – deine Einwilligung durch den Klick).
+    Microsoft ist nach dem EU-US Data Privacy Framework zertifiziert. Mit dem Button unten kannst du eine gespeicherte Einwilligung
+    widerrufen. Weitere Informationen: [Microsoft-Datenschutzerklärung](https://privacy.microsoft.com/de-de/privacystatement).
+
+    Links wie „Schritt für Schritt in MakeCode“ öffnen die MakeCode-Website; dort gilt die Datenschutzerklärung von Microsoft.
+
+    ## Links zu Shops und Partnerlinks
+
+    Die Einkaufslisten verlinken auf Online-Shops (z. B. Amazon, Reichelt, Pollin, AliExpress). Erst wenn du einen Link anklickst,
+    werden Daten an den jeweiligen Shop übertragen; dort gelten dessen Datenschutzbestimmungen. Als **„Werbung“** gekennzeichnete
+    Links sind Amazon-Partnerlinks: Sie enthalten eine Partnerkennung, damit Amazon einen Kauf dieser Website zuordnen kann.
+    Amazon kann dafür auf der Amazon-Website Cookies setzen. Als Amazon-Partner verdiene ich an qualifizierten Verkäufen.
+
+    ## Deine Rechte
+
+    Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung deiner Daten, auf
+    Datenübertragbarkeit und auf Widerspruch gegen die Verarbeitung (Art. 15–21 DSGVO). Eine Einwilligung kannst du jederzeit
+    widerrufen. Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel bei der Behörde deines
+    Bundeslands. Schreib mir dafür einfach eine E-Mail.
   imprint_provider: Angaben gemäß § 5 DDG
   imprint_contact: Kontakt
   imprint_email: E-Mail
@@ -200,6 +256,61 @@ en:
   cart_note: "The buttons put cheap kits into your Amazon cart (amazon.com) – nothing is paid until you order yourself. You can change quantities there, and if you already have tools, just skip the tools button. Selected on {date}; offers can change. In the UK, use the search links below."
   ad_label: Ad
   imprint_title: Legal notice
+  consent_title: Show the program in MakeCode
+  consent_text: "The program is shown with Microsoft MakeCode. Only when you click does your browser load content from makecode.microbit.org – which sends your IP address to Microsoft."
+  consent_button: Load program
+  consent_remember: Remember for this website
+  consent_revoke: Delete saved consent for MakeCode
+  consent_revoked: Done – MakeCode will only load after a click again.
+  program_print_hint: You can find the finished program as blocks on the project page (QR code above) – or build it with "Step by step in MakeCode".
+  privacy_title: Privacy
+  privacy_en_note: This website is run from Germany. The German version is the legally binding one.
+  privacy_controller: Controller
+  privacy_updated: "Last updated: October 2026"
+  privacy_text: |
+    ## In short
+
+    This website sets **no cookies** and uses **no tracking** and **no analytics**. There are no accounts, forms or comments.
+    Fonts, images and the circuit simulator are served by this website itself.
+
+    ## Hosting (GitHub Pages)
+
+    The website is hosted on GitHub Pages, a service of GitHub, Inc., 88 Colin P. Kelly Jr. St., San Francisco, CA 94107, USA.
+    When you open a page, GitHub processes technically necessary data, in particular your **IP address**, date and time,
+    the page requested and information about your browser. This serves the secure and stable delivery of the website
+    (Art. 6(1)(f) GDPR). GitHub may process this data in the USA; GitHub is certified under the EU-US Data Privacy Framework.
+    More information: [GitHub privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+
+    ## Storage in your browser
+
+    If you tick steps as "done" in a guide or choose to always load MakeCode, the website stores this in your
+    **browser's local storage** (localStorage). This data never leaves your device and is not sent to us. You can delete
+    it at any time in your browser settings.
+
+    <a id="makecode"></a>
+
+    ## Microsoft MakeCode
+
+    On the micro:bit project pages the program can be shown with Microsoft MakeCode (Microsoft Corporation, One Microsoft Way,
+    Redmond, WA 98052, USA). The content is **only loaded when you click "Load program"**. Your browser then sends your IP
+    address and technical data to Microsoft (Art. 6(1)(a) GDPR – your consent by clicking). Microsoft is certified under the
+    EU-US Data Privacy Framework. You can withdraw a saved consent with the button below. More information:
+    [Microsoft privacy statement](https://privacy.microsoft.com/en-gb/privacystatement).
+
+    Links such as "Step by step in MakeCode" open the MakeCode website, where Microsoft's privacy statement applies.
+
+    ## Links to shops and partner links
+
+    The shopping lists link to online shops (e.g. Amazon, AliExpress). Data is only sent to a shop when you click a link;
+    the shop's own privacy policy applies there. Links labelled **"Ad"** are Amazon partner links: they contain a partner ID
+    so that Amazon can attribute a purchase to this website. Amazon may set cookies on the Amazon website for this.
+    As an Amazon Associate I earn from qualifying purchases.
+
+    ## Your rights
+
+    You have the right of access, rectification, erasure and restriction of processing, the right to data portability and
+    the right to object (Art. 15–21 GDPR). You can withdraw consent at any time. You can also complain to a data protection
+    supervisory authority. Just send me an email.
   imprint_provider: Information according to § 5 DDG (German Digital Services Act)
   imprint_contact: Contact
   imprint_email: Email

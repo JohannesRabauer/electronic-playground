@@ -60,7 +60,7 @@ ${withHeader ? `<header class="topbar">
   </nav>
 </header>` : ''}
 ${body}
-<footer class="footer">${esc(t.footer)}${u.imprint ? ` · <a href="${u.imprint(lang)}">${esc(t.imprint_title)}</a>` : ''}</footer>
+<footer class="footer">${esc(t.footer)}${u.imprint ? ` · <a href="${u.imprint(lang)}">${esc(t.imprint_title)}</a>` : ''}${u.privacy ? ` · <a href="${u.privacy(lang)}">${esc(t.privacy_title)}</a>` : ''}</footer>
 <script src="${u.asset('app.js')}" defer></script>
 </body>
 </html>
@@ -159,12 +159,25 @@ function restSections(p, t, lang, u) {
   return { explain, variations, trouble, safety };
 }
 
+// MakeCode is loaded from Microsoft only after a click (privacy): until then a placeholder explains what happens.
+function makecodeEmbed(src, t, u, lang) {
+  const privacy = u.privacy ? ` <a href="${u.privacy(lang)}#makecode">${esc(t.privacy_title)}</a>` : '';
+  return `<div class="makecode-frame consent" data-embed-src="${esc(src)}" data-embed-title="${esc(t.program_title)}">
+  <div class="consent-box">
+    <p class="consent-title">🧩 ${esc(t.consent_title)}</p>
+    <p>${esc(t.consent_text)}${privacy}</p>
+    <p><button type="button" class="button" data-load-embed>${esc(t.consent_button)}</button></p>
+    <label class="check"><input type="checkbox" data-remember-embed> ${esc(t.consent_remember)}</label>
+  </div>
+</div>`;
+}
+
 // "Try it": the MakeCode program for micro:bit projects, the CircuitJS circuit for the others (or both).
 function trySection(p, t, lang, u) {
   let html = '';
   if (p.code) {
     html += `<div class="try">${md(p.code.try[lang])}</div>
-<div class="makecode-frame"><iframe src="${u.makecodeBlocks(lang, p.programs[lang])}" title="${esc(t.program_title)}" loading="lazy"></iframe></div>
+${makecodeEmbed(u.makecodeBlocks(lang, p.programs[lang]), t, u, lang)}
 <p class="makecode-actions"><a class="button" href="${u.tutorial(lang, p)}" target="_blank" rel="noopener">🧩 ${esc(t.makecode_tutorial)} ↗</a>
 <span class="hint">${esc(t.makecode_hint)}</span></p>`;
   }
@@ -239,7 +252,7 @@ export function printPage(ctx, p, lang, qrSvg) {
   <img class="hero-img" src="${u.projectFile(p, p.hero)}" alt="">
   <div>${md(p.intro[lang])}<h3>${esc(t.learn)}</h3><ul>${p.learn[lang].map((x) => `<li>${mdInline(x)}</li>`).join('')}</ul></div>
 </div>
-${p.code ? section('program', t.program_title, `<div class="makecode-frame print-frame"><iframe src="${u.makecodeBlocks(lang, p.programs[lang])}" title="${esc(t.program_title)}"></iframe></div>`, 'avoid-break') : ''}
+${p.code ? section('program', t.program_title, `<p>${esc(t.program_print_hint)}</p>`, 'avoid-break') : ''}
 ${section('parts', t.sections.parts, partsSection(p, catalog, t, lang))}
 ${p.board ? section('board', t.sections.board, boardSection(p, catalog, t, lang), 'avoid-break') : ''}
 ${section('steps', t.sections.steps, stepsSection(p, catalog, t, lang, u, true))}
@@ -392,4 +405,27 @@ ${lang === 'en' ? `<p class="lead">${esc(t.imprint_en_note)}</p>` : ''}
 ${md(t.imprint_text)}
 </main>`;
   return layout({ lang, t, u, title: `${t.imprint_title} – ${t.site_title}`, description: t.imprint_title, altHref: u.imprint(other), body });
+}
+
+// ------------------------------------------------------------------ privacy policy
+
+export const PRIVACY_DIR = { de: 'datenschutz', en: 'privacy' };
+
+export function privacyPage(ctx, lang) {
+  const { i18n, u, imprint } = ctx;
+  const t = i18n[lang];
+  const other = lang === 'de' ? 'en' : 'de';
+  const controller = [imprint.name, imprint.street, imprint.postcode_city, imprint.country].filter(Boolean).map(esc).join('<br>')
+    + `<br>${esc(t.imprint_email)}: <a href="mailto:${esc(imprint.email)}">${esc(imprint.email)}</a>`;
+  const body = `<main class="legal">
+<h1>${esc(t.privacy_title)}</h1>
+${lang === 'en' ? `<p class="lead">${esc(t.privacy_en_note)}</p>` : ''}
+<h2>${esc(t.privacy_controller)}</h2>
+<p>${controller}</p>
+${md(t.privacy_text)}
+<p><button type="button" class="button secondary" data-revoke-embed>${esc(t.consent_revoke)}</button>
+<span class="hint" data-revoke-done hidden>${esc(t.consent_revoked)}</span></p>
+<p class="hint">${esc(t.privacy_updated)}</p>
+</main>`;
+  return layout({ lang, t, u, title: `${t.privacy_title} – ${t.site_title}`, description: t.privacy_title, altHref: u.privacy(other), body });
 }

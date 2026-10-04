@@ -43,7 +43,7 @@ Changes to `scripts/` need a restart: `docker compose restart builder`.
 | `sandbox/` | Loose circuits for the simulator menu (ideas, not projects yet) |
 | `site/` | UI texts (`i18n.yaml`), shops for the shopping list (`shops.yaml`), stylesheet, small script |
 | `scripts/` | The static site generator (Node, no framework) |
-| `site/imprint.yaml` | Impressum details. Until they are filled in, the Amazon partner buttons stay off and no Impressum page is published |
+| `site/imprint.yaml` | Impressum details. Until they are filled in, the Amazon partner buttons stay off and no Impressum or privacy page is published |
 | `pxt.json` | Generated list of MakeCode tutorials – MakeCode reads it from GitHub, so commit it |
 | `docker/` | Dockerfile (simulator build + site build) and nginx config |
 

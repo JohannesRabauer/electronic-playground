@@ -15,7 +15,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import QRCode from 'qrcode';
 import { loadAll, pickLang } from './lib/load.mjs';
-import { LANGS, urls, circuitPath, projectPage, printPage, homePage, rootPage, shopPage, imprintPage, IMPRINT_DIR } from './lib/render.mjs';
+import { LANGS, urls, circuitPath, projectPage, printPage, homePage, rootPage, shopPage, imprintPage, IMPRINT_DIR, privacyPage, PRIVACY_DIR } from './lib/render.mjs';
 import { SHOP_DIR } from './lib/shop.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -131,7 +131,10 @@ async function buildSite(data) {
   for (const dir of [...LANGS, 'assets', 'projects']) fs.rmSync(path.join(DIST, dir), { recursive: true, force: true });
   const u = { ...urls(BASE, GITHUB_REPO), products: data.products };
   // The legal notice is only published (and linked) once it is filled in.
-  if (data.imprint.complete) u.imprint = (lang) => `${BASE}${lang}/${IMPRINT_DIR[lang]}/`;
+  if (data.imprint.complete) {
+    u.imprint = (lang) => `${BASE}${lang}/${IMPRINT_DIR[lang]}/`;
+    u.privacy = (lang) => `${BASE}${lang}/${PRIVACY_DIR[lang]}/`;
+  }
   const ctx = { ...data, u };
 
   fs.cpSync(path.join(ROOT, 'site', 'assets'), path.join(DIST, 'assets'), { recursive: true });
@@ -152,6 +155,7 @@ async function buildSite(data) {
     write(path.join(DIST, lang, 'index.html'), homePage(ctx, lang));
     write(path.join(DIST, lang, SHOP_DIR[lang], 'index.html'), shopPage(ctx, lang));
     if (u.imprint) write(path.join(DIST, lang, IMPRINT_DIR[lang], 'index.html'), imprintPage(ctx, lang));
+    if (u.privacy) write(path.join(DIST, lang, PRIVACY_DIR[lang], 'index.html'), privacyPage(ctx, lang));
     for (const p of data.projects) {
       const pageUrl = new URL(u.project(lang, p).slice(BASE.length), SITE_URL).href;
       const qr = await QRCode.toString(pageUrl, { type: 'svg', margin: 0, errorCorrectionLevel: 'M' });

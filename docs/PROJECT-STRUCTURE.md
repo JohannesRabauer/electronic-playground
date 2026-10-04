@@ -47,6 +47,7 @@ code:
 - **Tutorials** are MakeCode tutorial markdown (`# Title`, `## Step`, a `blocks` code fence per step, `@showdialog`).
   MakeCode loads them straight from GitHub (`#tutorial:github:<repo>/projects/<id>/makecode/tutorial-de`),
   so they only work once pushed. The build keeps the root **`pxt.json`** (which lists all tutorials) in sync – commit it.
+- The page loads MakeCode from Microsoft **only after a click** (privacy); visitors can choose to remember that.
 - Use the **exact block names** MakeCode shows in each language (e.g. „wenn Knopf A geklickt“ / "on button A pressed").
   Check them by opening the program on the project page.
 - micro:bit projects target the **V2** (speaker, microphone, touch logo).
